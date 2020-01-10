@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://liu-yaohua.github.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="rt-thread内核">
+<meta property="og:url" content="https://liu-yaohua.github.io/2020/01/10/rt-thread/index.html">
+<meta property="og:site_name" content="刘耀华博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://liu-yaohua.github.io/2020/01/10/rt-thread/zz.jpg">
+<meta property="article:published_time" content="2020-01-10T07:20:20.000Z">
+<meta property="article:modified_time" content="2020-01-10T09:56:15.859Z">
+<meta property="article:author" content="LIU-YAOHUA">
+<meta property="article:tag" content="rtt">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://liu-yaohua.github.io/2020/01/10/rt-thread/zz.jpg">
+
+<link rel="canonical" href="https://liu-yaohua.github.io/2020/01/10/rt-thread/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>rt-thread内核 | 刘耀华博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+    <a href="https://github.com/LIU-YAOHUA" target="_blank" rel="noopener" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">刘耀华博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">https://liu-yaohua.github.io</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://liu-yaohua.github.io/2020/01/10/rt-thread/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1578394974761&di=9d161c4fcd3d2a3644548c48ba5ce3ea&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201612%2F04%2F20161204102600_kr25d.thumb.700_0.jpeg">
+      <meta itemprop="name" content="LIU-YAOHUA">
+      <meta itemprop="description" content="欢迎您的到来！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="刘耀华博客">
+    </span>
+      <header class="post-header">
+
+      
+        <h1 class="post-title" itemprop="name headline">
+          rt-thread内核
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-01-10 15:20:20 / 修改时间：17:56:15" itemprop="dateCreated datePublished" datetime="2020-01-10T15:20:20+08:00">2020-01-10</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="/2020/01/10/rt-thread/zz.jpg" alt></p>
+<a id="more"></a>
+<h2 id="嵌入式系统和RT-Thread"><a href="#嵌入式系统和RT-Thread" class="headerlink" title="嵌入式系统和RT-Thread"></a>嵌入式系统和RT-Thread</h2><p>在裸机系统中，所有的程序基本都是自己写的，所有的操作都是在一个无限的大循环里面实现。现实生活中的很多中小型的电子产品用的都是裸机系统，而且也能够满足需求。但是为什么还要学习RTOS 编程，偏偏还要整个操作系统进来。一是项目需要，随着产品要实现的功能越来越多，单纯的裸机系统已经不能够完美地解决问题，反而会使编程变得更加复杂，如果想降低编程的难度，我们可以考虑引入RTOS 实现多线程管理，这是使用RTOS 的最大优势。二是学习的需要，必须学习更高级的东西，实现更好的职业规划，为将来走向人生巅峰迎娶白富美做准备，而不是一味的在裸机编程上面死磕。作为一个合格的嵌入式软件工程师，学习是永远不能停歇的事，时刻都得为将来准备。书到用时方恨少，我希望机会来临时你不要有这种感觉。</p>
+<p>可偏偏在10 几年前，在中国，有一个天赋异禀，倔强不屈的极客，他叫熊谱翔，编写了RT-Thread 初代内核，并联合中国开源社区的极客不断完善，推陈出新，经过10 几年的发展，如今占据国产RTOS 的鳌头，每年递增数十万的开发者，加上如今AI 和物联网等风口，让RT-Thread 有一统江湖之势，从今年完成A 轮数百万美元的融资就可以看出，在未来不出5 年，RT-Thread 将是你学习和做产品的不二之选。</p>
+<h2 id="裸机系统和多线程系统"><a href="#裸机系统和多线程系统" class="headerlink" title="裸机系统和多线程系统"></a>裸机系统和多线程系统</h2><h3 id="裸机系统"><a href="#裸机系统" class="headerlink" title="裸机系统"></a>裸机系统</h3><p>裸机系统通常分成轮询系统和前后台系统</p>
+<h5 id="轮询系统"><a href="#轮询系统" class="headerlink" title="轮询系统"></a>轮询系统</h5><p>轮询系统即是在裸机编程的时候，先初始化好相关的硬件，然后让主程序在一个死循环里面不断环，顺序地做各种事情。轮询系统是一种非常简单的软件结构，通常只适用于那些只需要顺序执行代码且不需要外部事件来驱动的就能完成的事情。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">     <span class="comment">/* 硬件相关初始化 */</span></span><br><span class="line"> 	 HardWareInit();</span><br><span class="line"></span><br><span class="line">	 <span class="comment">/* 无限循环 */</span></span><br><span class="line">	 <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">	 	 <span class="comment">/* 处理事情1 */</span></span><br><span class="line">		 DoSomething1();</span><br><span class="line"></span><br><span class="line">         <span class="comment">/* 处理事情2 */</span></span><br><span class="line">         DoSomething2();</span><br><span class="line"></span><br><span class="line">         <span class="comment">/* 处理事情3 */</span></span><br><span class="line">         DoSomething3();</span><br><span class="line">	&#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="前后台系统"><a href="#前后台系统" class="headerlink" title="前后台系统"></a>前后台系统</h5><p>相比轮询系统，前后台系统是在轮询系统的基础上加入了中断。外部事件的响应在中断里面完成，事件的处理还是回到轮询系统中完成，中断在这里我们称为前台，main 函数里面的无限循环我们称为后台。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> <span class="keyword">int</span> flag1 = <span class="number">0</span>;</span><br><span class="line"><span class="number">2</span> <span class="keyword">int</span> flag2 = <span class="number">0</span>;</span><br><span class="line"><span class="number">3</span> <span class="keyword">int</span> flag3 = <span class="number">0</span>;</span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="number">5</span> <span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function">6 </span>&#123;</span><br><span class="line"><span class="number">7</span> <span class="comment">/* 硬件相关初始化 */</span></span><br><span class="line"><span class="number">8</span> HardWareInit();</span><br><span class="line"><span class="number">9</span></span><br><span class="line"><span class="number">10</span> <span class="comment">/* 无限循环 */</span></span><br><span class="line"><span class="number">11</span> <span class="keyword">for</span> (;;) &#123;</span><br><span class="line"><span class="number">12</span> <span class="keyword">if</span> (flag1) &#123;</span><br><span class="line"><span class="number">13</span> <span class="comment">/* 处理事情1 */</span></span><br><span class="line"><span class="number">14</span> DoSomething1();</span><br><span class="line"><span class="number">15</span> &#125;</span><br><span class="line"><span class="number">16</span></span><br><span class="line"><span class="number">17</span> <span class="keyword">if</span> (flag2) &#123;</span><br><span class="line"><span class="number">18</span> <span class="comment">/* 处理事情2 */</span></span><br><span class="line"><span class="number">19</span> DoSomething2();</span><br><span class="line"><span class="number">20</span> &#125;</span><br><span class="line"><span class="number">21</span></span><br><span class="line"><span class="number">22</span> <span class="keyword">if</span> (flag3) &#123;</span><br><span class="line"><span class="number">23</span> <span class="comment">/* 处理事情3 */</span></span><br><span class="line"><span class="number">24</span> DoSomething3();</span><br><span class="line"><span class="number">25</span> &#125;</span><br><span class="line"><span class="number">26</span> &#125;</span><br><span class="line"><span class="number">27</span> &#125;</span><br><span class="line"><span class="number">28</span></span><br><span class="line"><span class="number">29</span> <span class="function"><span class="keyword">void</span> <span class="title">ISR1</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function">30 </span>&#123;</span><br><span class="line"><span class="number">31</span> <span class="comment">/* 置位标志位 */</span></span><br><span class="line"><span class="number">32</span> flag1 = <span class="number">1</span>;</span><br><span class="line"><span class="number">33</span> <span class="comment">/* 如果事件处理时间很短，则在中断里面处理</span></span><br><span class="line"><span class="comment">34 如果事件处理时间比较长，在回到前台处理 */</span></span><br><span class="line"><span class="number">35</span> DoSomething1();</span><br><span class="line"><span class="number">36</span> &#125;</span><br><span class="line"><span class="number">37</span></span><br><span class="line"><span class="number">38</span> <span class="function"><span class="keyword">void</span> <span class="title">ISR2</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function">39 </span>&#123;</span><br><span class="line"><span class="number">40</span> <span class="comment">/* 置位标志位 */</span></span><br><span class="line"><span class="number">41</span> flag2 = <span class="number">1</span>;</span><br><span class="line"><span class="number">42</span></span><br><span class="line"><span class="number">43</span> <span class="comment">/* 如果事件处理时间很短，则在中断里面处理</span></span><br><span class="line"><span class="comment">44 如果事件处理时间比较长，在回到前台处理 */</span></span><br><span class="line"><span class="number">45</span> DoSomething2();</span><br><span class="line"><span class="number">46</span> &#125;</span><br><span class="line"><span class="number">47</span></span><br><span class="line"><span class="number">48</span> <span class="function"><span class="keyword">void</span> <span class="title">ISR3</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function">49 </span>&#123;</span><br><span class="line"><span class="number">50</span> <span class="comment">/* 置位标志位 */</span></span><br><span class="line"><span class="number">51</span> flag3 = <span class="number">1</span>;</span><br><span class="line"><span class="number">52</span></span><br><span class="line"><span class="number">53</span> <span class="comment">/* 如果事件处理时间很短，则在中断里面处理</span></span><br><span class="line"><span class="comment">54 如果事件处理时间比较长，在回到前台处理 */</span></span><br><span class="line"><span class="number">55</span> DoSomething3();</span><br><span class="line"><span class="number">56</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="多线程系统"><a href="#多线程系统" class="headerlink" title="多线程系统"></a>多线程系统</h3><p>相比前后台系统，多线程系统的事件响应也是在中断中完成的，但是事件的处理是在线程中完成的。在多线程系统中，线程跟中断一样，也具有优先级，优先级高的线程会被优先执行。当一个紧急的事件在中断被标记之后，如果事件对应的线程的优先级足够高，就会立马得到响应。相比前后台系统，多线程系统的实时性又被提高了。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> <span class="keyword">int</span> flag1 = <span class="number">0</span>;</span><br><span class="line"><span class="number">2</span> <span class="keyword">int</span> flag2 = <span class="number">0</span>;</span><br><span class="line"><span class="number">3</span> <span class="keyword">int</span> flag3 = <span class="number">0</span>;</span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="number">5</span> <span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function">6 </span>&#123;</span><br><span class="line"><span class="number">7</span> <span class="comment">/* 硬件相关初始化 */</span></span><br><span class="line"><span class="number">8</span> HardWareInit();</span><br><span class="line"><span class="number">9</span></span><br><span class="line"><span class="number">10</span> <span class="comment">/* OS 初始化 */</span></span><br><span class="line"><span class="number">11</span> RTOSInit();</span><br><span class="line"><span class="number">12</span></span><br><span class="line"><span class="number">13</span> <span class="comment">/* OS 启动，开始多线程调度，不再返回 */</span></span><br><span class="line"><span class="number">14</span> RTOSStart();</span><br><span class="line"><span class="number">15</span> &#125;</span><br><span class="line"><span class="number">16</span></span><br><span class="line"><span class="number">17</span> <span class="function"><span class="keyword">void</span> <span class="title">ISR1</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function">18 </span>&#123;</span><br><span class="line"><span class="number">19</span> <span class="comment">/* 置位标志位 */</span></span><br><span class="line"><span class="number">20</span> flag1 = <span class="number">1</span>;</span><br><span class="line"><span class="number">21</span> &#125;</span><br><span class="line"><span class="number">22</span></span><br><span class="line"><span class="number">23</span> <span class="function"><span class="keyword">void</span> <span class="title">ISR2</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function">24 </span>&#123;</span><br><span class="line"><span class="number">25</span> <span class="comment">/* 置位标志位 */</span></span><br><span class="line"><span class="number">26</span> flag2 = <span class="number">2</span>;</span><br><span class="line"><span class="number">27</span> &#125;</span><br><span class="line"><span class="number">28</span></span><br><span class="line"><span class="number">29</span> <span class="function"><span class="keyword">void</span> <span class="title">ISR3</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function">30 </span>&#123;</span><br><span class="line"><span class="number">31</span> <span class="comment">/* 置位标志位 */</span></span><br><span class="line"><span class="number">32</span> flag3 = <span class="number">1</span>;</span><br><span class="line"><span class="number">33</span> &#125;</span><br><span class="line"><span class="number">34</span></span><br><span class="line"><span class="number">35</span> <span class="function"><span class="keyword">void</span> <span class="title">DoSomething1</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function">36 </span>&#123;</span><br><span class="line"><span class="number">37</span> <span class="comment">/* 无限循环，不能返回 */</span></span><br><span class="line"><span class="number">38</span> <span class="keyword">for</span> (;;) &#123;</span><br><span class="line"><span class="number">39</span> <span class="comment">/* 线程实体 */</span></span><br><span class="line"><span class="number">40</span> <span class="keyword">if</span> (flag1) &#123;</span><br><span class="line"><span class="number">41</span></span><br><span class="line"><span class="number">42</span> &#125;</span><br><span class="line"><span class="number">43</span> &#125;</span><br><span class="line"><span class="number">44</span> &#125;</span><br><span class="line"><span class="number">45</span></span><br><span class="line"><span class="number">46</span> <span class="function"><span class="keyword">void</span> <span class="title">DoSomething2</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function">47 </span>&#123;</span><br><span class="line"><span class="number">48</span> <span class="comment">/* 无限循环，不能返回 */</span></span><br><span class="line"><span class="number">49</span> <span class="keyword">for</span> (;;) &#123;</span><br><span class="line"><span class="number">50</span> <span class="comment">/* 线程实体 */</span></span><br><span class="line"><span class="number">51</span> <span class="keyword">if</span> (flag2) &#123;</span><br><span class="line"><span class="number">52</span></span><br><span class="line"><span class="number">53</span> &#125;</span><br><span class="line"><span class="number">54</span> &#125;</span><br><span class="line"><span class="number">55</span> &#125;</span><br><span class="line"><span class="number">56</span></span><br><span class="line"><span class="number">57</span> <span class="function"><span class="keyword">void</span> <span class="title">DoSomething3</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function">58 </span>&#123;</span><br><span class="line"><span class="number">59</span> <span class="comment">/* 无限循环，不能返回 */</span></span><br><span class="line"><span class="number">60</span> <span class="keyword">for</span> (;;) &#123;</span><br><span class="line"><span class="number">61</span> <span class="comment">/* 线程实体 */</span></span><br><span class="line"><span class="number">62</span> <span class="keyword">if</span> (flag3) &#123;</span><br><span class="line"><span class="number">63</span></span><br><span class="line"><span class="number">64</span> &#125;</span><br><span class="line"><span class="number">65</span> &#125;</span><br><span class="line"><span class="number">66</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>相比前后台系统中后台顺序执行的程序主体，在多线程系统中，根据程序的功能，我们把这个程序主体分割成一个个独立的，无限循环且不能返回的小程序，这个小程序我们称之为线程。每个线程都是独立的，互不干扰的，且具备自身的优先级，它由操作系统调度管理。加入操作系统后，我们在编程的时候不需要精心地去设计程序的执行流，不用担心每个功能模块之间是否存在干扰。加入了操作系统，我们的编程反而变得简单了。整个系统随之带来的额外开销就是操作系统占据的那一丁点FLASH 和RAM。现如今，单片机的FLASH 和RAM是越来越大，完全足以抵挡RTOS 那点开销。</p>
+<h4 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h4><p>在裸机系统中，系统的主体就是main 函数里面顺序执行的无限循环，这个无限循环里面CPU 按照顺序完成各种事情。在多线程系统中，我们根据功能的不同，把整个系统分割成一个个独立的且无法返回的函数，这个函数我们称为线程。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> <span class="function"><span class="keyword">void</span> <span class="title">thread_entry</span> <span class="params">(<span class="keyword">void</span> *parg)</span></span></span><br><span class="line"><span class="function">2 </span>&#123;</span><br><span class="line"><span class="number">3</span> <span class="comment">/* 线程主体，无限循环且不能返回 */</span></span><br><span class="line"><span class="number">4</span> <span class="keyword">for</span> (;;) &#123;</span><br><span class="line"><span class="number">5</span> <span class="comment">/* 线程主体代码 */</span></span><br><span class="line"><span class="number">6</span> &#125;</span><br><span class="line"><span class="number">7</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="线程栈"><a href="#线程栈" class="headerlink" title="线程栈"></a>线程栈</h4><p>在多线程系统中，每个线程都是独立的，互不干扰的，所以要为每个线程都分配独立的栈空间，这个栈空间通常是一个预先定义好的全局数组，也可以是动态分配的一段内存空间，但它们都存在于RAM 中。在多线程系统中，有多少个线程就需要定义多少个线程栈。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 定义线程栈 */</span></span><br><span class="line"><span class="keyword">rt_uint8_t</span> rt_flag1_thread_stack[<span class="number">512</span>]; (<span class="number">1</span>)</span><br><span class="line"><span class="keyword">rt_uint8_t</span> rt_flag2_thread_stack[<span class="number">512</span>];</span><br></pre></td></tr></table></figure>
+
+<h4 id="线程控制块"><a href="#线程控制块" class="headerlink" title="线程控制块"></a>线程控制块</h4><p>在裸机系统中，程序的主体是CPU 按照顺序执行的。而在多线程系统中，线程的执行是由系统调度的。系统为了顺利的调度线程，为每个线程都额外定义了一个线程控制块，这个线程控制块就相当于线程的身份证，里面存有线程的所有信息，比如线程的栈指针，线程名称，线程的形参等。有了这个线程控制块之后，以后系统对线程的全部操作都可以通过这个线程控制块来实现。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> <span class="function">struct <span class="title">rt_thread</span> <span class="params">(<span class="number">1</span>)</span></span></span><br><span class="line"><span class="function">2 </span>&#123;</span><br><span class="line"><span class="number">3</span> <span class="keyword">void</span> *sp; <span class="comment">/* 线程栈指针 */</span></span><br><span class="line"><span class="number">4</span> <span class="keyword">void</span> *entry; <span class="comment">/* 线程入口地址 */</span></span><br><span class="line"><span class="number">5</span> <span class="keyword">void</span> *parameter; <span class="comment">/* 线程形参 */</span></span><br><span class="line"><span class="number">6</span> <span class="keyword">void</span> *stack_addr; <span class="comment">/* 线程栈起始地址 */</span></span><br><span class="line"><span class="number">7</span> <span class="keyword">rt_uint32_t</span> stack_size; <span class="comment">/* 线程栈大小，单位为字节 */</span></span><br><span class="line"><span class="number">8</span> &#125;;</span><br><span class="line"><span class="number">9</span> <span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">rt_thread</span> *<span class="title">rt_thread_t</span>;</span> (<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="线程创建"><a href="#线程创建" class="headerlink" title="线程创建"></a>线程创建</h4><p>线程的栈，线程的函数实体，线程的控制块最终需要联系起来才能由系统进行统一调度。那么这个联系的工作就由线程初始化函数rt_thread_init()来实现。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> <span class="keyword">rt_err_t</span> rt_thread_init(struct rt_thread *thread, (<span class="number">1</span>)</span><br><span class="line"><span class="number">2</span> <span class="keyword">void</span> (*entry)(<span class="keyword">void</span> *parameter), (<span class="number">2</span>)</span><br><span class="line"><span class="number">3</span> <span class="keyword">void</span> *parameter, (<span class="number">3</span>)</span><br><span class="line"><span class="number">4</span> <span class="keyword">void</span> *stack_start, (<span class="number">4</span>)</span><br><span class="line"><span class="number">5</span> <span class="keyword">rt_uint32_t</span> stack_size) (<span class="number">5</span>)</span><br><span class="line"><span class="number">6</span> &#123;</span><br><span class="line"><span class="number">7</span> rt_list_init(&amp;(thread-&gt;tlist)); (<span class="number">6</span>)</span><br><span class="line"><span class="number">8</span></span><br><span class="line"><span class="number">9</span> thread-&gt;entry = (<span class="keyword">void</span> *)entry; (<span class="number">7</span>)</span><br><span class="line"><span class="number">10</span> thread-&gt;parameter = parameter; (<span class="number">8</span>)</span><br><span class="line"><span class="number">11</span></span><br><span class="line"><span class="number">12</span> thread-&gt;stack_addr = stack_start; (<span class="number">9</span>)</span><br><span class="line"><span class="number">13</span> thread-&gt;stack_size = stack_size; (<span class="number">10</span>)</span><br><span class="line"><span class="number">14</span></span><br><span class="line"><span class="number">15</span> <span class="comment">/* 初始化线程栈，并返回线程栈指针 */</span> (<span class="number">11</span>)</span><br><span class="line"><span class="number">16</span> thread-&gt;sp =</span><br><span class="line"><span class="number">17</span> (<span class="keyword">void</span> *)rt_hw_stack_init( thread-&gt;entry,</span><br><span class="line"><span class="number">18</span> thread-&gt;parameter,</span><br><span class="line"><span class="number">19</span> (<span class="keyword">void</span> *)((<span class="keyword">char</span> *)thread-&gt;stack_addr + thread-&gt;stack_size - <span class="number">4</span>) );</span><br><span class="line"><span class="number">20</span></span><br><span class="line"><span class="number">21</span> <span class="keyword">return</span> RT_EOK; (<span class="number">12</span>)</span><br><span class="line"><span class="number">22</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>在main 函数中创建两个flag 相关的线程实例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> <span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function">2 </span>&#123;</span><br><span class="line"><span class="number">3</span> <span class="comment">/* 硬件初始化 */</span></span><br><span class="line"><span class="number">4</span> <span class="comment">/* 将硬件相关的初始化放在这里，如果是软件仿真则没有相关初始化代码 */</span></span><br><span class="line"><span class="number">5</span></span><br><span class="line"><span class="number">6</span></span><br><span class="line"><span class="number">7</span> <span class="comment">/* 初始化线程 */</span></span><br><span class="line"><span class="number">8</span> rt_thread_init( &amp;rt_flag1_thread, <span class="comment">/* 线程控制块 */</span></span><br><span class="line"><span class="number">9</span> flag1_thread_entry, <span class="comment">/* 线程入口地址 */</span></span><br><span class="line"><span class="number">10</span> RT_NULL, <span class="comment">/* 线程形参 */</span></span><br><span class="line"><span class="number">11</span> &amp;rt_flag1_thread_stack[<span class="number">0</span>], <span class="comment">/* 线程栈起始地址 */</span></span><br><span class="line"><span class="number">12</span> <span class="keyword">sizeof</span>(rt_flag1_thread_stack) ); <span class="comment">/* 线程栈大小，单位为字节</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="number">13</span></span><br><span class="line"><span class="number">14</span> <span class="comment">/* 初始化线程 */</span></span><br><span class="line"><span class="number">15</span> rt_thread_init( &amp;rt_flag2_thread, <span class="comment">/* 线程控制块 */</span></span><br><span class="line"><span class="number">16</span> flag2_thread_entry, <span class="comment">/* 线程入口地址 */</span></span><br><span class="line"><span class="number">17</span> RT_NULL, <span class="comment">/* 线程形参 */</span></span><br><span class="line"><span class="number">18</span> &amp;rt_flag2_thread_stack[<span class="number">0</span>], <span class="comment">/* 线程栈起始地址 */</span></span><br><span class="line"><span class="number">19</span> <span class="keyword">sizeof</span>(rt_flag2_thread_stack) ); <span class="comment">/* 线程栈大小，单位为字节 */</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="就绪列表"><a href="#就绪列表" class="headerlink" title="就绪列表"></a>就绪列表</h4><p>线程创建好之后，我们需要把线程添加到就绪列表里面，表示线程已经就绪，系统随时可以调度。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> <span class="comment">/* 线程就绪列表 */</span></span><br><span class="line"><span class="number">2</span> <span class="keyword">rt_list_t</span> rt_thread_priority_table[RT_THREAD_PRIORITY_MAX]; (<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<p>线程控制块里面有一个tlist 成员，数据类型为rt_list_t，我们将线程插入到就绪列表里面，就是通过将线程控制块的tlist 这个节点插入到就绪列表中来实现的。如果把就绪列表比作是晾衣杆，线程是衣服，那tlist 就是晾衣架，每个线程都自带晾衣架，就是为了把自己挂在各种不同的链表中。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> <span class="comment">/* 初始化线程 */</span></span><br><span class="line"><span class="number">2</span> rt_thread_init( &amp;rt_flag1_thread, <span class="comment">/* 线程控制块 */</span></span><br><span class="line"><span class="number">3</span> flag1_thread_entry, <span class="comment">/* 线程入口地址 */</span></span><br><span class="line"><span class="number">4</span> RT_NULL, <span class="comment">/* 线程形参 */</span></span><br><span class="line"><span class="number">5</span> &amp;rt_flag1_thread_stack[<span class="number">0</span>], <span class="comment">/* 线程栈起始地址 */</span></span><br><span class="line"><span class="number">6</span> <span class="keyword">sizeof</span>(rt_flag1_thread_stack) ); <span class="comment">/* 线程栈大小，单位为字节 */</span></span><br><span class="line"><span class="number">7</span> <span class="comment">/* 将线程插入到就绪列表 */</span></span><br><span class="line"><span class="number">8</span> rt_list_insert_before( &amp;(rt_thread_priority_table[<span class="number">0</span>]),&amp;(rt_flag1_thread.tlist) );</span><br><span class="line"><span class="number">9</span></span><br><span class="line"><span class="number">10</span> <span class="comment">/* 初始化线程 */</span></span><br><span class="line"><span class="number">11</span> rt_thread_init( &amp;rt_flag2_thread, <span class="comment">/* 线程控制块 */</span></span><br><span class="line"><span class="number">12</span> flag2_thread_entry, <span class="comment">/* 线程入口地址 */</span></span><br><span class="line"><span class="number">13</span> RT_NULL, <span class="comment">/* 线程形参 */</span></span><br><span class="line"><span class="number">14</span> &amp;rt_flag2_thread_stack[<span class="number">0</span>], <span class="comment">/* 线程栈起始地址 */</span></span><br><span class="line"><span class="number">15</span> <span class="keyword">sizeof</span>(rt_flag2_thread_stack) ); <span class="comment">/* 线程栈大小，单位为字节 */</span></span><br><span class="line"><span class="number">16</span> <span class="comment">/* 将线程插入到就绪列表 */</span></span><br><span class="line"><span class="number">17</span> rt_list_insert_before( &amp;(rt_thread_priority_table[<span class="number">1</span>]),&amp;(rt_flag2_thread.tlist) );</span><br></pre></td></tr></table></figure>
+
+<h4 id="调度器"><a href="#调度器" class="headerlink" title="调度器"></a>调度器</h4><p>调度器是操作系统的核心，其主要功能就是实现线程的切换，即从就绪列表里面找到优先级最高的线程，然后去执行该线程。</p>
+<p>调度器在使用之前必须先初始化：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> <span class="comment">/* 初始化系统调度器 */</span></span><br><span class="line"><span class="number">2</span> <span class="function"><span class="keyword">void</span> <span class="title">rt_system_scheduler_init</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function">3 </span>&#123;</span><br><span class="line"><span class="number">4</span> <span class="keyword">register</span> <span class="keyword">rt_base_t</span> offset; (<span class="number">1</span>)</span><br><span class="line"><span class="number">5</span></span><br><span class="line"><span class="number">6</span></span><br><span class="line"><span class="number">7</span> <span class="comment">/* 线程就绪列表初始化 */</span></span><br><span class="line"><span class="number">8</span> <span class="keyword">for</span> (offset = <span class="number">0</span>; offset &lt; RT_THREAD_PRIORITY_MAX; offset ++) (<span class="number">2</span>)</span><br><span class="line"><span class="number">9</span> &#123;</span><br><span class="line"><span class="number">10</span> rt_list_init(&amp;rt_thread_priority_table[offset]);</span><br><span class="line"><span class="number">11</span> &#125;</span><br><span class="line"><span class="number">12</span></span><br><span class="line"><span class="number">13</span> <span class="comment">/* 初始化当前线程控制块指针 */</span></span><br><span class="line"><span class="number">14</span> rt_current_thread = RT_NULL; (<span class="number">3</span>)</span><br><span class="line"><span class="number">15</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们把调度器初始化放在硬件初始化之后，线程创建之前:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> <span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function">2 </span>&#123;</span><br><span class="line"><span class="number">3</span> <span class="comment">/* 硬件初始化 */</span></span><br><span class="line"><span class="number">4</span> <span class="comment">/* 将硬件相关的初始化放在这里，如果是软件仿真则没有相关初始化代码 */</span></span><br><span class="line"><span class="number">5</span></span><br><span class="line"><span class="number">6</span> <span class="comment">/* 调度器初始化 */</span></span><br><span class="line"><span class="number">7</span> rt_system_scheduler_init();</span><br><span class="line"><span class="number">8</span></span><br><span class="line"><span class="number">9</span></span><br><span class="line"><span class="number">10</span> <span class="comment">/* 初始化线程 */</span></span><br><span class="line"><span class="number">11</span> rt_thread_init( &amp;rt_flag1_thread, <span class="comment">/* 线程控制块 */</span></span><br><span class="line"><span class="number">12</span> flag1_thread_entry, <span class="comment">/* 线程入口地址 */</span></span><br><span class="line"><span class="number">13</span> RT_NULL, <span class="comment">/* 线程形参 */</span></span><br><span class="line"><span class="number">14</span> &amp;rt_flag1_thread_stack[<span class="number">0</span>], <span class="comment">/* 线程栈起始地址 */</span></span><br><span class="line"><span class="number">15</span> <span class="keyword">sizeof</span>(rt_flag1_thread_stack) ); <span class="comment">/* 线程栈大小，单位为字节 */</span></span><br><span class="line"><span class="number">16</span> <span class="comment">/* 将线程插入到就绪列表 */</span></span><br><span class="line"><span class="number">17</span> rt_list_insert_before( &amp;(rt_thread_priority_table[<span class="number">0</span>]),&amp;(rt_flag1_thread.tlist) );</span><br><span class="line"><span class="number">18</span></span><br><span class="line"><span class="number">19</span> <span class="comment">/* 初始化线程 */</span></span><br><span class="line"><span class="number">20</span> rt_thread_init( &amp;rt_flag2_thread, <span class="comment">/* 线程控制块 */</span></span><br><span class="line"><span class="number">21</span> flag2_thread_entry, <span class="comment">/* 线程入口地址 */</span></span><br><span class="line"><span class="number">22</span> RT_NULL, <span class="comment">/* 线程形参 */</span></span><br><span class="line"><span class="number">23</span> &amp;rt_flag2_thread_stack[<span class="number">0</span>], <span class="comment">/* 线程栈起始地址 */</span></span><br><span class="line"><span class="number">24</span> <span class="keyword">sizeof</span>(rt_flag2_thread_stack) ); <span class="comment">/* 线程栈大小，单位为字节 */</span></span><br><span class="line"><span class="number">25</span> <span class="comment">/* 将线程插入到就绪列表 */</span></span><br><span class="line"><span class="number">26</span> rt_list_insert_before( &amp;(rt_thread_priority_table[<span class="number">1</span>]),&amp;(rt_flag2_thread.tlist) );</span><br><span class="line"><span class="number">27</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>初始化调度器后，我们就可以启动调度器啦，调度器启动由函数rt_system_scheduler_start()来完成。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> <span class="comment">/* 启动系统调度器 */</span></span><br><span class="line"><span class="number">2</span> <span class="function"><span class="keyword">void</span> <span class="title">rt_system_scheduler_start</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function">3 </span>&#123;</span><br><span class="line"><span class="number">4</span> <span class="keyword">register</span> <span class="class"><span class="keyword">struct</span> <span class="title">rt_thread</span> *<span class="title">to_thread</span>;</span></span><br><span class="line"><span class="number">5</span></span><br><span class="line"><span class="number">6</span></span><br><span class="line"><span class="number">7</span> <span class="comment">/* 手动指定第一个运行的线程 */</span> (<span class="number">1</span>)</span><br><span class="line"><span class="number">8</span> to_thread = rt_list_entry(rt_thread_priority_table[<span class="number">0</span>].next,</span><br><span class="line"><span class="number">9</span> struct rt_thread,</span><br><span class="line"><span class="number">10</span> tlist);</span><br><span class="line"><span class="number">11</span> rt_current_thread = to_thread; (<span class="number">2</span>)</span><br><span class="line"><span class="number">12</span></span><br><span class="line"><span class="number">13</span> <span class="comment">/* 切换到第一个线程，该函数在context_rvds.S 中实现，</span></span><br><span class="line"><span class="comment">14 在rthw.h 声明，用于实现第一次线程切换。</span></span><br><span class="line"><span class="comment">15 当一个汇编函数在C 文件中调用的时候，如果有形参，</span></span><br><span class="line"><span class="comment">16 则执行的时候会将形参传人到CPU 寄存器r0。*/</span></span><br><span class="line"><span class="number">17</span> rt_hw_context_switch_to((<span class="keyword">rt_uint32_t</span>)&amp;to_thread-&gt;sp); (<span class="number">3</span>)</span><br><span class="line"><span class="number">18</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="临界段"><a href="#临界段" class="headerlink" title="临界段"></a>临界段</h4><p>临界段用一句话概括就是一段在执行的时候不能被中断的代码段。在RT-Thread 里面，这个临界段最常出现的就是对全局变量的操作，全局变量就好像是一个枪把子，谁都可以对他开枪，但是我开枪的时候，你就不能开枪，否则就不知道是谁命中了靶子。那么什么情况下临界段会被打断？一个是系统调度，还有一个就是外部中断。在RTThread，系统调度，最终也是产生PendSV 中断，在PendSV Handler 里面实现线程的切换，所以还是可以归结为中断。既然这样，RT-Thread 对临界段的保护就处理的很干脆了，直接把中断全部关了，NMI FAULT 和硬FAULT 除外。</p>
+<h4 id="对象容器"><a href="#对象容器" class="headerlink" title="对象容器"></a>对象容器</h4><p>在RT-Thread 中，所有的数据结构都称之为对象。其中线程，信号量，互斥量、事件、邮箱、消息队列、内存堆、内存池、设备和定时器在rtdef.h 中有明显的枚举定义，即为每个对象打上了一个数字标签。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> <span class="keyword">enum</span> rt_object_class_type</span><br><span class="line"><span class="number">2</span> &#123;</span><br><span class="line"><span class="number">3</span> RT_Object_Class_Thread = <span class="number">0</span>, <span class="comment">/* 对象是线程 */</span></span><br><span class="line"><span class="number">4</span> RT_Object_Class_Semaphore, <span class="comment">/* 对象是信号量 */</span></span><br><span class="line"><span class="number">5</span> RT_Object_Class_Mutex, <span class="comment">/* 对象是互斥量 */</span></span><br><span class="line"><span class="number">6</span> RT_Object_Class_Event, <span class="comment">/* 对象是事件 */</span></span><br><span class="line"><span class="number">7</span> RT_Object_Class_MailBox, <span class="comment">/* 对象是邮箱 */</span></span><br><span class="line"><span class="number">8</span> RT_Object_Class_MessageQueue, <span class="comment">/* 对象是消息队列 */</span></span><br><span class="line"><span class="number">9</span> RT_Object_Class_MemHeap, <span class="comment">/* 对象是内存堆 */</span></span><br><span class="line"><span class="number">10</span> RT_Object_Class_MemPool, <span class="comment">/* 对象是内存池 */</span></span><br><span class="line"><span class="number">11</span> RT_Object_Class_Device, <span class="comment">/* 对象是设备 */</span></span><br><span class="line"><span class="number">12</span> RT_Object_Class_Timer, <span class="comment">/* 对象是定时器 */</span></span><br><span class="line"><span class="number">13</span> RT_Object_Class_Module, <span class="comment">/* 对象是模块 */</span></span><br><span class="line"><span class="number">14</span> RT_Object_Class_Unknown, <span class="comment">/* 对象未知 */</span></span><br><span class="line"><span class="number">15</span> RT_Object_Class_Static = <span class="number">0x80</span> <span class="comment">/* 对象是静态对象 */</span></span><br><span class="line"><span class="number">16</span> &#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h4><p>在rtt 中，每当用户创建一个对象，如线程，就会将这个对象放到一个叫做容器的地方，这样做的目的是为了方便管理，管理什么？在RT-Thread 的组件finsh 的使用中，就需要使用到容器，通过扫描容器的内核对象来获取各个内核对象的状态，然后输出调试信息。</p>
+<p>从代码上看，容器就是一个数组，是一个全局变量，数据类型为struct_rt_object_information，在object.c 中定义</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> <span class="function"><span class="keyword">static</span> struct <span class="title">rt_object_information</span> <span class="params">(<span class="number">1</span>)</span></span></span><br><span class="line">2 rt_object_container[RT_Object_Info_Unknown] = &#123; (2)</span><br><span class="line"><span class="number">3</span> <span class="comment">/* 初始化对象容器 - 线程 */</span> (<span class="number">3</span>)</span><br><span class="line"><span class="number">4</span> &#123;</span><br><span class="line"><span class="number">5</span> RT_Object_Class_Thread, (<span class="number">3</span>)-①</span><br><span class="line"><span class="number">6</span> _OBJ_CONTAINER_LIST_INIT(RT_Object_Info_Thread), (<span class="number">3</span>)-②</span><br><span class="line"><span class="number">7</span> <span class="keyword">sizeof</span>(struct rt_thread) (<span class="number">3</span>)-③</span><br><span class="line"><span class="number">8</span> &#125;,</span><br><span class="line"><span class="number">9</span></span><br><span class="line"><span class="number">10</span> <span class="meta">#<span class="meta-keyword">ifdef</span> RT_USING_SEMAPHORE (4)</span></span><br><span class="line"><span class="number">11</span> <span class="comment">/* 初始化对象容器 - 信号量 */</span></span><br><span class="line"><span class="number">12</span> &#123;</span><br><span class="line"><span class="number">13</span> RT_Object_Class_Semaphore,</span><br><span class="line"><span class="number">14</span> _OBJ_CONTAINER_LIST_INIT(RT_Object_Info_Semaphore),</span><br><span class="line"><span class="number">15</span> <span class="keyword">sizeof</span>(struct rt_semaphore)</span><br><span class="line"><span class="number">16</span> &#125;,</span><br><span class="line"><span class="number">17</span> <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="number">18</span></span><br><span class="line"><span class="number">19</span> <span class="meta">#<span class="meta-keyword">ifdef</span> RT_USING_MUTEX (5)</span></span><br><span class="line"><span class="number">20</span> <span class="comment">/* 初始化对象容器 - 互斥量 */</span></span><br><span class="line"><span class="number">21</span> &#123;</span><br><span class="line"><span class="number">22</span> RT_Object_Class_Mutex,</span><br><span class="line"><span class="number">23</span> _OBJ_CONTAINER_LIST_INIT(RT_Object_Info_Mutex),</span><br><span class="line"><span class="number">24</span> <span class="keyword">sizeof</span>(struct rt_mutex)</span><br><span class="line"><span class="number">25</span> &#125;,</span><br><span class="line"><span class="number">26</span> <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="number">27</span></span><br><span class="line"><span class="number">28</span> <span class="meta">#<span class="meta-keyword">ifdef</span> RT_USING_EVENT (6)</span></span><br><span class="line"><span class="number">29</span> <span class="comment">/* 初始化对象容器 - 事件 */</span></span><br><span class="line"><span class="number">30</span> &#123;</span><br><span class="line"><span class="number">31</span> RT_Object_Class_Event,</span><br><span class="line"><span class="number">32</span> _OBJ_CONTAINER_LIST_INIT(RT_Object_Info_Event),</span><br><span class="line"><span class="number">33</span> <span class="keyword">sizeof</span>(struct rt_event)</span><br><span class="line"><span class="number">34</span> &#125;,</span><br><span class="line"><span class="number">35</span> <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="number">36</span></span><br><span class="line"><span class="number">37</span> <span class="meta">#<span class="meta-keyword">ifdef</span> RT_USING_MAILBOX (7)</span></span><br><span class="line"><span class="number">38</span> <span class="comment">/* 初始化对象容器 - 邮箱 */</span></span><br><span class="line"><span class="number">39</span> &#123;</span><br><span class="line"><span class="number">40</span> RT_Object_Class_MailBox,</span><br><span class="line"><span class="number">41</span> _OBJ_CONTAINER_LIST_INIT(RT_Object_Info_MailBox),</span><br><span class="line"><span class="number">42</span> <span class="keyword">sizeof</span>(struct rt_mailbox)</span><br><span class="line"><span class="number">43</span> &#125;,</span><br><span class="line"><span class="number">44</span> <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="number">45</span></span><br><span class="line"><span class="number">46</span> <span class="meta">#<span class="meta-keyword">ifdef</span> RT_USING_MESSAGEQUEUE (8)</span></span><br><span class="line"><span class="number">47</span> <span class="comment">/* 初始化对象容器 - 消息队列 */</span></span><br><span class="line"><span class="number">48</span> &#123;</span><br><span class="line"><span class="number">49</span> RT_Object_Class_MessageQueue,</span><br><span class="line"><span class="number">50</span> _OBJ_CONTAINER_LIST_INIT(RT_Object_Info_MessageQueue),</span><br><span class="line"><span class="number">51</span> <span class="keyword">sizeof</span>(struct rt_messagequeue)</span><br><span class="line"><span class="number">52</span> &#125;,</span><br><span class="line"><span class="number">53</span> <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="number">54</span></span><br><span class="line"><span class="number">55</span> <span class="meta">#<span class="meta-keyword">ifdef</span> RT_USING_MEMHEAP (9)</span></span><br><span class="line"><span class="number">56</span> <span class="comment">/* 初始化对象容器 - 内存堆 */</span></span><br><span class="line"><span class="number">57</span> &#123;</span><br><span class="line"><span class="number">58</span> RT_Object_Class_MemHeap,</span><br><span class="line"><span class="number">59</span> _OBJ_CONTAINER_LIST_INIT(RT_Object_Info_MemHeap),</span><br><span class="line"><span class="number">60</span> <span class="keyword">sizeof</span>(struct rt_memheap)</span><br><span class="line"><span class="number">61</span> &#125;,</span><br><span class="line"><span class="number">62</span> <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="number">63</span></span><br><span class="line"><span class="number">64</span> <span class="meta">#<span class="meta-keyword">ifdef</span> RT_USING_MEMPOOL (10)</span></span><br><span class="line"><span class="number">65</span> <span class="comment">/* 初始化对象容器 - 内存池 */</span></span><br><span class="line"><span class="number">66</span> &#123;</span><br><span class="line"><span class="number">67</span> RT_Object_Class_MemPool,</span><br><span class="line"><span class="number">68</span> _OBJ_CONTAINER_LIST_INIT(RT_Object_Info_MemPool),</span><br><span class="line"><span class="number">69</span> <span class="keyword">sizeof</span>(struct rt_mempool)</span><br><span class="line"><span class="number">70</span> &#125;,</span><br><span class="line"><span class="number">71</span> <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="number">72</span></span><br><span class="line"><span class="number">73</span> <span class="meta">#<span class="meta-keyword">ifdef</span> RT_USING_DEVICE (11)</span></span><br><span class="line"><span class="number">74</span> <span class="comment">/* 初始化对象容器 - 设备 */</span></span><br><span class="line"><span class="number">75</span> &#123;</span><br><span class="line"><span class="number">76</span> RT_Object_Class_Device,</span><br><span class="line"><span class="number">77</span> _OBJ_CONTAINER_LIST_INIT(RT_Object_Info_Device),</span><br><span class="line"><span class="number">78</span> <span class="keyword">sizeof</span>(struct rt_device)</span><br><span class="line"><span class="number">79</span> &#125;,</span><br><span class="line"><span class="number">80</span> <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="number">81</span></span><br><span class="line"><span class="number">82</span> <span class="comment">/* 初始化对象容器 - 定时器 */</span> (<span class="number">12</span>)</span><br><span class="line"><span class="number">83</span> <span class="comment">/*</span></span><br><span class="line"><span class="comment">84 &#123;</span></span><br><span class="line"><span class="comment">85 RT_Object_Class_Timer,</span></span><br><span class="line"><span class="comment">86 _OBJ_CONTAINER_LIST_INIT(RT_Object_Info_Timer),</span></span><br><span class="line"><span class="comment">87 sizeof(struct rt_timer)</span></span><br><span class="line"><span class="comment">88 &#125;,</span></span><br><span class="line"><span class="comment">89 */</span></span><br><span class="line"><span class="number">90</span> <span class="meta">#<span class="meta-keyword">ifdef</span> RT_USING_MODULE (13)</span></span><br><span class="line"><span class="number">91</span> <span class="comment">/* 初始化对象容器 - 模块 */</span></span><br><span class="line"><span class="number">92</span> &#123;</span><br><span class="line"><span class="number">93</span> RT_Object_Class_Module,</span><br><span class="line"><span class="number">94</span> _OBJ_CONTAINER_LIST_INIT(RT_Object_Info_Module),</span><br><span class="line"><span class="number">95</span> <span class="keyword">sizeof</span>(struct rt_module)</span><br><span class="line"><span class="number">96</span> &#125;,</span><br><span class="line"><span class="number">97</span> <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="number">98</span> &#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="对象初始化"><a href="#对象初始化" class="headerlink" title="对象初始化"></a>对象初始化</h4><p>每创建一个对象，都需要先将其初始化，主要分成两个部分的工作，首先将对象控制块里面与对象相关的成员初始化，然后将该对象插入到对象容器中：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> <span class="comment">/**</span></span><br><span class="line"><span class="comment">2 * 该函数将初始化对象并将对象添加到对象容器中</span></span><br><span class="line"><span class="comment">3 *</span></span><br><span class="line"><span class="comment">4 * @param object 要初始化的对象</span></span><br><span class="line"><span class="comment">5 * @param type 对象的类型</span></span><br><span class="line"><span class="comment">6 * @param name 对象的名字，在整个系统中，对象的名字必须是唯一的</span></span><br><span class="line"><span class="comment">7 */</span></span><br><span class="line"><span class="number">8</span> <span class="function"><span class="keyword">void</span> <span class="title">rt_object_init</span><span class="params">(struct rt_object *object, (<span class="number">1</span>)</span></span></span><br><span class="line"><span class="function"><span class="params"><span class="number">9</span> <span class="keyword">enum</span> rt_object_class_type type, (<span class="number">2</span>)</span></span></span><br><span class="line"><span class="function"><span class="params"><span class="number">10</span> <span class="keyword">const</span> <span class="keyword">char</span> *name)</span> <span class="params">(<span class="number">3</span>)</span></span></span><br><span class="line"><span class="function">11 </span>&#123;</span><br><span class="line"><span class="number">12</span> <span class="keyword">register</span> <span class="keyword">rt_base_t</span> temp;</span><br><span class="line"><span class="number">13</span> <span class="class"><span class="keyword">struct</span> <span class="title">rt_object_information</span> *<span class="title">information</span>;</span></span><br><span class="line"><span class="number">14</span></span><br><span class="line"><span class="number">15</span> <span class="comment">/* 获取对象信息，即从容器里拿到对应对象列表头指针 */</span></span><br><span class="line"><span class="number">16</span> information = rt_object_get_information(type); (<span class="number">4</span>)</span><br><span class="line"><span class="number">17</span></span><br><span class="line"><span class="number">18</span> <span class="comment">/* 设置对象类型为静态 */</span></span><br><span class="line"><span class="number">19</span> object-&gt;type = type | RT_Object_Class_Static; (<span class="number">5</span>)</span><br><span class="line"><span class="number">20</span></span><br><span class="line"><span class="number">21</span> <span class="comment">/* 拷贝名字 */</span></span><br><span class="line"><span class="number">22</span> rt_strncpy(object-&gt;name, name, RT_NAME_MAX); (<span class="number">6</span>)</span><br><span class="line"><span class="number">23</span></span><br><span class="line"><span class="number">24</span> <span class="comment">/* 关中断 */</span></span><br><span class="line"><span class="number">25</span> temp = rt_hw_interrupt_disable(); (<span class="number">7</span>)</span><br><span class="line"><span class="number">26</span></span><br><span class="line"><span class="number">27</span> <span class="comment">/* 将对象插入到容器的对应列表中，不同类型的对象所在的列表不一样 */</span></span><br><span class="line"><span class="number">28</span> rt_list_insert_after(&amp;(information-&gt;object_list), &amp;(object-&gt;<span class="built_in">list</span>)); (<span class="number">8</span>)</span><br><span class="line"><span class="number">29</span></span><br><span class="line"><span class="number">30</span> <span class="comment">/* 使能中断 */</span></span><br><span class="line"><span class="number">31</span> rt_hw_interrupt_enable(temp); (<span class="number">9</span>)</span><br><span class="line"><span class="number">32</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>对象初始化函数在线程初始化函数里面被调用。</p>
+<h4 id="空闲线程"><a href="#空闲线程" class="headerlink" title="空闲线程"></a>空闲线程</h4><p>线程体内的延时使用的是软件延时，即还是让CPU 空等来达到延时的效果。使用RTOS 的很大优势就是榨干CPU 的性能，永远不能让它闲着，线程如果需要延时也就不能再让CPU 空等来实现延时的效果。RTOS 中的延时叫阻塞延时，即线程需要延时的时候，线程会放弃CPU 的使用权，CPU 可以去干其它的事情，当线程延时时间到，重新获取CPU 使用权，线程继续运行，这样就充分地利用了CPU 的资源，而不是干等着。</p>
+<p>当线程需要延时，进入阻塞状态，那CPU 又去干什么事情了？如果没有其它线程可以运行，RTOS 都会为CPU 创建一个空闲线程，这个时候CPU 就运行空闲线程。在RTThread中，空闲线程是系统在初始化的时候创建的优先级最低的线程，空闲线程主体主要是做一些系统内存的清理工作。鉴于空闲线程的这种特性，在实际应用中，当系统进入空闲线程的时候，可在空闲线程中让单片机进入休眠或者低功耗等操作。</p>
+<p>空闲线程也是线程，其定义方法和普通线程定义方法一样。</p>
+<h5 id="定义空闲线程栈"><a href="#定义空闲线程栈" class="headerlink" title="定义空闲线程栈"></a>定义空闲线程栈</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;rtthread.h&gt;</span></span></span><br><span class="line"><span class="number">2</span> <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;rthw.h&gt;</span></span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="number">4</span> <span class="meta">#<span class="meta-keyword">define</span> IDLE_THREAD_STACK_SIZE 512</span></span><br><span class="line"><span class="number">5</span></span><br><span class="line"><span class="number">6</span> ALIGN(RT_ALIGN_SIZE)</span><br><span class="line"><span class="number">7</span> <span class="keyword">static</span> <span class="keyword">rt_uint8_t</span> rt_thread_stack[IDLE_THREAD_STACK_SIZE];</span><br></pre></td></tr></table></figure>
+
+<h5 id="定义空闲线程的线程控制块"><a href="#定义空闲线程的线程控制块" class="headerlink" title="定义空闲线程的线程控制块"></a>定义空闲线程的线程控制块</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 空闲线程的线程控制块 */</span></span><br><span class="line"><span class="number">1</span> <span class="class"><span class="keyword">struct</span> <span class="title">rt_thread</span> <span class="title">idle</span>;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="定义空闲线程函数"><a href="#定义空闲线程函数" class="headerlink" title="定义空闲线程函数"></a>定义空闲线程函数</h5><p>在RT-Thread 中空闲线程函数主要是做一些系统内存的清理工作，但是为了简单起见，我们实现的空闲线程只是对一个全局变量rt_idletask_ctr 进行计数</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> <span class="keyword">rt_ubase_t</span> rt_idletask_ctr = <span class="number">0</span>;</span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">3</span> <span class="function"><span class="keyword">void</span> <span class="title">rt_thread_idle_entry</span><span class="params">(<span class="keyword">void</span> *parameter)</span></span></span><br><span class="line"><span class="function">4 </span>&#123;</span><br><span class="line"><span class="number">5</span> parameter = parameter;</span><br><span class="line"><span class="number">6</span> <span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line"><span class="number">7</span> &#123;</span><br><span class="line"><span class="number">8</span> rt_idletask_ctr ++;</span><br><span class="line"><span class="number">9</span> &#125;</span><br><span class="line"><span class="number">10</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="空闲线程初始化"><a href="#空闲线程初始化" class="headerlink" title="空闲线程初始化"></a>空闲线程初始化</h5><p>当定义好空闲线程的栈，线程控制块和函数主体之后，我们需要空闲线程初始化函数将这三者联系在一起，这样空闲线程才能够被系统调度。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> <span class="function"><span class="keyword">void</span> <span class="title">rt_thread_idle_init</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function">2 </span>&#123;</span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="number">4</span> <span class="comment">/* 初始化线程 */</span> (<span class="number">1</span>)</span><br><span class="line"><span class="number">5</span> rt_thread_init(&amp;idle,</span><br><span class="line"><span class="number">6</span> <span class="string">"idle"</span>,</span><br><span class="line"><span class="number">7</span> rt_thread_idle_entry,</span><br><span class="line"><span class="number">8</span> RT_NULL,</span><br><span class="line"><span class="number">9</span> &amp;rt_thread_stack[<span class="number">0</span>],</span><br><span class="line"><span class="number">10</span> <span class="keyword">sizeof</span>(rt_thread_stack));</span><br><span class="line"><span class="number">11</span></span><br><span class="line"><span class="number">12</span> <span class="comment">/* 将线程插入到就绪列表 */</span> (<span class="number">2</span>)</span><br><span class="line"><span class="number">13</span> rt_list_insert_before( &amp;(rt_thread_priority_table[RT_THREAD_PRIORITY_MAX<span class="number">-1</span>]),</span><br><span class="line"><span class="number">14</span> &amp;(idle.tlist) );</span><br><span class="line"><span class="number">15</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="时间片"><a href="#时间片" class="headerlink" title="时间片"></a>时间片</h4><p>在RT-Thread 中，当同一个优先级下有两个或两个以上线程的时候，线程支持时间片功能，即我们可以指定线程持续运行一次的时间，单位为tick。假如有两个线程分别为线程2 和线程3，他们的优先级都为3，线程2 的时间片为2，线程3 的时间片为3。当执行到优先级为3 的线程时，会先执行线程2，直到线程2 的时间片耗完，然后再执行线程3。</p>
+<p>本次博客主要记录rt-thread的内核学习，下一篇记录应用。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/rtt/" rel="tag"># rtt</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/08/test/" rel="prev" title="test">
+      <i class="fa fa-chevron-left"></i> test
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/01/10/hello/" rel="next" title="hello">
+      hello <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#嵌入式系统和RT-Thread"><span class="nav-number">1.</span> <span class="nav-text">嵌入式系统和RT-Thread</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#裸机系统和多线程系统"><span class="nav-number">2.</span> <span class="nav-text">裸机系统和多线程系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#裸机系统"><span class="nav-number">2.1.</span> <span class="nav-text">裸机系统</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#轮询系统"><span class="nav-number">2.1.0.1.</span> <span class="nav-text">轮询系统</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#前后台系统"><span class="nav-number">2.1.0.2.</span> <span class="nav-text">前后台系统</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多线程系统"><span class="nav-number">2.2.</span> <span class="nav-text">多线程系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#线程"><span class="nav-number">2.2.1.</span> <span class="nav-text">线程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#线程栈"><span class="nav-number">2.2.2.</span> <span class="nav-text">线程栈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#线程控制块"><span class="nav-number">2.2.3.</span> <span class="nav-text">线程控制块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#线程创建"><span class="nav-number">2.2.4.</span> <span class="nav-text">线程创建</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#就绪列表"><span class="nav-number">2.2.5.</span> <span class="nav-text">就绪列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#调度器"><span class="nav-number">2.2.6.</span> <span class="nav-text">调度器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#临界段"><span class="nav-number">2.2.7.</span> <span class="nav-text">临界段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对象容器"><span class="nav-number">2.2.8.</span> <span class="nav-text">对象容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#容器"><span class="nav-number">2.2.9.</span> <span class="nav-text">容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对象初始化"><span class="nav-number">2.2.10.</span> <span class="nav-text">对象初始化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#空闲线程"><span class="nav-number">2.2.11.</span> <span class="nav-text">空闲线程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#定义空闲线程栈"><span class="nav-number">2.2.11.1.</span> <span class="nav-text">定义空闲线程栈</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#定义空闲线程的线程控制块"><span class="nav-number">2.2.11.2.</span> <span class="nav-text">定义空闲线程的线程控制块</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#定义空闲线程函数"><span class="nav-number">2.2.11.3.</span> <span class="nav-text">定义空闲线程函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#空闲线程初始化"><span class="nav-number">2.2.11.4.</span> <span class="nav-text">空闲线程初始化</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#时间片"><span class="nav-number">2.2.12.</span> <span class="nav-text">时间片</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      
+           <div>
+              <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="210" height="110" src="//music.163.com/outchain/player?type=2&id=33911781&auto=1&height=66"></iframe>
+           </div>
+         
+
+     <!-- <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="http://music.163.com/song/media/outer/url?id=1396973729.mp3&auto=1&height=66"></iframe> -->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="LIU-YAOHUA"
+      src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1578394974761&di=9d161c4fcd3d2a3644548c48ba5ce3ea&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201612%2F04%2F20161204102600_kr25d.thumb.700_0.jpeg">
+  <p class="site-author-name" itemprop="name">LIU-YAOHUA</p>
+  <div class="site-description" itemprop="description">欢迎您的到来！</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LIU-YAOHUA</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+-->
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共5.9k字</span>
+</div>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="powered-by">
+  <i class="fa fa-user-md"></i>
+  <span id="busuanzi_container_site_pv">
+    本站访问量:<span id="busuanzi_value_site_pv"></span>次
+  </span>
+  <span class="post-meta-divider">|</span>
+  <span id="busuanzi_container_site_uv">
+    本站总访客量：<span id="busuanzi_value_site_uv"></span>人
+  </span>
+</div>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: 'e391efe8b33b1c05acae',
+      clientSecret: '3233e0ac874ede8ead02dc169e537a911568813d',
+      repo: 'https://github.com/LIU-YAOHUA/LIU-YAOHUA.github.io',
+      owner: 'LIU-YAOHUA',
+      admin: ['LIU-YAOHUA'],
+      id: 'c86a698a89b946390d5ad2890747e191',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+
+<script type="text/javascript"
+color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+
+
+<!-- 页面点击爆炸 -->
+
+
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+
+
+</body>
+</html>
