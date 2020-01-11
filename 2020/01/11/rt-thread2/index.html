@@ -47,29 +47,33 @@
   };
 </script>
 
-  <meta name="description" content="欢迎您的到来！">
-<meta property="og:type" content="website">
-<meta property="og:title" content="刘耀华博客">
-<meta property="og:url" content="https://liu-yaohua.github.io/index.html">
+  <meta property="og:type" content="article">
+<meta property="og:title" content="re-thread2">
+<meta property="og:url" content="https://liu-yaohua.github.io/2020/01/11/rt-thread2/index.html">
 <meta property="og:site_name" content="刘耀华博客">
-<meta property="og:description" content="欢迎您的到来！">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://liu-yaohua.github.io/2020/01/11/rt-thread2/head.jpg">
+<meta property="og:image" content="https://liu-yaohua.github.io/2020/01/11/rt-thread2/keil.jpg">
+<meta property="article:published_time" content="2020-01-11T09:41:24.000Z">
+<meta property="article:modified_time" content="2020-01-11T14:34:44.666Z">
 <meta property="article:author" content="LIU-YAOHUA">
+<meta property="article:tag" content="learning">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://liu-yaohua.github.io/2020/01/11/rt-thread2/head.jpg">
 
-<link rel="canonical" href="https://liu-yaohua.github.io/">
+<link rel="canonical" href="https://liu-yaohua.github.io/2020/01/11/rt-thread2/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome: true,
-    isPost: false
+    isHome: false,
+    isPost: true
   };
 </script>
 
-  <title>刘耀华博客</title>
+  <title>re-thread2 | 刘耀华博客</title>
   
 
 
@@ -200,10 +204,10 @@
             
 
   <div class="posts-expand">
-        
+      
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://liu-yaohua.github.io/2020/01/11/rt-thread2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -219,8 +223,7 @@
 
       
         <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/11/rt-thread2/" class="post-title-link" itemprop="url">re-thread2</a>
+          re-thread2
         </h1>
 
         <div class="post-meta">
@@ -246,6 +249,13 @@
             </span>
 
           
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
 
         </div>
       </header>
@@ -256,325 +266,41 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><img src="/2020/01/11/rt-thread2/head.jpg" alt></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/01/11/rt-thread2/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
+        <p><img src="/2020/01/11/rt-thread2/head.jpg" alt></p>
+<a id="more"></a>
+
+<h1 id="RT-Thread内核应用开发"><a href="#RT-Thread内核应用开发" class="headerlink" title="RT-Thread内核应用开发"></a>RT-Thread内核应用开发</h1><h3 id="RT-Thread文件夹简介"><a href="#RT-Thread文件夹简介" class="headerlink" title="RT-Thread文件夹简介"></a>RT-Thread文件夹简介</h3><h4 id="bsp文件夹"><a href="#bsp文件夹" class="headerlink" title="bsp文件夹"></a>bsp文件夹</h4><p>bsp 文件夹里面存放的是板级支持包，即board support package 的英文缩写，也就是相应开发板的驱动程序。bsp 文件夹下面的board.c这是RT-Thread 用来初始化开发板硬件的相关函数。rtconfig.h 是RT-Thread 功能的配置头文件，里面定义了很多宏，通过这些宏定义，我们可以裁剪RT-Thread 的功能。用户在使用RT-Thread 的时候，用户只需要修改board.c 和rtconfig.h 这两个文件的内容即可，其它文件我们不需要改动。如果为了减小工程的大小，bsp 文件夹下面除了board.c 和rtconfig.h这两个文件要保留外，其它的统统可以删除。</p>
+<h4 id="components文件夹"><a href="#components文件夹" class="headerlink" title="components文件夹"></a>components文件夹</h4><p>在RT-Thread 看来，除了内核，其它第三方加进来的软件都是组件，比如gui、fatfs、lwip 和finsh 等，那么这些组件就放在components 这个文件夹内。finsh 是RT-Thread 组件里面最具特色的，它通过串口打印的方式来输出各种信息，方便我们调试程序。</p>
+<h4 id="include文件夹"><a href="#include文件夹" class="headerlink" title="include文件夹"></a>include文件夹</h4><p>include 目录下面存放的是RT-Thread 内核的头文件，是内核不可分割的一部分。</p>
+<h4 id="libcpu文件夹"><a href="#libcpu文件夹" class="headerlink" title="libcpu文件夹"></a>libcpu文件夹</h4><p>RT-Thread 是一个软件，单片机是一个硬件，RT-Thread 要想运行在一个单片机上面，它们就必须关联在一起，那么怎么关联？还是得通过写代码来关联，这部分关联的文件叫接口文件，通常由汇编和C 联合编写。这些接口文件都是跟硬件密切相关的，不同的硬件接口文件是不一样的，但都大同小异。编写这些接口文件的过程我们就叫移植，移植的过程通常由RT-Thread 和mcu 原厂的人来负责，移植好的这些接口文件就放在libcpu 这个文件夹的目录下。RT-Thread nano 目前在libcpu 目录下只放了cortex-m0、m3、m4 和m7 内核的单片机的接口文件，只要是使用了这些内核的mcu 都可以使用里面的接口文件。通常网络上出现的叫“移植某某某RTOS 到某某某MCU”的教程，其实准确来说，不能够叫移植，应该叫使用官方的移植，因为这些跟硬件相关的接口文件，RTOS 官方都已经写好了，我们只是使用而已。</p>
+<h4 id="src文件夹"><a href="#src文件夹" class="headerlink" title="src文件夹"></a>src文件夹</h4><p>src 目录下面存放的是RT-Thread 内核的源文件，是内核的核心。</p>
+<h4 id="keil工程结构"><a href="#keil工程结构" class="headerlink" title="keil工程结构"></a>keil工程结构</h4><p>在开发环境里面新建rtt/source 和rtt/ports 两个组文件夹，其中rtt/source 用于存放src 文件夹的内容，rtt/ports 用于存放libcpu/arm/cortex-m？文件夹的内容，“？”表示3、4 或者7。bsp 里面的rtconfig.h 和board.c 添加到user 组文件夹下，其中rtconfig.h 用于配置RTThread的功能，board.c 用于存放硬件相关的初始化函数。</p>
+<p><img src="/2020/01/11/rt-thread2/keil.jpg" alt></p>
+
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+          <div class="post-tags">
+              <a href="/tags/learning/" rel="tag"># learning</a>
+          </div>
 
         
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://liu-yaohua.github.io/2020/01/10/hello/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1578394974761&di=9d161c4fcd3d2a3644548c48ba5ce3ea&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201612%2F04%2F20161204102600_kr25d.thumb.700_0.jpeg">
-      <meta itemprop="name" content="LIU-YAOHUA">
-      <meta itemprop="description" content="欢迎您的到来！">
-    </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="刘耀华博客">
-    </span>
-      <header class="post-header">
-
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/10/hello/" class="post-title-link" itemprop="url">hello</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-01-10 18:09:23 / 修改时间：22:39:03" itemprop="dateCreated datePublished" datetime="2020-01-10T18:09:23+08:00">2020-01-10</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="/2020/01/10/hello/ylj.jpg" alt></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/01/10/hello/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/10/hello/" rel="prev" title="hello">
+      <i class="fa fa-chevron-left"></i> hello
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://liu-yaohua.github.io/2020/01/10/rt-thread/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1578394974761&di=9d161c4fcd3d2a3644548c48ba5ce3ea&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201612%2F04%2F20161204102600_kr25d.thumb.700_0.jpeg">
-      <meta itemprop="name" content="LIU-YAOHUA">
-      <meta itemprop="description" content="欢迎您的到来！">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="刘耀华博客">
-    </span>
-      <header class="post-header">
-
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/10/rt-thread/" class="post-title-link" itemprop="url">rt-thread内核</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-01-10 15:20:20" itemprop="dateCreated datePublished" datetime="2020-01-10T15:20:20+08:00">2020-01-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-11 17:40:41" itemprop="dateModified" datetime="2020-01-11T17:40:41+08:00">2020-01-11</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
     
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="/2020/01/10/rt-thread/zz.jpg" alt></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/01/10/rt-thread/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://liu-yaohua.github.io/2020/01/08/test/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1578394974761&di=9d161c4fcd3d2a3644548c48ba5ce3ea&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201612%2F04%2F20161204102600_kr25d.thumb.700_0.jpeg">
-      <meta itemprop="name" content="LIU-YAOHUA">
-      <meta itemprop="description" content="欢迎您的到来！">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="刘耀华博客">
-    </span>
-      <header class="post-header">
-
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/08/test/" class="post-title-link" itemprop="url">test</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-01-08 21:15:47" itemprop="dateCreated datePublished" datetime="2020-01-08T21:15:47+08:00">2020-01-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-10 18:16:09" itemprop="dateModified" datetime="2020-01-10T18:16:09+08:00">2020-01-10</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="/2020/01/08/test/bg.jpg" alt></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/01/08/test/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://liu-yaohua.github.io/2020/01/08/exoskeleton1-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1578394974761&di=9d161c4fcd3d2a3644548c48ba5ce3ea&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201612%2F04%2F20161204102600_kr25d.thumb.700_0.jpeg">
-      <meta itemprop="name" content="LIU-YAOHUA">
-      <meta itemprop="description" content="欢迎您的到来！">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="刘耀华博客">
-    </span>
-      <header class="post-header">
-
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/08/exoskeleton1-1/" class="post-title-link" itemprop="url">外骨骼控制</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-01-08 00:00:00" itemprop="dateCreated datePublished" datetime="2020-01-08T00:00:00+08:00">2020-01-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-10 23:32:42" itemprop="dateModified" datetime="2020-01-10T23:32:42+08:00">2020-01-10</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%A4%96%E9%AA%A8%E9%AA%BC%E9%A1%B9%E7%9B%AE/" itemprop="url" rel="index">
-                    <span itemprop="name">外骨骼项目</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="/2020/01/08/exoskeleton1-1/yourname.jpg" alt></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/01/08/exoskeleton1-1/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
   </article>
   
   
@@ -582,12 +308,10 @@
 
   </div>
 
-  
-
-
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -634,6 +358,7 @@
    
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RT-Thread内核应用开发"><span class="nav-number">1.</span> <span class="nav-text">RT-Thread内核应用开发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RT-Thread文件夹简介"><span class="nav-number">1.0.1.</span> <span class="nav-text">RT-Thread文件夹简介</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#bsp文件夹"><span class="nav-number">1.0.1.1.</span> <span class="nav-text">bsp文件夹</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#components文件夹"><span class="nav-number">1.0.1.2.</span> <span class="nav-text">components文件夹</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#include文件夹"><span class="nav-number">1.0.1.3.</span> <span class="nav-text">include文件夹</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#libcpu文件夹"><span class="nav-number">1.0.1.4.</span> <span class="nav-text">libcpu文件夹</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#src文件夹"><span class="nav-number">1.0.1.5.</span> <span class="nav-text">src文件夹</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#keil工程结构"><span class="nav-number">1.0.1.6.</span> <span class="nav-text">keil工程结构</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -1085,11 +810,30 @@ if(canvas.getContext){
       quicklink({
         timeout: 3000,
         priority: true,
-        ignores: [uri => uri.includes('#'),uri => uri == 'https://liu-yaohua.github.io/',]
+        ignores: [uri => uri.includes('#'),uri => uri == 'https://liu-yaohua.github.io/2020/01/11/rt-thread2/',]
       });
       });
   </script>
 
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: 'e391efe8b33b1c05acae',
+      clientSecret: '3233e0ac874ede8ead02dc169e537a911568813d',
+      repo: 'comment',
+      owner: 'LIU-YAOHUA',
+      admin: ['LIU-YAOHUA'],
+      id: '20530c38aa2c12ab13e033a7e0d04d4d',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 
 <script type="text/javascript" color="0,0,255" opacity="0.7" zindex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
