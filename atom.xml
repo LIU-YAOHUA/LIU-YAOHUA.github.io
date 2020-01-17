@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://liu-yaohua.github.io/"/>
-  <updated>2020-01-16T07:59:32.456Z</updated>
+  <updated>2020-01-17T09:00:07.315Z</updated>
   <id>https://liu-yaohua.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>贴片封装尺寸和电容容值</title>
+    <link href="https://liu-yaohua.github.io/2020/01/17/%E8%B4%B4%E7%89%87%E5%B0%81%E8%A3%85%E5%B0%BA%E5%AF%B8/"/>
+    <id>https://liu-yaohua.github.io/2020/01/17/%E8%B4%B4%E7%89%87%E5%B0%81%E8%A3%85%E5%B0%BA%E5%AF%B8/</id>
+    <published>2020-01-17T08:51:41.000Z</published>
+    <updated>2020-01-17T09:00:07.315Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="smd贴片元件封闭尺寸"><a href="#smd贴片元件封闭尺寸" class="headerlink" title="smd贴片元件封闭尺寸"></a>smd贴片元件封闭尺寸</h2><p>公制：3216-2012-1608-1005-0603-0402</p><p>英制：1206-0805-0603-0402-0201-01005</p><h2 id="电容容值"><a href="#电容容值" class="headerlink" title="电容容值"></a>电容容值</h2><p><img src="/2020/01/17/%E8%B4%B4%E7%89%87%E5%B0%81%E8%A3%85%E5%B0%BA%E5%AF%B8/%E7%94%B5%E5%AE%B9%E5%AE%B9%E5%80%BC.jpg" alt></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;smd贴片元件封闭尺寸&quot;&gt;&lt;a href=&quot;#smd贴片元件封闭尺寸&quot; class=&quot;headerlink&quot; title=&quot;smd贴片元件封闭尺寸&quot;&gt;&lt;/a&gt;smd贴片元件封闭尺寸&lt;/h2&gt;&lt;p&gt;公制：3216-2012-1608-1005-0603-0402&lt;/
+      
+    
+    </summary>
+    
+    
+      <category term="贴片" scheme="https://liu-yaohua.github.io/categories/%E8%B4%B4%E7%89%87/"/>
+    
+    
+      <category term="pcb打样" scheme="https://liu-yaohua.github.io/tags/pcb%E6%89%93%E6%A0%B7/"/>
+    
+  </entry>
   
   <entry>
     <title>stm32_hal</title>
