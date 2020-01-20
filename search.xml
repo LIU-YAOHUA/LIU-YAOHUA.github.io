@@ -33,10 +33,8 @@
   <entry>
     <title>ble</title>
     <url>/2020/01/14/ble/</url>
-    <content><![CDATA[<a id="more"></a>
-
-<h1 id="nRF52832-BLE"><a href="#nRF52832-BLE" class="headerlink" title="nRF52832 BLE"></a>nRF52832 BLE</h1><p>随着物联网的发展，BLE蓝牙正在被广泛使用，几乎BLE配个安卓app已然成为现在物联网产品的标配，如小米手环，小米智能家居，小米电饭煲，更多的医疗产品。从技术角度看，与stm32嵌入式开发一般，并无大的区别，主要是加蓝牙协议，而不是单纯的单片机。NRF52832是我入门的第一款BLE蓝牙，所以我打算记录下我的学习过程。</p>
-<!--more-->
+    <content><![CDATA[<h1 id="nRF52832-BLE"><a href="#nRF52832-BLE" class="headerlink" title="nRF52832 BLE"></a>nRF52832 BLE</h1><p>随着物联网的发展，BLE蓝牙正在被广泛使用，几乎BLE配个安卓app已然成为现在物联网产品的标配，如小米手环，小米智能家居，小米电饭煲，更多的医疗产品。从技术角度看，与stm32嵌入式开发一般，并无大的区别，主要是加蓝牙协议，而不是单纯的单片机。NRF52832是我入门的第一款BLE蓝牙，所以我打算记录下我的学习过程。</p>
+<a id="more"></a>
 
 <h2 id="1-nRF52832芯片简介"><a href="#1-nRF52832芯片简介" class="headerlink" title="1.nRF52832芯片简介"></a>1.nRF52832芯片简介</h2><p>nRF52832芯片主要特点介绍。</p>
 <ul>
