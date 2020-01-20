@@ -56,8 +56,12 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://liu-yaohua.github.io/2020/01/14/ble/NRF52832_%E8%8A%AF%E7%89%87%E5%8A%9F%E8%83%BD%E6%A1%86%E5%9B%BE.png">
 <meta property="og:image" content="https://liu-yaohua.github.io/2020/01/14/ble/project_structure.jpg">
+<meta property="og:image" content="https://liu-yaohua.github.io/2020/01/14/ble/nrf52xx%E7%BC%96%E7%A8%8B%E7%AE%97%E6%B3%95.jpg">
+<meta property="og:image" content="https://liu-yaohua.github.io/2020/01/14/ble/%E8%A3%B8%E6%9C%BA%E7%A8%8B%E5%BA%8F%E4%B8%8B%E8%BD%BD%E6%B5%81%E7%A8%8B.jpg">
+<meta property="og:image" content="https://liu-yaohua.github.io/2020/01/14/ble/BLE%E7%A8%8B%E5%BA%8F%E4%B8%8B%E8%BD%BD%E6%B5%81%E7%A8%8B.jpg">
+<meta property="og:image" content="https://liu-yaohua.github.io/2020/01/14/ble/%E5%85%A8%E7%89%87%E6%93%A6%E9%99%A4%E7%AE%97%E6%B3%95.jpg">
 <meta property="article:published_time" content="2020-01-14T10:01:12.000Z">
-<meta property="article:modified_time" content="2020-01-16T13:41:01.388Z">
+<meta property="article:modified_time" content="2020-01-20T04:26:27.827Z">
 <meta property="article:author" content="LIU-YAOHUA">
 <meta property="article:tag" content="ble">
 <meta name="twitter:card" content="summary">
@@ -242,7 +246,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-16 21:41:01" itemprop="dateModified" datetime="2020-01-16T21:41:01+08:00">2020-01-16</time>
+                <time title="修改时间：2020-01-20 12:26:27" itemprop="dateModified" datetime="2020-01-20T12:26:27+08:00">2020-01-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -307,6 +311,23 @@
 <h2 id="3-驱动led指示灯闪烁"><a href="#3-驱动led指示灯闪烁" class="headerlink" title="3.驱动led指示灯闪烁"></a>3.驱动led指示灯闪烁</h2><p>代码相比于stm32要简单一些，更像arduino,直接贴出：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdbool.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"nrf_delay.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"boards.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//配置用于驱动LED指示灯D1的引脚P0.17为输出</span></span><br><span class="line">    nrf_gpio_cfg_output(LED_1);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//P0.17输出高电平，D1熄灭</span></span><br><span class="line">        nrf_gpio_pin_set(LED_1);</span><br><span class="line">        <span class="comment">//软件延时200ms</span></span><br><span class="line">        nrf_delay_ms(<span class="number">200</span>);</span><br><span class="line">        <span class="comment">//P0.17输出低电平，D1点亮</span></span><br><span class="line">        nrf_gpio_pin_clear(LED_1);</span><br><span class="line">        <span class="comment">//软件延时200ms</span></span><br><span class="line">        nrf_delay_(<span class="number">200</span>);</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h2 id="4-BLE程序"><a href="#4-BLE程序" class="headerlink" title="4.BLE程序"></a>4.BLE程序</h2><h4 id="BLE包含两个部分：softdevice-application"><a href="#BLE包含两个部分：softdevice-application" class="headerlink" title="BLE包含两个部分：softdevice+application"></a>BLE包含两个部分：softdevice+application</h4><ol>
+<li>softdevice:是蓝牙低功耗中心设备和外围设备协议栈解决方案，softdevice以hex文件提供，源码不对外公开，softdevice提供了api供用户调用，支持最多同时运行20个连接。</li>
+<li>application：nordic提供的库和用户编写的程序。</li>
+</ol>
+<h3 id="BLE程序下载"><a href="#BLE程序下载" class="headerlink" title="BLE程序下载"></a>BLE程序下载</h3><p>下载softdevice的hex文件+应用程序编译后生成的目标文件</p>
+<h3 id="裸机程序"><a href="#裸机程序" class="headerlink" title="裸机程序"></a>裸机程序</h3><ol>
+<li>程序结构：只有nordic的库和用户自己编写的程序</li>
+<li>程序下载：只需下载应用程序</li>
+</ol>
+<h3 id="nrf52xxx编程算法"><a href="#nrf52xxx编程算法" class="headerlink" title="nrf52xxx编程算法"></a>nrf52xxx编程算法</h3><p><img src="/2020/01/14/ble/nrf52xx%E7%BC%96%E7%A8%8B%E7%AE%97%E6%B3%95.jpg" alt="nrf52xx编程算法"></p>
+<h3 id="裸机程序下载流程"><a href="#裸机程序下载流程" class="headerlink" title="裸机程序下载流程"></a>裸机程序下载流程</h3><p><img src="/2020/01/14/ble/%E8%A3%B8%E6%9C%BA%E7%A8%8B%E5%BA%8F%E4%B8%8B%E8%BD%BD%E6%B5%81%E7%A8%8B.jpg" alt="裸机程序下载流程"></p>
+<h3 id="BLE程序下载流程"><a href="#BLE程序下载流程" class="headerlink" title="BLE程序下载流程"></a>BLE程序下载流程</h3><p><img src="/2020/01/14/ble/BLE%E7%A8%8B%E5%BA%8F%E4%B8%8B%E8%BD%BD%E6%B5%81%E7%A8%8B.jpg" alt="BLE程序下载流程"></p>
+<h3 id="全片擦除芯片"><a href="#全片擦除芯片" class="headerlink" title="全片擦除芯片"></a>全片擦除芯片</h3><p>只有使用协议栈下载的编程算法才可以实现全片擦除，下载应用程序的编程算法是无法进行全片擦除的</p>
+<p>编程算法设置为协议栈编程算法</p>
+<p><img src="/2020/01/14/ble/%E5%85%A8%E7%89%87%E6%93%A6%E9%99%A4%E7%AE%97%E6%B3%95.jpg" alt="全片擦除算法"></p>
+<p>执行flash-&gt;earse</p>
+<p>如果在裸机程序中执行了全片擦除，擦除完成后，再将编程算法改成应用程序的编程算法。</p>
 
     </div>
 
@@ -392,7 +413,7 @@
    
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#nRF52832-BLE"><span class="nav-number">1.</span> <span class="nav-text">nRF52832 BLE</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-nRF52832芯片简介"><span class="nav-number">1.1.</span> <span class="nav-text">1.nRF52832芯片简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-新建工程"><span class="nav-number">1.2.</span> <span class="nav-text">2.新建工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-驱动led指示灯闪烁"><span class="nav-number">1.3.</span> <span class="nav-text">3.驱动led指示灯闪烁</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#nRF52832-BLE"><span class="nav-number">1.</span> <span class="nav-text">nRF52832 BLE</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-nRF52832芯片简介"><span class="nav-number">1.1.</span> <span class="nav-text">1.nRF52832芯片简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-新建工程"><span class="nav-number">1.2.</span> <span class="nav-text">2.新建工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-驱动led指示灯闪烁"><span class="nav-number">1.3.</span> <span class="nav-text">3.驱动led指示灯闪烁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-BLE程序"><span class="nav-number">1.4.</span> <span class="nav-text">4.BLE程序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#BLE包含两个部分：softdevice-application"><span class="nav-number">1.4.0.1.</span> <span class="nav-text">BLE包含两个部分：softdevice+application</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BLE程序下载"><span class="nav-number">1.4.1.</span> <span class="nav-text">BLE程序下载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#裸机程序"><span class="nav-number">1.4.2.</span> <span class="nav-text">裸机程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nrf52xxx编程算法"><span class="nav-number">1.4.3.</span> <span class="nav-text">nrf52xxx编程算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#裸机程序下载流程"><span class="nav-number">1.4.4.</span> <span class="nav-text">裸机程序下载流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BLE程序下载流程"><span class="nav-number">1.4.5.</span> <span class="nav-text">BLE程序下载流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全片擦除芯片"><span class="nav-number">1.4.6.</span> <span class="nav-text">全片擦除芯片</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -745,7 +766,7 @@ if(canvas.getContext){
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共10.2k字</span>
+  <span class="post-count">博客全站共10.8k字</span>
 </div>
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
