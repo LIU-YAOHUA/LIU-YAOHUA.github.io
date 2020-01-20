@@ -36,6 +36,8 @@
     <content><![CDATA[<a id="more"></a>
 
 <h1 id="nRF52832-BLE"><a href="#nRF52832-BLE" class="headerlink" title="nRF52832 BLE"></a>nRF52832 BLE</h1><p>随着物联网的发展，BLE蓝牙正在被广泛使用，几乎BLE配个安卓app已然成为现在物联网产品的标配，如小米手环，小米智能家居，小米电饭煲，更多的医疗产品。从技术角度看，与stm32嵌入式开发一般，并无大的区别，主要是加蓝牙协议，而不是单纯的单片机。NRF52832是我入门的第一款BLE蓝牙，所以我打算记录下我的学习过程。</p>
+<!--more-->
+
 <h2 id="1-nRF52832芯片简介"><a href="#1-nRF52832芯片简介" class="headerlink" title="1.nRF52832芯片简介"></a>1.nRF52832芯片简介</h2><p>nRF52832芯片主要特点介绍。</p>
 <ul>
 <li>2.4GHz radio，支持多种无线协议，例如BLE，ANT等。</li>
@@ -95,6 +97,8 @@
     <title>java</title>
     <url>/2020/01/14/java/</url>
     <content><![CDATA[<h1 id="java入门"><a href="#java入门" class="headerlink" title="java入门"></a>java入门</h1><h2 id="java的诞生"><a href="#java的诞生" class="headerlink" title="java的诞生"></a>java的诞生</h2><p>java语言相对于其他语言的最大优势就是所谓的平台无关性，即跨平台。无论哪种编程语言编写的应用程序都需要经过操作系统和处理器来完成程序运行，因此这里指的平台是由操作系统（OS）和处理器（CPU）所构成。与平台无关是指软件的运行不因操作系统、处理器的变化导致发生无法运行或者出现运行错误。平台最终识别并且执行的是一种由0和1组成的序列代码，我们称之为机器指令。相同的cpu和不同的操作系统所形成的平台的机器指令可能也不是相同的。</p>
+<a id="more"></a>
+
 <p>java之所以能与平台无关是因为java可以在平台之上再提供一个java运行环境，该java运行环境是由java虚拟机、类库以及一些核心文件组成。java虚拟机的核心是所谓的字节码指令，即可以被java虚拟机直接识别、执行的一种由0和1组成的序列代码。字节码并不是机器指令，因为它不和特定的平台相关，不能被任何平台直接识别和执行。java针对不同平台提供的java虚拟机的字节码指令都 是相同的。</p>
 <h2 id="java环境安装"><a href="#java环境安装" class="headerlink" title="java环境安装"></a>java环境安装</h2><p>百度搜索java jdk下载安装，注意不是jre，然后配置环境变量。</p>
 <p>安装完成后，在bin目录下，javac是编译器，java是解析器</p>
