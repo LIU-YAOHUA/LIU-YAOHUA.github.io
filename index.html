@@ -204,6 +204,166 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://liu-yaohua.github.io/2020/03/05/stm32-8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1578394974761&di=9d161c4fcd3d2a3644548c48ba5ce3ea&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201612%2F04%2F20161204102600_kr25d.thumb.700_0.jpeg">
+      <meta itemprop="name" content="LIU-YAOHUA">
+      <meta itemprop="description" content="欢迎您的到来！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="刘耀华博客">
+    </span>
+      <header class="post-header">
+
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/03/05/stm32-8/" class="post-title-link" itemprop="url">【STM32基础教程08】STM32的ADC开发基础</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-03-05 15:59:29 / 修改时间：16:05:36" itemprop="dateCreated datePublished" datetime="2020-03-05T15:59:29+08:00">2020-03-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/stm32/" itemprop="url" rel="index">
+                    <span itemprop="name">stm32</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="STM32的ADC资源概述"><a href="#STM32的ADC资源概述" class="headerlink" title="STM32的ADC资源概述"></a><strong>STM32的ADC资源概述</strong></h2><p><img src="/2020/03/05/stm32-8/stm32-8%5C%E5%A3%81%E7%BA%B81.jpg" alt></p>
+<p>STM32F103ZE芯片（144脚）中有<strong>ADC1</strong>、<strong>ADC2</strong>、<strong>ADC3</strong>共3个<strong>12位逐次逼近型</strong>模数转换器，具有18个测量通道，可测量<strong>16个外部</strong>和<strong>2个内部</strong>信号源（内部温度和内部参考电压）。这2个内部信号源只能连接到<strong>ADC1</strong>。<br>ADC的各个通道的A/D转换可以<strong>单次</strong>、<strong>连续</strong>、<strong>扫描</strong>或<strong>间断</strong>模式执行。<br>A/D转换结果以<strong>左对齐</strong>或<strong>右对齐</strong>的方式，存储在<strong>16位</strong>规则组或者注入组数据寄存器中。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/03/05/stm32-8/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://liu-yaohua.github.io/2020/03/05/stm32-7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1578394974761&di=9d161c4fcd3d2a3644548c48ba5ce3ea&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201612%2F04%2F20161204102600_kr25d.thumb.700_0.jpeg">
+      <meta itemprop="name" content="LIU-YAOHUA">
+      <meta itemprop="description" content="欢迎您的到来！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="刘耀华博客">
+    </span>
+      <header class="post-header">
+
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/03/05/stm32-7/" class="post-title-link" itemprop="url">【STM32基础教程07】ADC模数转换器的基本工作原理</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-03-05 15:21:59 / 修改时间：16:06:05" itemprop="dateCreated datePublished" datetime="2020-03-05T15:21:59+08:00">2020-03-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/stm32/" itemprop="url" rel="index">
+                    <span itemprop="name">stm32</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="模数转换器-ADC-概述"><a href="#模数转换器-ADC-概述" class="headerlink" title="模数转换器(ADC)概述"></a><strong>模数转换器(ADC)概述</strong></h2><p><strong>ADC</strong>：<strong>A</strong>nalog-to-<strong>D</strong>igital <strong>C</strong>onverter<br>将时间和幅值连续的<strong>模拟量</strong>转化为时间和幅值离散的<strong>数字量</strong>，A/D转换一般要经过<strong>采样</strong>、<strong>保持</strong>、<strong>量化</strong>和<strong>编码</strong>4个过程。<br>常用ADC：<strong>逐次逼近型</strong>、双积分型、∑-Δ型。</p>
+<p><img src="/2020/03/05/stm32-7/stm32-7%5CADC%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84.png" alt></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/03/05/stm32-7/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://liu-yaohua.github.io/2020/03/05/stm32-6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -835,164 +995,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://liu-yaohua.github.io/2020/02/15/c-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1578394974761&di=9d161c4fcd3d2a3644548c48ba5ce3ea&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201612%2F04%2F20161204102600_kr25d.thumb.700_0.jpeg">
-      <meta itemprop="name" content="LIU-YAOHUA">
-      <meta itemprop="description" content="欢迎您的到来！">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="刘耀华博客">
-    </span>
-      <header class="post-header">
-
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/02/15/c-1/" class="post-title-link" itemprop="url">通讯录管理系统</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-02-15 14:02:59 / 修改时间：14:08:39" itemprop="dateCreated datePublished" datetime="2020-02-15T14:02:59+08:00">2020-02-15</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/c/" itemprop="url" rel="index">
-                    <span itemprop="name">c++</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="通讯录管理系统"><a href="#通讯录管理系统" class="headerlink" title="通讯录管理系统"></a>通讯录管理系统</h1>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/02/15/c-1/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://liu-yaohua.github.io/2020/02/15/c-0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1578394974761&di=9d161c4fcd3d2a3644548c48ba5ce3ea&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201612%2F04%2F20161204102600_kr25d.thumb.700_0.jpeg">
-      <meta itemprop="name" content="LIU-YAOHUA">
-      <meta itemprop="description" content="欢迎您的到来！">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="刘耀华博客">
-    </span>
-      <header class="post-header">
-
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/02/15/c-0/" class="post-title-link" itemprop="url">c++基础入门</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-02-15 11:51:33 / 修改时间：12:08:02" itemprop="dateCreated datePublished" datetime="2020-02-15T11:51:33+08:00">2020-02-15</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/c/" itemprop="url" rel="index">
-                    <span itemprop="name">c++</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="C-基础入门"><a href="#C-基础入门" class="headerlink" title="C++基础入门"></a>C++基础入门</h1>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/02/15/c-0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1073,7 +1075,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1402,7 +1404,7 @@ if(canvas.getContext){
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共77.3k字</span>
+  <span class="post-count">博客全站共78.9k字</span>
 </div>
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
