@@ -4,6 +4,8 @@
     <title>【STM32基础教程06】STM32的定时器与串口综合训练</title>
     <url>/2020/03/05/stm32-6/</url>
     <content><![CDATA[<h2 id="关于sprintf-函数的用法"><a href="#关于sprintf-函数的用法" class="headerlink" title="关于sprintf()函数的用法"></a><strong>关于sprintf()函数的用法</strong></h2><p>sprintf()，指的是字符串格式化函数，把格式化的数据写入某个字符串中。<br><strong>int sprintf(char *string, char *format [,argument,…]);</strong></p>
+<a id="more"></a>
+
 <p>引入头文件 #include “<strong>stdio.h</strong>“</p>
 <p><strong>【例】</strong>：有一个表示温度的整型变量tmp，现在要将其格式化为字符串“温度是：XX摄氏度”，并将其通过串口1发送出去。</p>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdio.h"</span></span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">uint8_t</span> Str_buff[<span class="number">64</span>];   </span><br><span class="line"><span class="built_in">sprintf</span>((<span class="keyword">char</span>*)Str_buff, <span class="string">"温度是: %d摄氏度"</span>, tmp);    </span><br><span class="line">HAL_UART_Transmit(&amp;huart1, Str_buff, <span class="keyword">sizeof</span>(Str_buff), <span class="number">0xFFFF</span>);</span><br></pre></td></tr></table></figure>
