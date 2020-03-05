@@ -47,21 +47,20 @@
   };
 </script>
 
-  <meta property="og:type" content="article">
-<meta property="og:title" content="re-thread2">
-<meta property="og:url" content="https://liu-yaohua.github.io/2020/01/11/rt-thread2/index.html">
+  <meta name="description" content="串行接口相关知识点并行通信、串行通信的概念。单工、半双工、全双工的概念。异步串行通信：通信双方在没有同步时钟的前提下，将一个字符（包括特定的附加位）按位进行传输的通信方式。波特率：每秒钟传输的二进制位数，如9600bps。TTL电平&lt;—-&gt;RS232：MAX3232 SP3232串口&lt;———&gt;USB接口：CH340 CP2012 STM32芯片的串口UASRT功能十分强大，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【STM32基础教程05】STM32的串口数据收发基础">
+<meta property="og:url" content="https://liu-yaohua.github.io/2020/03/05/stm32-5/index.html">
 <meta property="og:site_name" content="刘耀华博客">
+<meta property="og:description" content="串行接口相关知识点并行通信、串行通信的概念。单工、半双工、全双工的概念。异步串行通信：通信双方在没有同步时钟的前提下，将一个字符（包括特定的附加位）按位进行传输的通信方式。波特率：每秒钟传输的二进制位数，如9600bps。TTL电平&lt;—-&gt;RS232：MAX3232 SP3232串口&lt;———&gt;USB接口：CH340 CP2012 STM32芯片的串口UASRT功能十分强大，">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://liu-yaohua.github.io/2020/01/11/rt-thread2/head.jpg">
-<meta property="og:image" content="https://liu-yaohua.github.io/2020/01/11/rt-thread2/keil.jpg">
-<meta property="article:published_time" content="2020-01-11T09:41:24.000Z">
-<meta property="article:modified_time" content="2020-01-11T14:34:44.666Z">
+<meta property="article:published_time" content="2020-03-05T02:17:51.000Z">
+<meta property="article:modified_time" content="2020-03-05T02:36:59.018Z">
 <meta property="article:author" content="LIU-YAOHUA">
-<meta property="article:tag" content="learning">
+<meta property="article:tag" content="stm32">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://liu-yaohua.github.io/2020/01/11/rt-thread2/head.jpg">
 
-<link rel="canonical" href="https://liu-yaohua.github.io/2020/01/11/rt-thread2/">
+<link rel="canonical" href="https://liu-yaohua.github.io/2020/03/05/stm32-5/">
 
 
 <script id="page-configurations">
@@ -73,7 +72,7 @@
   };
 </script>
 
-  <title>re-thread2 | 刘耀华博客</title>
+  <title>【STM32基础教程05】STM32的串口数据收发基础 | 刘耀华博客</title>
   
 
 
@@ -208,7 +207,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://liu-yaohua.github.io/2020/01/11/rt-thread2/">
+    <link itemprop="mainEntityOfPage" href="https://liu-yaohua.github.io/2020/03/05/stm32-5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1578394974761&di=9d161c4fcd3d2a3644548c48ba5ce3ea&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201612%2F04%2F20161204102600_kr25d.thumb.700_0.jpeg">
@@ -223,7 +222,7 @@
 
       
         <h1 class="post-title" itemprop="name headline">
-          re-thread2
+          【STM32基础教程05】STM32的串口数据收发基础
         </h1>
 
         <div class="post-meta">
@@ -234,7 +233,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-01-11 17:41:24 / 修改时间：22:34:44" itemprop="dateCreated datePublished" datetime="2020-01-11T17:41:24+08:00">2020-01-11</time>
+              <time title="创建时间：2020-03-05 10:17:51 / 修改时间：10:36:59" itemprop="dateCreated datePublished" datetime="2020-03-05T10:17:51+08:00">2020-03-05</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -242,8 +241,8 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/rt-thread/" itemprop="url" rel="index">
-                    <span itemprop="name">rt-thread</span>
+                  <a href="/categories/stm32/" itemprop="url" rel="index">
+                    <span itemprop="name">stm32</span>
                   </a>
                 </span>
             </span>
@@ -266,16 +265,25 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img src="/2020/01/11/rt-thread2/head.jpg" alt></p>
+        <h2 id="串行接口相关知识点"><a href="#串行接口相关知识点" class="headerlink" title="串行接口相关知识点"></a><strong>串行接口相关知识点</strong></h2><p>并行通信、串行通信的概念。<br>单工、半双工、全双工的概念。<br><strong>异步串行通信</strong>：通信双方在没有同步时钟的前提下，将一个字符（包括特定的附加位）按位进行传输的通信方式。<br><strong>波特率</strong>：每秒钟传输的二进制位数，如9600bps。<br><strong>TTL电平&lt;—-&gt;RS232</strong>：MAX3232 SP3232<br><strong>串口&lt;———&gt;USB接口</strong>：CH340 CP2012</p>
+<p>STM32芯片的串口UASRT功能十分强大，但对于日常编程而言，使用最多的还是异步串行通信。<br>串口1：USART1_<strong>TX</strong>与<strong>PA9</strong>复用，USART1_<strong>RX</strong>与<strong>PA10</strong>复用。<br>串口2：USART2_<strong>TX</strong>与<strong>PA2</strong>复用，USART2_<strong>RX</strong>与<strong>PA3</strong>复用。</p>
 <a id="more"></a>
 
-<h1 id="RT-Thread内核应用开发"><a href="#RT-Thread内核应用开发" class="headerlink" title="RT-Thread内核应用开发"></a>RT-Thread内核应用开发</h1><h3 id="RT-Thread文件夹简介"><a href="#RT-Thread文件夹简介" class="headerlink" title="RT-Thread文件夹简介"></a>RT-Thread文件夹简介</h3><h4 id="bsp文件夹"><a href="#bsp文件夹" class="headerlink" title="bsp文件夹"></a>bsp文件夹</h4><p>bsp 文件夹里面存放的是板级支持包，即board support package 的英文缩写，也就是相应开发板的驱动程序。bsp 文件夹下面的board.c这是RT-Thread 用来初始化开发板硬件的相关函数。rtconfig.h 是RT-Thread 功能的配置头文件，里面定义了很多宏，通过这些宏定义，我们可以裁剪RT-Thread 的功能。用户在使用RT-Thread 的时候，用户只需要修改board.c 和rtconfig.h 这两个文件的内容即可，其它文件我们不需要改动。如果为了减小工程的大小，bsp 文件夹下面除了board.c 和rtconfig.h这两个文件要保留外，其它的统统可以删除。</p>
-<h4 id="components文件夹"><a href="#components文件夹" class="headerlink" title="components文件夹"></a>components文件夹</h4><p>在RT-Thread 看来，除了内核，其它第三方加进来的软件都是组件，比如gui、fatfs、lwip 和finsh 等，那么这些组件就放在components 这个文件夹内。finsh 是RT-Thread 组件里面最具特色的，它通过串口打印的方式来输出各种信息，方便我们调试程序。</p>
-<h4 id="include文件夹"><a href="#include文件夹" class="headerlink" title="include文件夹"></a>include文件夹</h4><p>include 目录下面存放的是RT-Thread 内核的头文件，是内核不可分割的一部分。</p>
-<h4 id="libcpu文件夹"><a href="#libcpu文件夹" class="headerlink" title="libcpu文件夹"></a>libcpu文件夹</h4><p>RT-Thread 是一个软件，单片机是一个硬件，RT-Thread 要想运行在一个单片机上面，它们就必须关联在一起，那么怎么关联？还是得通过写代码来关联，这部分关联的文件叫接口文件，通常由汇编和C 联合编写。这些接口文件都是跟硬件密切相关的，不同的硬件接口文件是不一样的，但都大同小异。编写这些接口文件的过程我们就叫移植，移植的过程通常由RT-Thread 和mcu 原厂的人来负责，移植好的这些接口文件就放在libcpu 这个文件夹的目录下。RT-Thread nano 目前在libcpu 目录下只放了cortex-m0、m3、m4 和m7 内核的单片机的接口文件，只要是使用了这些内核的mcu 都可以使用里面的接口文件。通常网络上出现的叫“移植某某某RTOS 到某某某MCU”的教程，其实准确来说，不能够叫移植，应该叫使用官方的移植，因为这些跟硬件相关的接口文件，RTOS 官方都已经写好了，我们只是使用而已。</p>
-<h4 id="src文件夹"><a href="#src文件夹" class="headerlink" title="src文件夹"></a>src文件夹</h4><p>src 目录下面存放的是RT-Thread 内核的源文件，是内核的核心。</p>
-<h4 id="keil工程结构"><a href="#keil工程结构" class="headerlink" title="keil工程结构"></a>keil工程结构</h4><p>在开发环境里面新建rtt/source 和rtt/ports 两个组文件夹，其中rtt/source 用于存放src 文件夹的内容，rtt/ports 用于存放libcpu/arm/cortex-m？文件夹的内容，“？”表示3、4 或者7。bsp 里面的rtconfig.h 和board.c 添加到user 组文件夹下，其中rtconfig.h 用于配置RTThread的功能，board.c 用于存放硬件相关的初始化函数。</p>
-<p><img src="/2020/01/11/rt-thread2/keil.jpg" alt></p>
+<h2 id="HAL库中串口发送的重要函数"><a href="#HAL库中串口发送的重要函数" class="headerlink" title="HAL库中串口发送的重要函数"></a><strong>HAL库中串口发送的重要函数</strong></h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">////查询方式，阻塞式发送函数（初学者，推荐使用）   </span></span><br><span class="line"><span class="function">HAL_StatusTypeDef  <span class="title">HAL_UART_Transmit</span><span class="params">(UART_HandleTypeDef *huart,<span class="keyword">uint8_t</span> *pData,<span class="keyword">uint16_t</span> Size, <span class="keyword">uint32_t</span> Timeout)</span></span>;</span><br><span class="line"></span><br><span class="line">参数<span class="number">1</span>：huart，串口实例的指针。</span><br><span class="line">参数<span class="number">2</span>：*pData，待发送数据缓冲区的指针。</span><br><span class="line">参数<span class="number">3</span>：Size，待发送数据的字节数。</span><br><span class="line">参数<span class="number">4</span>：Timeout，超时时间值。</span><br><span class="line">返回值：HAL_StatusTypeDef，函数执行状态。</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">enum</span></span><br><span class="line">&#123;</span><br><span class="line">  HAL_OK       = <span class="number">0x00</span>U,</span><br><span class="line">  HAL_ERROR    = <span class="number">0x01</span>U,</span><br><span class="line">  HAL_BUSY     = <span class="number">0x02</span>U,</span><br><span class="line">  HAL_TIMEOUT  = <span class="number">0x03</span>U</span><br><span class="line">&#125; HAL_StatusTypeDef;</span><br><span class="line"></span><br><span class="line"><span class="comment">////中断方式，非阻塞式发送函数</span></span><br><span class="line"><span class="function">HAL_StatusTypeDef  <span class="title">HAL_UART_Transmit_IT</span><span class="params">(UART_HandleTypeDef *huart,<span class="keyword">uint8_t</span> *pData, <span class="keyword">uint16_t</span> Size)</span></span>;</span><br><span class="line">参数<span class="number">1</span>：huart，串口实例的指针。</span><br><span class="line">参数<span class="number">2</span>：*pData，待发送数据缓冲区的指针。</span><br><span class="line">参数<span class="number">3</span>：Size，待发送数据的字节数。</span><br><span class="line">返回值：HAL_StatusTypeDef，函数执行状态。</span><br><span class="line"></span><br><span class="line"><span class="comment">////串口发送完毕中断回调函数  </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">HAL_UART_TxCpltCallback</span><span class="params">(UART_HandleTypeDef  *huart)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">HAL_UART_TxHalfCpltCallback</span><span class="params">(UART_HandleTypeDef  *huart)</span></span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">应用举例：使用非阻塞式的串口发送函数，将发送缓数组dat_Txd中的前<span class="number">5</span>个数据发送到USART1，在数据发送完成后，翻转PB9引脚的输出电平。   </span><br><span class="line"><span class="comment">//使用中断，非阻塞方式 </span></span><br><span class="line">HAL_UART_Transmit_IT(&amp;huart1,  dat_Txd, <span class="number">5</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">HAL_UART_TxCpltCallback</span><span class="params">(UART_HandleTypeDef  *huart)</span> </span></span><br><span class="line"><span class="function"></span>&#123;         </span><br><span class="line">    <span class="keyword">if</span>(huart-&gt;Instance == USART1);         </span><br><span class="line">    &#123;             </span><br><span class="line">        HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_9);    </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"><span class="comment">//使用查询，阻塞方式 </span></span><br><span class="line">HAL_UART_Transmit(&amp;huart1,  dat_Txd, <span class="number">5</span>, <span class="number">10000</span>);</span><br><span class="line">HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_9);</span><br></pre></td></tr></table></figure>
+
+<h2 id="HAL库中串口接收的重要函数"><a href="#HAL库中串口接收的重要函数" class="headerlink" title="HAL库中串口接收的重要函数"></a><strong>HAL库中串口接收的重要函数</strong></h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">////查询方式，阻塞式接收函数</span></span><br><span class="line">     </span><br><span class="line"><span class="function">HAL_StatusTypeDef  <span class="title">HAL_UART_Receive</span><span class="params">(UART_HandleTypeDef *huart, <span class="keyword">uint8_t</span> *pData,  <span class="keyword">uint16_t</span> Size, <span class="keyword">uint32_t</span> Timeout)</span></span>;</span><br><span class="line">参数<span class="number">1</span>：huart，串口实例的指针。</span><br><span class="line">参数<span class="number">2</span>：*pData，数据接收据缓冲区的指针。</span><br><span class="line">参数<span class="number">3</span>：Size，待接收数据的字节数。</span><br><span class="line">参数<span class="number">4</span>：Timeout，超时时间值。</span><br><span class="line">返回值：HAL_StatusTypeDef，函数执行状态。</span><br><span class="line"></span><br><span class="line">非阻塞式接收函数（推荐使用）</span><br><span class="line"><span class="function">HAL_StatusTypeDef  <span class="title">HAL_UART_Receive_IT</span><span class="params">(UART_HandleTypeDef *huart,<span class="keyword">uint8_t</span> *pData,<span class="keyword">uint16_t</span> Size)</span></span>;</span><br><span class="line">参数<span class="number">1</span>：huart，串口实例的指针。</span><br><span class="line">参数<span class="number">2</span>：*pData，数据接收据缓冲区的指针。</span><br><span class="line">参数<span class="number">3</span>：Size，待接收数据的字节数。</span><br><span class="line">返回值：HAL_StatusTypeDef，函数执行状态。</span><br><span class="line"></span><br><span class="line"><span class="comment">////串口接收完毕中断回调函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">HAL_UART_RxCpltCallback</span><span class="params">(UART_HandleTypeDef  *huart)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">HAL_UART_RxHalfCpltCallback</span><span class="params">(UART_HandleTypeDef  *huart)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">应用举例：使用非阻塞式的串口接收函数，接收USART1中的一个字节，将其保存在dat_Rxd变量中，在数据接收完成后，判断该字节，若为<span class="number">0x5A</span>，则翻转PB8引脚的输出电平。</span><br><span class="line"><span class="comment">//使用中断，非阻塞方式</span></span><br><span class="line">HAL_UART_Transmit_IT(&amp;huart1,  &amp;dat_Rxd, <span class="number">1</span>);</span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">HAL_UART_RxCpltCallback</span><span class="params">(UART_HandleTypeDef  *huart)</span>    </span></span><br><span class="line"><span class="function"></span>&#123;        </span><br><span class="line">    <span class="keyword">if</span>(huart-&gt;Instance == USART1)    </span><br><span class="line">    &#123;       </span><br><span class="line">        <span class="keyword">if</span>(dat_Rxd == <span class="number">0x5A</span>)      </span><br><span class="line">            HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_8);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="实训案例：上位机通过串口控制LED灯开关"><a href="#实训案例：上位机通过串口控制LED灯开关" class="headerlink" title="实训案例：上位机通过串口控制LED灯开关"></a><strong>实训案例：上位机通过串口控制LED灯开关</strong></h2><p>在<strong>XMF07A</strong>或<strong>XMF07C</strong>开发板上，利用<strong>STM32CubeMX</strong>和<strong>Keil5</strong>协同开发，完成以下的功能：<br>【1】开机后，向串口1发送“<strong>hello world！</strong>”。<br>【2】串口1收到字节指令“<strong>0xA1</strong>”，打开<strong>LED1</strong>，发送<strong>“LED1 Open！</strong>”。<br>【3】串口1收到字节指令“<strong>0xA2</strong>”，关闭<strong>LED1</strong>，发送“<strong>LED1 Closed！</strong>”。<br>【4】在串口发送过程中，打开<strong>LED2</strong>作为发<strong>送数据指示灯</strong>。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LED1_ON() HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_SET)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LED1_OFF() HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_RESET)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LED2_ON() HAL_GPIO_WritePin(GPIOB,GPIO_PIN_8,GPIO_PIN_SET)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LED2_OFF() HAL_GPIO_WritePin(GPIOB,GPIO_PIN_8,GPIO_PIN_RESET)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">uint8_t</span> Tx_str1[] = <span class="string">"hello world!\r\n"</span>;</span><br><span class="line"><span class="keyword">uint8_t</span> Tx_str2[] = <span class="string">"LED1 Open!\r\n"</span>;</span><br><span class="line"><span class="keyword">uint8_t</span> Tx_str3[] = <span class="string">"LED1 Closed!\r\n"</span>;</span><br><span class="line"><span class="keyword">uint8_t</span> Rx_dat = <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">HAL_UART_RxCpltCallback</span><span class="params">(UART_HandleTypeDef *huart)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(huart-&gt;Instance == USART1)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(Rx_dat == <span class="number">0xa1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            LED1_ON();</span><br><span class="line">			</span><br><span class="line">            LED2_ON();</span><br><span class="line">	    HAL_UART_Transmit(&amp;huart1,Tx_str2,<span class="keyword">sizeof</span>(Tx_str2),<span class="number">10000</span>);</span><br><span class="line">	    LED2_OFF();</span><br><span class="line">	    HAL_UART_Receive_IT(&amp;huart1,&amp;Rx_dat,<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(Rx_dat == <span class="number">0xa2</span>)</span><br><span class="line">        &#123;</span><br><span class="line">	    LED1_OFF();</span><br><span class="line">			</span><br><span class="line">	    LED2_ON();</span><br><span class="line">	    HAL_UART_Transmit(&amp;huart1,Tx_str3,<span class="keyword">sizeof</span>(Tx_str3),<span class="number">10000</span>);</span><br><span class="line">	    LED2_OFF();</span><br><span class="line">	    HAL_UART_Receive_IT(&amp;huart1,&amp;Rx_dat,<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在mian()函数中添加以下代码：</span></span><br><span class="line">LED2_ON();</span><br><span class="line">HAL_UART_Transmit(&amp;huart1,Tx_str1,<span class="keyword">sizeof</span>(Tx_str1),<span class="number">10000</span>);    <span class="comment">//向上位机发送“hello world!”</span></span><br><span class="line">LED2_OFF();</span><br><span class="line">HAL_UART_Receive_IT(&amp;huart1,&amp;Rx_dat,<span class="number">1</span>);                      <span class="comment">//启动串口1接收上位机1个字节</span></span><br></pre></td></tr></table></figure>
+
 
     </div>
 
@@ -285,7 +293,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/learning/" rel="tag"># learning</a>
+              <a href="/tags/stm32/" rel="tag"># stm32</a>
           </div>
 
         
@@ -294,12 +302,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/01/10/hello/" rel="prev" title="hello">
-      <i class="fa fa-chevron-left"></i> hello
+    <a href="/2020/03/04/stm32-4/" rel="prev" title="【STM32基础教程04】STM32的定时器开发基础">
+      <i class="fa fa-chevron-left"></i> 【STM32基础教程04】STM32的定时器开发基础
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/01/13/cmake/" rel="next" title="cmake">
-      cmake <i class="fa fa-chevron-right"></i>
+    <a href="/2020/03/05/stm32-6/" rel="next" title="【STM32基础教程06】STM32的定时器与串口综合训练">
+      【STM32基础教程06】STM32的定时器与串口综合训练 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -361,7 +369,7 @@
    
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RT-Thread内核应用开发"><span class="nav-number">1.</span> <span class="nav-text">RT-Thread内核应用开发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RT-Thread文件夹简介"><span class="nav-number">1.0.1.</span> <span class="nav-text">RT-Thread文件夹简介</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#bsp文件夹"><span class="nav-number">1.0.1.1.</span> <span class="nav-text">bsp文件夹</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#components文件夹"><span class="nav-number">1.0.1.2.</span> <span class="nav-text">components文件夹</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#include文件夹"><span class="nav-number">1.0.1.3.</span> <span class="nav-text">include文件夹</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#libcpu文件夹"><span class="nav-number">1.0.1.4.</span> <span class="nav-text">libcpu文件夹</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#src文件夹"><span class="nav-number">1.0.1.5.</span> <span class="nav-text">src文件夹</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#keil工程结构"><span class="nav-number">1.0.1.6.</span> <span class="nav-text">keil工程结构</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#串行接口相关知识点"><span class="nav-number">1.</span> <span class="nav-text">串行接口相关知识点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HAL库中串口发送的重要函数"><span class="nav-number">2.</span> <span class="nav-text">HAL库中串口发送的重要函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HAL库中串口接收的重要函数"><span class="nav-number">3.</span> <span class="nav-text">HAL库中串口接收的重要函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实训案例：上位机通过串口控制LED灯开关"><span class="nav-number">4.</span> <span class="nav-text">实训案例：上位机通过串口控制LED灯开关</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -813,7 +821,7 @@ if(canvas.getContext){
       quicklink({
         timeout: 3000,
         priority: true,
-        ignores: [uri => uri.includes('#'),uri => uri == 'https://liu-yaohua.github.io/2020/01/11/rt-thread2/',]
+        ignores: [uri => uri.includes('#'),uri => uri == 'https://liu-yaohua.github.io/2020/03/05/stm32-5/',]
       });
       });
   </script>
@@ -829,7 +837,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo: 'comment',
       owner: 'LIU-YAOHUA',
       admin: ['LIU-YAOHUA'],
-      id: '20530c38aa2c12ab13e033a7e0d04d4d',
+      id: '3c958cff06fa2d3da88b752b28420c25',
         language: '',
       distractionFreeMode: true
     });

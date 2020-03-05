@@ -204,6 +204,173 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://liu-yaohua.github.io/2020/03/05/stm32-6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1578394974761&di=9d161c4fcd3d2a3644548c48ba5ce3ea&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201612%2F04%2F20161204102600_kr25d.thumb.700_0.jpeg">
+      <meta itemprop="name" content="LIU-YAOHUA">
+      <meta itemprop="description" content="欢迎您的到来！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="刘耀华博客">
+    </span>
+      <header class="post-header">
+
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/03/05/stm32-6/" class="post-title-link" itemprop="url">【STM32基础教程06】STM32的定时器与串口综合训练</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-03-05 10:37:08 / 修改时间：10:39:36" itemprop="dateCreated datePublished" datetime="2020-03-05T10:37:08+08:00">2020-03-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/stm32/" itemprop="url" rel="index">
+                    <span itemprop="name">stm32</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="关于sprintf-函数的用法"><a href="#关于sprintf-函数的用法" class="headerlink" title="关于sprintf()函数的用法"></a><strong>关于sprintf()函数的用法</strong></h2><p>sprintf()，指的是字符串格式化函数，把格式化的数据写入某个字符串中。<br><strong>int sprintf(char *string, char *format [,argument,…]);</strong></p>
+<p>引入头文件 #include “<strong>stdio.h</strong>“</p>
+<p><strong>【例】</strong>：有一个表示温度的整型变量tmp，现在要将其格式化为字符串“温度是：XX摄氏度”，并将其通过串口1发送出去。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdio.h"</span></span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">uint8_t</span> Str_buff[<span class="number">64</span>];   </span><br><span class="line"><span class="built_in">sprintf</span>((<span class="keyword">char</span>*)Str_buff, <span class="string">"温度是: %d摄氏度"</span>, tmp);    </span><br><span class="line">HAL_UART_Transmit(&amp;huart1, Str_buff, <span class="keyword">sizeof</span>(Str_buff), <span class="number">0xFFFF</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="实训案例：定时器与串口综合训练"><a href="#实训案例：定时器与串口综合训练" class="headerlink" title="实训案例：定时器与串口综合训练"></a><strong>实训案例：定时器与串口综合训练</strong></h2><p>在<strong>XMF07A</strong>或<strong>XMF07C</strong>开发板上，利用<strong>STM32CubeMX</strong>和<strong>Keil5</strong>协同开发，完成以下的功能：<br>【1】开机后，LED1与LED2依次点亮，然后熄灭，进行<strong>灯光检测</strong>，高电平点亮LED灯。<br>【2】系统通过串口1向上位机发送一个字符串“<strong>=========XMF07欢迎你！==========”</strong>。<br>【3】LED1作为一个<strong>秒闪灯</strong>，系统向上位机发送完字符串后，开始亮0.5<br>秒，灭0.5秒….循环闪烁，并启<strong>动系统运行时间的记录</strong>，其时分秒格式为 “XX：XX：XX”。<br>【4】上位机通过一个由3个字节组成的<strong>命令帧</strong>控制LED2灯的开关。<br>该命令帧的格式为 “<strong>0xBF 控制字 0xFB</strong>”。<br><strong>0xBF</strong>为帧头，<strong>0xFB</strong>为帧尾，<strong>控制字</strong>的定义如下：<br><strong>0xA1</strong>：打开LED2，返回信息 “XX:XX:XX LED2打开。”<br><strong>0xA2</strong>：关闭LED2，返回信息 “XX:XX:XX LED2关闭。”<br><strong>其他</strong>：返回信息 “XX:XX:XX 这个一个错误指令！”。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LED1_ON() HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_SET)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LED2_ON() HAL_GPIO_WritePin(GPIOB,GPIO_PIN_8,GPIO_PIN_SET)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LED1_OFF() HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_RESET)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LED2_OFF() HAL_GPIO_WritePin(GPIOB,GPIO_PIN_8,GPIO_PIN_RESET)</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LED1_TOG() HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_9)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LED2_TOG() HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_8)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">uint8_t</span> str1[] = <span class="string">"===============XMF07欢迎你！================\r\n"</span>;</span><br><span class="line"><span class="keyword">uint8_t</span> hh = <span class="number">0</span>, mm = <span class="number">0</span>, ss = <span class="number">0</span>, ss05 = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">uint8_t</span> str_buff[<span class="number">64</span>];</span><br><span class="line"><span class="keyword">uint8_t</span> Rx_dat[<span class="number">16</span>];</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Ckeck_LED</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    LED1_ON();</span><br><span class="line">    HAL_Delay(<span class="number">500</span>);</span><br><span class="line">    LED2_ON();</span><br><span class="line">    HAL_Delay(<span class="number">500</span>);</span><br><span class="line">	</span><br><span class="line">    LED1_OFF();</span><br><span class="line">    HAL_Delay(<span class="number">500</span>);</span><br><span class="line">    LED2_OFF();</span><br><span class="line">    HAL_Delay(<span class="number">500</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">HAL_TIM_PeriodElapsedCallback</span><span class="params">(TIM_HandleTypeDef *htim)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    LED1_TOG();</span><br><span class="line">    ss05++;</span><br><span class="line">    <span class="keyword">if</span>(ss05 == <span class="number">2</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        ss05 = <span class="number">0</span>;</span><br><span class="line">        ss++;</span><br><span class="line">        <span class="keyword">if</span>(ss == <span class="number">60</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            ss = <span class="number">0</span>;</span><br><span class="line">            mm++;</span><br><span class="line">            <span class="keyword">if</span>(mm == <span class="number">60</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                mm = <span class="number">0</span>;</span><br><span class="line">                hh++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">HAL_UART_RxCpltCallback</span><span class="params">(UART_HandleTypeDef *huart)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(huart-&gt;Instance == USART1)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(Rx_dat[<span class="number">0</span>] == <span class="number">0xBF</span> &amp;&amp; Rx_dat[<span class="number">2</span>] == <span class="number">0xFB</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">switch</span>(Rx_dat[<span class="number">1</span>])</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">case</span> <span class="number">0xa1</span>:</span><br><span class="line">                    LED2_ON();</span><br><span class="line">                    <span class="built_in">sprintf</span>((<span class="keyword">char</span> *)str_buff,<span class="string">"%d:%d:%d    LED2打开！\r\n"</span>,hh,mm,ss);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">				</span><br><span class="line">                <span class="keyword">case</span> <span class="number">0xa2</span>:</span><br><span class="line">		    LED2_OFF();</span><br><span class="line">		    <span class="built_in">sprintf</span>((<span class="keyword">char</span> *)str_buff,<span class="string">"%d:%d:%d    LED2关闭！\r\n"</span>,hh,mm,ss);</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">				</span><br><span class="line">	        <span class="keyword">default</span>:</span><br><span class="line">		    <span class="built_in">sprintf</span>((<span class="keyword">char</span> *)str_buff,<span class="string">"%d:%d:%d    这是一个错误的命令！\r\n"</span>,hh,mm,ss);</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	    &#125;</span><br><span class="line">			</span><br><span class="line">            HAL_UART_Transmit(&amp;huart1,str_buff,<span class="keyword">sizeof</span>(str_buff),<span class="number">10000</span>);</span><br><span class="line">	    HAL_UART_Receive_IT(&amp;huart1,Rx_dat,<span class="number">3</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在mian()函数中添加以下代码：</span></span><br><span class="line">Ckeck_LED();                                               <span class="comment">//LED灯流水检测</span></span><br><span class="line">HAL_UART_Transmit(&amp;huart1,str1,<span class="keyword">sizeof</span>(str1),<span class="number">0xFFFF</span>);       <span class="comment">//向上位机发送欢迎字符</span></span><br><span class="line">HAL_UART_Receive_IT(&amp;huart1,Rx_dat,<span class="number">3</span>);                     <span class="comment">//启动串口1接收上位机3个字节</span></span><br><span class="line">HAL_TIM_Base_Start_IT(&amp;htim2);                             <span class="comment">//启动定时器TIM2</span></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://liu-yaohua.github.io/2020/03/05/stm32-5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1578394974761&di=9d161c4fcd3d2a3644548c48ba5ce3ea&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201612%2F04%2F20161204102600_kr25d.thumb.700_0.jpeg">
+      <meta itemprop="name" content="LIU-YAOHUA">
+      <meta itemprop="description" content="欢迎您的到来！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="刘耀华博客">
+    </span>
+      <header class="post-header">
+
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/03/05/stm32-5/" class="post-title-link" itemprop="url">【STM32基础教程05】STM32的串口数据收发基础</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-03-05 10:17:51 / 修改时间：10:36:59" itemprop="dateCreated datePublished" datetime="2020-03-05T10:17:51+08:00">2020-03-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/stm32/" itemprop="url" rel="index">
+                    <span itemprop="name">stm32</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="串行接口相关知识点"><a href="#串行接口相关知识点" class="headerlink" title="串行接口相关知识点"></a><strong>串行接口相关知识点</strong></h2><p>并行通信、串行通信的概念。<br>单工、半双工、全双工的概念。<br><strong>异步串行通信</strong>：通信双方在没有同步时钟的前提下，将一个字符（包括特定的附加位）按位进行传输的通信方式。<br><strong>波特率</strong>：每秒钟传输的二进制位数，如9600bps。<br><strong>TTL电平&lt;—-&gt;RS232</strong>：MAX3232 SP3232<br><strong>串口&lt;———&gt;USB接口</strong>：CH340 CP2012</p>
+<p>STM32芯片的串口UASRT功能十分强大，但对于日常编程而言，使用最多的还是异步串行通信。<br>串口1：USART1_<strong>TX</strong>与<strong>PA9</strong>复用，USART1_<strong>RX</strong>与<strong>PA10</strong>复用。<br>串口2：USART2_<strong>TX</strong>与<strong>PA2</strong>复用，USART2_<strong>RX</strong>与<strong>PA3</strong>复用。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/03/05/stm32-5/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://liu-yaohua.github.io/2020/03/04/stm32-4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -834,149 +1001,11 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://liu-yaohua.github.io/2020/02/14/python/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1578394974761&di=9d161c4fcd3d2a3644548c48ba5ce3ea&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201612%2F04%2F20161204102600_kr25d.thumb.700_0.jpeg">
-      <meta itemprop="name" content="LIU-YAOHUA">
-      <meta itemprop="description" content="欢迎您的到来！">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="刘耀华博客">
-    </span>
-      <header class="post-header">
-
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/02/14/python/" class="post-title-link" itemprop="url">python</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-02-14 21:59:29" itemprop="dateCreated datePublished" datetime="2020-02-14T21:59:29+08:00">2020-02-14</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://liu-yaohua.github.io/2020/01/21/english/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1578394974761&di=9d161c4fcd3d2a3644548c48ba5ce3ea&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201612%2F04%2F20161204102600_kr25d.thumb.700_0.jpeg">
-      <meta itemprop="name" content="LIU-YAOHUA">
-      <meta itemprop="description" content="欢迎您的到来！">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="刘耀华博客">
-    </span>
-      <header class="post-header">
-
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/21/english/" class="post-title-link" itemprop="url">英语资料汇总</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-01-21 14:35:58 / 修改时间：15:39:39" itemprop="dateCreated datePublished" datetime="2020-01-21T14:35:58+08:00">2020-01-21</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/english/" itemprop="url" rel="index">
-                    <span itemprop="name">english</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="一起来感受英语学习的快乐吧！！！"><a href="#一起来感受英语学习的快乐吧！！！" class="headerlink" title="一起来感受英语学习的快乐吧！！！"></a>一起来感受英语学习的快乐吧！！！</h1><p><img src="/2020/01/21/english/%E5%88%9D%E9%9F%B3.jpg" alt></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/01/21/english/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1052,7 +1081,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">22</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1381,7 +1410,7 @@ if(canvas.getContext){
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共75.7k字</span>
+  <span class="post-count">博客全站共77.3k字</span>
 </div>
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
