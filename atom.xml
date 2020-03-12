@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://liu-yaohua.github.io/"/>
-  <updated>2020-03-12T04:01:43.683Z</updated>
+  <updated>2020-03-12T04:05:20.374Z</updated>
   <id>https://liu-yaohua.github.io/</id>
   
   <author>
@@ -21,17 +21,14 @@
     <link href="https://liu-yaohua.github.io/2020/03/12/uart-dma/"/>
     <id>https://liu-yaohua.github.io/2020/03/12/uart-dma/</id>
     <published>2020-03-12T03:35:07.000Z</published>
-    <updated>2020-03-12T04:01:43.683Z</updated>
+    <updated>2020-03-12T04:05:20.374Z</updated>
     
-    <content type="html"><![CDATA[<p>最近终于调通了多串口DMA接收，其实也挺简单的，记录一下备忘。</p><h2 id="一、CUBEMX配置F405rgt6工程"><a href="#一、CUBEMX配置F405rgt6工程" class="headerlink" title="一、CUBEMX配置F405rgt6工程"></a>一、CUBEMX配置F405rgt6工程</h2><p><img src="/2020/03/12/uart-dma/CUBEf405.jpg" alt></p><p>设置所有串口参数，开启串口中断，DMA中断</p><p><img src="/2020/03/12/uart-dma/1.jpg" alt></p><p><img src="/2020/03/12/uart-dma/2.jpg" alt></p><p>其他的串口类似，就不贴了，比较懒。。。。</p><h2 id="二、修改工程源码"><a href="#二、修改工程源码" class="headerlink" title="二、修改工程源码"></a>二、修改工程源码</h2><p>用cubemx自动生成代码，需要修改几处代码，也是关键，直接上代码</p><p>首先是增加printf函数</p><p><img src="/2020/03/12/uart-dma/%E5%A4%9A%E4%B8%B2%E5%8F%A3printf1.jpg" alt></p><p>注意头文件中包含这些头文件</p><p><img src="/2020/03/12/uart-dma/%E5%A4%9A%E4%B8%B2%E5%8F%A3printf2.jpg" alt></p><p>接下来是多串口dma接收</p><p>首先dma使能函数</p><p><img src="/2020/03/12/uart-dma/%E5%A4%9A%E4%B8%B2%E5%8F%A3dma%E6%8E%A5%E6%94%B61.jpg" alt></p><p>然后是回调函数</p><p><img src="/2020/03/12/uart-dma/%E5%A4%9A%E4%B8%B2%E5%8F%A3dma%E6%8E%A5%E6%94%B62.jpg" alt></p><p>最后是在串口中断中加入回调函数</p><p><img src="/2020/03/12/uart-dma/%E5%A4%9A%E4%B8%B2%E5%8F%A3dma%E6%8E%A5%E6%94%B63.jpg" alt></p><p>这就完成了，要使用多串口dam接受记得要在main函数调用UARTx_DMA_ENABLE()函数。</p>]]></content>
+    <content type="html"><![CDATA[<p><img src="/2020/03/12/uart-dma/%E9%92%A2%E9%93%81%E4%BE%A0.jpg" alt></p><p>最近终于调通了多串口DMA接收，其实也挺简单的，记录一下备忘。</p><a id="more"></a><h2 id="一、CUBEMX配置F405rgt6工程"><a href="#一、CUBEMX配置F405rgt6工程" class="headerlink" title="一、CUBEMX配置F405rgt6工程"></a>一、CUBEMX配置F405rgt6工程</h2><p><img src="/2020/03/12/uart-dma/CUBEf405.jpg" alt></p><p>设置所有串口参数，开启串口中断，DMA中断</p><p><img src="/2020/03/12/uart-dma/1.jpg" alt></p><p><img src="/2020/03/12/uart-dma/2.jpg" alt></p><p>其他的串口类似，就不贴了，比较懒。。。。</p><h2 id="二、修改工程源码"><a href="#二、修改工程源码" class="headerlink" title="二、修改工程源码"></a>二、修改工程源码</h2><p>用cubemx自动生成代码，需要修改几处代码，也是关键，直接上代码</p><p>首先是增加printf函数</p><p><img src="/2020/03/12/uart-dma/%E5%A4%9A%E4%B8%B2%E5%8F%A3printf1.jpg" alt></p><p>注意头文件中包含这些头文件</p><p><img src="/2020/03/12/uart-dma/%E5%A4%9A%E4%B8%B2%E5%8F%A3printf2.jpg" alt></p><p>接下来是多串口dma接收</p><p>首先dma使能函数</p><p><img src="/2020/03/12/uart-dma/%E5%A4%9A%E4%B8%B2%E5%8F%A3dma%E6%8E%A5%E6%94%B61.jpg" alt></p><p>然后是回调函数</p><p><img src="/2020/03/12/uart-dma/%E5%A4%9A%E4%B8%B2%E5%8F%A3dma%E6%8E%A5%E6%94%B62.jpg" alt></p><p>最后是在串口中断中加入回调函数</p><p><img src="/2020/03/12/uart-dma/%E5%A4%9A%E4%B8%B2%E5%8F%A3dma%E6%8E%A5%E6%94%B63.jpg" alt></p><p>这就完成了，要使用多串口dam接受记得要在main函数调用UARTx_DMA_ENABLE()函数。</p>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;最近终于调通了多串口DMA接收，其实也挺简单的，记录一下备忘。&lt;/p&gt;
-&lt;h2 id=&quot;一、CUBEMX配置F405rgt6工程&quot;&gt;&lt;a href=&quot;#一、CUBEMX配置F405rgt6工程&quot; class=&quot;headerlink&quot; title=&quot;一、CUBEMX配置F40
-      
+      &lt;p&gt;&lt;img src=&quot;/2020/03/12/uart-dma/%E9%92%A2%E9%93%81%E4%BE%A0.jpg&quot; alt&gt;&lt;/p&gt;
+&lt;p&gt;最近终于调通了多串口DMA接收，其实也挺简单的，记录一下备忘。&lt;/p&gt;
     
     </summary>
     

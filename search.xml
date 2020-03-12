@@ -3,7 +3,10 @@
   <entry>
     <title>多串口使用printf和多串口DMA接收</title>
     <url>/2020/03/12/uart-dma/</url>
-    <content><![CDATA[<p>最近终于调通了多串口DMA接收，其实也挺简单的，记录一下备忘。</p>
+    <content><![CDATA[<p><img src="/2020/03/12/uart-dma/%E9%92%A2%E9%93%81%E4%BE%A0.jpg" alt></p>
+<p>最近终于调通了多串口DMA接收，其实也挺简单的，记录一下备忘。</p>
+<a id="more"></a>
+
 <h2 id="一、CUBEMX配置F405rgt6工程"><a href="#一、CUBEMX配置F405rgt6工程" class="headerlink" title="一、CUBEMX配置F405rgt6工程"></a>一、CUBEMX配置F405rgt6工程</h2><p><img src="/2020/03/12/uart-dma/CUBEf405.jpg" alt></p>
 <p>设置所有串口参数，开启串口中断，DMA中断</p>
 <p><img src="/2020/03/12/uart-dma/1.jpg" alt></p>
