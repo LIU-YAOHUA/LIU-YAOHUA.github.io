@@ -1,6 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>多串口使用printf和多串口DMA接收</title>
+    <url>/2020/03/12/uart-dma/</url>
+    <content><![CDATA[<p>最近终于调通了多串口DMA接收，其实也挺简单的，记录一下备忘。</p>
+<h2 id="一、CUBEMX配置F405rgt6工程"><a href="#一、CUBEMX配置F405rgt6工程" class="headerlink" title="一、CUBEMX配置F405rgt6工程"></a>一、CUBEMX配置F405rgt6工程</h2><p><img src="/2020/03/12/uart-dma/CUBEf405.jpg" alt></p>
+<p>设置所有串口参数，开启串口中断，DMA中断</p>
+<p><img src="/2020/03/12/uart-dma/1.jpg" alt></p>
+<p><img src="/2020/03/12/uart-dma/2.jpg" alt></p>
+<p>其他的串口类似，就不贴了，比较懒。。。。</p>
+<h2 id="二、修改工程源码"><a href="#二、修改工程源码" class="headerlink" title="二、修改工程源码"></a>二、修改工程源码</h2><p>用cubemx自动生成代码，需要修改几处代码，也是关键，直接上代码</p>
+<p>首先是增加printf函数</p>
+<p><img src="/2020/03/12/uart-dma/%E5%A4%9A%E4%B8%B2%E5%8F%A3printf1.jpg" alt></p>
+<p>注意头文件中包含这些头文件</p>
+<p><img src="/2020/03/12/uart-dma/%E5%A4%9A%E4%B8%B2%E5%8F%A3printf2.jpg" alt></p>
+<p>接下来是多串口dma接收</p>
+<p>首先dma使能函数</p>
+<p><img src="/2020/03/12/uart-dma/%E5%A4%9A%E4%B8%B2%E5%8F%A3dma%E6%8E%A5%E6%94%B61.jpg" alt></p>
+<p>然后是回调函数</p>
+<p><img src="/2020/03/12/uart-dma/%E5%A4%9A%E4%B8%B2%E5%8F%A3dma%E6%8E%A5%E6%94%B62.jpg" alt></p>
+<p>最后是在串口中断中加入回调函数</p>
+<p><img src="/2020/03/12/uart-dma/%E5%A4%9A%E4%B8%B2%E5%8F%A3dma%E6%8E%A5%E6%94%B63.jpg" alt></p>
+<p>这就完成了，要使用多串口dam接受记得要在main函数调用UARTx_DMA_ENABLE()函数。</p>
+]]></content>
+      <categories>
+        <category>stm32</category>
+      </categories>
+      <tags>
+        <tag>stm32</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【STM32基础教程08】STM32的ADC开发基础</title>
     <url>/2020/03/05/stm32-8/</url>
     <content><![CDATA[<h2 id="STM32的ADC资源概述"><a href="#STM32的ADC资源概述" class="headerlink" title="STM32的ADC资源概述"></a><strong>STM32的ADC资源概述</strong></h2><p><img src="/2020/03/05/stm32-8/%E5%A3%81%E7%BA%B81.jpg" alt></p>
@@ -5290,6 +5320,15 @@
 <p><img src="/2020/01/14/ble/BLE%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84.jpg" alt="BLE体系结构"></p>
 <p>链路层：负责广播、扫描、建立和维护连接，以及确保数据包按照正确的方式组织、正确地校验值和加密序列。</p>
 <h2 id="BLE广播、扫描和连接事件"><a href="#BLE广播、扫描和连接事件" class="headerlink" title="BLE广播、扫描和连接事件"></a>BLE广播、扫描和连接事件</h2><p>通用广播：最常用的广播方式，可以被扫描，接收到连接请求时可以作为从设备进入一个 连接。</p>
+<p>1.Profile</p>
+<p>Profile可以理解为一种规范，一个标准的通信协议，Profile存在于从机中。蓝牙组织规定了一系列的Profile，例如HID OVER GATT、防丢器、心率计等。每个Profile中会包含多个Service，每个Service代表从机的一种能力。</p>
+<p>2.Service</p>
+<p>Service可以理解为一个服务，在ble从机中，通过有多个服务，例如电量信息服务、系统信息服务等，每个Service里又包含多个Characteristic特征值。每个具体的Characteristic特征值，才是ble通信的主体。比如当前的电量是80%，所以会通过电量的characteristic特征值存在从机的profile里，这样主机就可以通过这个characteristic，来读取80%这个数据</p>
+<p>3.Characteristic</p>
+<p>Characteristic特征值，BLE主从机的通信均是通过Characteristic来实现，可以理解为一个标签，通过这个标签可以获取或者写入想要的内容。</p>
+<p>4.UUID</p>
+<p>UUID，统一识别码，前面提到的Service和Characteristic，都需要一个唯一的UUID来标识。UUID为128，但是在ble协议栈中，通常使用16位的UUID，也就是两个字节代替，16位UUID可以与128位UUID之间相互转换。</p>
+<p>整理一下，每个从机都会有一个叫做profile的东西存在，不管是上面的自定义的simpleProfile，还是标准的防丢器Profile，他们都是由一系列Service组成，然后每个Service又包含了多个Characteristic，主机和从机之间的通信，均是通过Characteristic来实现。</p>
 ]]></content>
       <categories>
         <category>Iot</category>

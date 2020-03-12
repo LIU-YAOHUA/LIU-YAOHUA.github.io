@@ -204,6 +204,96 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://liu-yaohua.github.io/2020/03/12/uart-dma/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1578394974761&di=9d161c4fcd3d2a3644548c48ba5ce3ea&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201612%2F04%2F20161204102600_kr25d.thumb.700_0.jpeg">
+      <meta itemprop="name" content="LIU-YAOHUA">
+      <meta itemprop="description" content="欢迎您的到来！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="刘耀华博客">
+    </span>
+      <header class="post-header">
+
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/03/12/uart-dma/" class="post-title-link" itemprop="url">多串口使用printf和多串口DMA接收</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-03-12 11:35:07 / 修改时间：12:01:43" itemprop="dateCreated datePublished" datetime="2020-03-12T11:35:07+08:00">2020-03-12</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/stm32/" itemprop="url" rel="index">
+                    <span itemprop="name">stm32</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>最近终于调通了多串口DMA接收，其实也挺简单的，记录一下备忘。</p>
+<h2 id="一、CUBEMX配置F405rgt6工程"><a href="#一、CUBEMX配置F405rgt6工程" class="headerlink" title="一、CUBEMX配置F405rgt6工程"></a>一、CUBEMX配置F405rgt6工程</h2><p><img src="/2020/03/12/uart-dma/CUBEf405.jpg" alt></p>
+<p>设置所有串口参数，开启串口中断，DMA中断</p>
+<p><img src="/2020/03/12/uart-dma/1.jpg" alt></p>
+<p><img src="/2020/03/12/uart-dma/2.jpg" alt></p>
+<p>其他的串口类似，就不贴了，比较懒。。。。</p>
+<h2 id="二、修改工程源码"><a href="#二、修改工程源码" class="headerlink" title="二、修改工程源码"></a>二、修改工程源码</h2><p>用cubemx自动生成代码，需要修改几处代码，也是关键，直接上代码</p>
+<p>首先是增加printf函数</p>
+<p><img src="/2020/03/12/uart-dma/%E5%A4%9A%E4%B8%B2%E5%8F%A3printf1.jpg" alt></p>
+<p>注意头文件中包含这些头文件</p>
+<p><img src="/2020/03/12/uart-dma/%E5%A4%9A%E4%B8%B2%E5%8F%A3printf2.jpg" alt></p>
+<p>接下来是多串口dma接收</p>
+<p>首先dma使能函数</p>
+<p><img src="/2020/03/12/uart-dma/%E5%A4%9A%E4%B8%B2%E5%8F%A3dma%E6%8E%A5%E6%94%B61.jpg" alt></p>
+<p>然后是回调函数</p>
+<p><img src="/2020/03/12/uart-dma/%E5%A4%9A%E4%B8%B2%E5%8F%A3dma%E6%8E%A5%E6%94%B62.jpg" alt></p>
+<p>最后是在串口中断中加入回调函数</p>
+<p><img src="/2020/03/12/uart-dma/%E5%A4%9A%E4%B8%B2%E5%8F%A3dma%E6%8E%A5%E6%94%B63.jpg" alt></p>
+<p>这就完成了，要使用多串口dam接受记得要在main函数调用UARTx_DMA_ENABLE()函数。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://liu-yaohua.github.io/2020/03/05/stm32-8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -934,91 +1024,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://liu-yaohua.github.io/2020/02/16/c-2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1578394974761&di=9d161c4fcd3d2a3644548c48ba5ce3ea&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201612%2F04%2F20161204102600_kr25d.thumb.700_0.jpeg">
-      <meta itemprop="name" content="LIU-YAOHUA">
-      <meta itemprop="description" content="欢迎您的到来！">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="刘耀华博客">
-    </span>
-      <header class="post-header">
-
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/02/16/c-2/" class="post-title-link" itemprop="url">C++核心编程</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-02-16 10:19:45" itemprop="dateCreated datePublished" datetime="2020-02-16T10:19:45+08:00">2020-02-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-05 16:41:24" itemprop="dateModified" datetime="2020-03-05T16:41:24+08:00">2020-03-05</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/c/" itemprop="url" rel="index">
-                    <span itemprop="name">c++</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="C-核心编程"><a href="#C-核心编程" class="headerlink" title="C++核心编程"></a>C++核心编程</h1><p>本阶段主要针对C++==面向对象==编程技术做详细讲解，探讨C++中的核心和精髓。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/02/16/c-2/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1099,7 +1104,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1428,7 +1433,7 @@ if(canvas.getContext){
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共78.9k字</span>
+  <span class="post-count">博客全站共79.4k字</span>
 </div>
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
