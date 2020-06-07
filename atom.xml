@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://liu-yaohua.github.io/"/>
-  <updated>2020-03-12T12:51:45.228Z</updated>
+  <updated>2020-06-07T10:57:15.476Z</updated>
   <id>https://liu-yaohua.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>python01</title>
+    <link href="https://liu-yaohua.github.io/2020/06/07/python01/"/>
+    <id>https://liu-yaohua.github.io/2020/06/07/python01/</id>
+    <published>2020-06-07T10:44:14.000Z</published>
+    <updated>2020-06-07T10:57:15.476Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="认识-Python"><a href="#认识-Python" class="headerlink" title="认识 Python"></a>认识 Python</h1><blockquote><p>人生苦短，我用 Python —— Life is short, you need Python</p></blockquote><p><img src="/2020/06/07/python01/media/14950329208518/001_%E4%BA%BA%E7%94%9F%E8%8B%A6%E7%9F%AD%E6%88%91%E7%94%A8python.jpg" alt="001_人生苦短我用python"></p><a id="more"></a><h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><ul><li>Python 的起源</li><li>为什么要用 Python？</li><li>Python 的特点</li><li>Python 的优缺点</li></ul><h2 id="01-Python-的起源"><a href="#01-Python-的起源" class="headerlink" title="01. Python 的起源"></a>01. Python 的起源</h2><blockquote><p>Python 的创始人为吉多·范罗苏姆（Guido van Rossum）</p></blockquote><p><img src="/2020/06/07/python01/media/14950329208518/002_%E5%90%89%E5%A4%9A.jpg" alt="002_吉多-w256"></p><ol><li>1989 年的圣诞节期间，吉多·范罗苏姆为了在阿姆斯特丹打发时间，决心开发一个新的<strong>解释程序</strong>，作为 ABC 语言的一种继承（<strong>感觉下什么叫牛人</strong>）</li><li>ABC 是由吉多参加设计的一种教学语言，就吉多本人看来，ABC 这种语言非常优美和强大，是<strong>专门为非专业程序员设计的</strong>。但是 ABC 语言并没有成功，究其原因，吉多认为是<strong>非开放</strong>造成的。吉多决心在 Python 中避免这一错误，并获取了非常好的效果</li><li>之所以选中 Python（蟒蛇） 作为程序的名字，是因为他是 BBC 电视剧——蒙提·派森的飞行马戏团（Monty Python’s Flying Circus）的爱好者</li><li>1991 年，第一个 Python <strong>解释器</strong> 诞生，它是用 C 语言实现的，并能够调用 C 语言的库文件</li></ol><h3 id="1-1-解释器（科普）"><a href="#1-1-解释器（科普）" class="headerlink" title="1.1 解释器（科普）"></a>1.1 解释器（科普）</h3><p><strong>计算机不能直接理解任何除机器语言以外的语言</strong>，所以必须要把程序员所写的程序语言翻译成机器语言，计算机才能执行程序。<strong>将其他语言翻译成机器语言的工具，被称为编译器</strong></p><p>编译器翻译的方式有两种：一个是<strong>编译</strong>，另外一个是<strong>解释</strong>。两种方式之间的区别在于<strong>翻译时间点的不同</strong>。当编译器<strong>以解释方式运行的时候</strong>，也称之为<strong>解释器</strong></p><p><img src="/2020/06/07/python01/media/14950329208518/001_%E7%BC%96%E8%AF%91%E5%9E%8B%E5%92%8C%E8%A7%A3%E9%87%8A%E5%9E%8B%E8%AF%AD%E8%A8%80%E5%B7%A5%E4%BD%9C%E5%AF%B9%E6%AF%94.png" alt="001_编译型和解释型语言工作对比-w360"></p><ul><li><strong>编译型语言</strong>：程序在执行之前需要一个专门的编译过程，把程序编译成为机器语言的文件，运行时不需要重新翻译，直接使用编译的结果就行了。程序执行效率高，依赖编译器，跨平台性差些。如 C、C++</li><li><strong>解释型语言</strong>：解释型语言编写的程序不进行预先编译，以文本方式存储程序代码，会将代码一句一句直接运行。在发布程序时，看起来省了道编译工序，但是在运行程序的时候，必须先解释再运行</li></ul><h4 id="编译型语言和解释型语言对比"><a href="#编译型语言和解释型语言对比" class="headerlink" title="编译型语言和解释型语言对比"></a>编译型语言和解释型语言对比</h4><ul><li><strong>速度</strong> —— 编译型语言比解释型语言执行速度快</li><li><strong>跨平台性</strong> —— 解释型语言比编译型语言跨平台性好</li></ul><h3 id="1-2-Python-的设计目标"><a href="#1-2-Python-的设计目标" class="headerlink" title="1.2 Python 的设计目标"></a>1.2 Python 的设计目标</h3><p>1999 年，吉多·范罗苏姆向 DARPA 提交了一条名为 “Computer Programming for Everybody” 的资金申请，并在后来说明了他对 Python 的目标：</p><ul><li>一门<strong>简单直观的语言</strong>并与主要竞争者一样强大</li><li><strong>开源</strong>，以便任何人都可以为它做贡献</li><li>代码<strong>像纯英语那样容易理解</strong></li><li>适用于<strong>短期</strong>开发的日常任务</li></ul><p>这些想法中的基本都已经成为现实，Python 已经成为一门流行的编程语言</p><h3 id="1-3-Python-的设计哲学"><a href="#1-3-Python-的设计哲学" class="headerlink" title="1.3 Python 的设计哲学"></a>1.3 Python 的设计哲学</h3><ol><li>优雅</li><li>明确</li><li>简单</li></ol><!-- > 在 Python 解释器内运行 `import this` 可以获得完整的列表 --><ul><li>Python 开发者的哲学是：<strong>用一种方法，最好是只有一种方法来做一件事</strong></li><li>如果面临多种选择，Python 开发者一般会拒绝花俏的语法，而选择<strong>明确没有或者很少有歧义的语法</strong></li></ul><blockquote><p>在 Python 社区，吉多被称为“仁慈的独裁者”</p></blockquote><h2 id="02-为什么选择-Python？"><a href="#02-为什么选择-Python？" class="headerlink" title="02. 为什么选择 Python？"></a>02. 为什么选择 Python？</h2><ul><li>代码量少</li><li>……</li></ul><blockquote><p>同一样问题，用不同的语言解决，代码量差距还是很多的，一般情况下 <code>Python</code> 是 <code>Java</code> 的 <strong>1/5</strong>，所以说 <strong>人生苦短，我用 Python</strong></p></blockquote><h2 id="03-Python-特点"><a href="#03-Python-特点" class="headerlink" title="03. Python 特点"></a>03. Python 特点</h2><ul><li>Python 是<strong>完全面向对象的语言</strong></li><li><strong>函数</strong>、<strong>模块</strong>、<strong>数字</strong>、<strong>字符串</strong>都是对象，<strong>在 Python 中一切皆对象</strong></li><li>完全支持继承、重载、多重继承</li><li>支持重载运算符，也支持泛型设计</li><li>Python <strong>拥有一个强大的标准库</strong>，Python 语言的核心只包含 <strong>数字</strong>、<strong>字符串</strong>、<strong>列表</strong>、<strong>字典</strong>、<strong>文件</strong> 等常见类型和函数，而由 Python 标准库提供了 <strong>系统管理</strong>、<strong>网络通信</strong>、<strong>文本处理</strong>、<strong>数据库接口</strong>、<strong>图形系统</strong>、<strong>XML 处理</strong> 等额外的功能</li><li>Python 社区提供了<strong>大量的第三方模块</strong>，使用方式与标准库类似。它们的功能覆盖 <strong>科学计算</strong>、<strong>人工智能</strong>、<strong>机器学习</strong>、<strong>Web 开发</strong>、<strong>数据库接口</strong>、<strong>图形系统</strong> 多个领域</li></ul><h3 id="面向对象的思维方式"><a href="#面向对象的思维方式" class="headerlink" title="面向对象的思维方式"></a>面向对象的思维方式</h3><ul><li><strong>面向对象</strong> 是一种 <strong>思维方式</strong>，也是一门 <strong>程序设计技术</strong></li><li>要解决一个问题前，首先考虑 <strong>由谁</strong> 来做，怎么做事情是 <strong>谁</strong> 的职责，最后把事情做好就行！</li><li><strong>对象</strong> 就是 <strong>谁</strong></li><li>要解决复杂的问题，就可以找<strong>多个不同的对象</strong>，<strong>各司其职</strong>，共同实现，最终完成需求</li></ul><h2 id="04-Python-的优缺点"><a href="#04-Python-的优缺点" class="headerlink" title="04. Python 的优缺点"></a>04. Python 的优缺点</h2><h3 id="4-1-优点"><a href="#4-1-优点" class="headerlink" title="4.1 优点"></a>4.1 优点</h3><ul><li>简单、易学</li><li>免费、开源</li><li><strong>面向对象</strong></li><li>丰富的库</li><li>可扩展性</li><li>如果需要一段关键代码运行得更快或者希望某些算法不公开，可以把这部分程序用 <code>C</code> 或 <code>C++</code> 编写，然后在 <code>Python</code> 程序中使用它们</li><li>……</li></ul><h3 id="4-2-缺点"><a href="#4-2-缺点" class="headerlink" title="4.2 缺点"></a>4.2 缺点</h3><ul><li>运行速度</li><li>国内市场较小</li><li>中文资料匮乏</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;认识-Python&quot;&gt;&lt;a href=&quot;#认识-Python&quot; class=&quot;headerlink&quot; title=&quot;认识 Python&quot;&gt;&lt;/a&gt;认识 Python&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;人生苦短，我用 Python —— Life is short, you need Python&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&quot;/2020/06/07/python01/media/14950329208518/001_%E4%BA%BA%E7%94%9F%E8%8B%A6%E7%9F%AD%E6%88%91%E7%94%A8python.jpg&quot; alt=&quot;001_人生苦短我用python&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="python" scheme="https://liu-yaohua.github.io/categories/python/"/>
+    
+    
+      <category term="python" scheme="https://liu-yaohua.github.io/tags/python/"/>
+    
+  </entry>
   
   <entry>
     <title>多串口使用printf和多串口DMA接收</title>
@@ -459,29 +485,6 @@
     
     
       <category term="cmake" scheme="https://liu-yaohua.github.io/tags/cmake/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>re-thread2</title>
-    <link href="https://liu-yaohua.github.io/2020/01/11/rt-thread2/"/>
-    <id>https://liu-yaohua.github.io/2020/01/11/rt-thread2/</id>
-    <published>2020-01-11T09:41:24.000Z</published>
-    <updated>2020-01-11T14:34:44.666Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="/2020/01/11/rt-thread2/head.jpg" alt></p><a id="more"></a><h1 id="RT-Thread内核应用开发"><a href="#RT-Thread内核应用开发" class="headerlink" title="RT-Thread内核应用开发"></a>RT-Thread内核应用开发</h1><h3 id="RT-Thread文件夹简介"><a href="#RT-Thread文件夹简介" class="headerlink" title="RT-Thread文件夹简介"></a>RT-Thread文件夹简介</h3><h4 id="bsp文件夹"><a href="#bsp文件夹" class="headerlink" title="bsp文件夹"></a>bsp文件夹</h4><p>bsp 文件夹里面存放的是板级支持包，即board support package 的英文缩写，也就是相应开发板的驱动程序。bsp 文件夹下面的board.c这是RT-Thread 用来初始化开发板硬件的相关函数。rtconfig.h 是RT-Thread 功能的配置头文件，里面定义了很多宏，通过这些宏定义，我们可以裁剪RT-Thread 的功能。用户在使用RT-Thread 的时候，用户只需要修改board.c 和rtconfig.h 这两个文件的内容即可，其它文件我们不需要改动。如果为了减小工程的大小，bsp 文件夹下面除了board.c 和rtconfig.h这两个文件要保留外，其它的统统可以删除。</p><h4 id="components文件夹"><a href="#components文件夹" class="headerlink" title="components文件夹"></a>components文件夹</h4><p>在RT-Thread 看来，除了内核，其它第三方加进来的软件都是组件，比如gui、fatfs、lwip 和finsh 等，那么这些组件就放在components 这个文件夹内。finsh 是RT-Thread 组件里面最具特色的，它通过串口打印的方式来输出各种信息，方便我们调试程序。</p><h4 id="include文件夹"><a href="#include文件夹" class="headerlink" title="include文件夹"></a>include文件夹</h4><p>include 目录下面存放的是RT-Thread 内核的头文件，是内核不可分割的一部分。</p><h4 id="libcpu文件夹"><a href="#libcpu文件夹" class="headerlink" title="libcpu文件夹"></a>libcpu文件夹</h4><p>RT-Thread 是一个软件，单片机是一个硬件，RT-Thread 要想运行在一个单片机上面，它们就必须关联在一起，那么怎么关联？还是得通过写代码来关联，这部分关联的文件叫接口文件，通常由汇编和C 联合编写。这些接口文件都是跟硬件密切相关的，不同的硬件接口文件是不一样的，但都大同小异。编写这些接口文件的过程我们就叫移植，移植的过程通常由RT-Thread 和mcu 原厂的人来负责，移植好的这些接口文件就放在libcpu 这个文件夹的目录下。RT-Thread nano 目前在libcpu 目录下只放了cortex-m0、m3、m4 和m7 内核的单片机的接口文件，只要是使用了这些内核的mcu 都可以使用里面的接口文件。通常网络上出现的叫“移植某某某RTOS 到某某某MCU”的教程，其实准确来说，不能够叫移植，应该叫使用官方的移植，因为这些跟硬件相关的接口文件，RTOS 官方都已经写好了，我们只是使用而已。</p><h4 id="src文件夹"><a href="#src文件夹" class="headerlink" title="src文件夹"></a>src文件夹</h4><p>src 目录下面存放的是RT-Thread 内核的源文件，是内核的核心。</p><h4 id="keil工程结构"><a href="#keil工程结构" class="headerlink" title="keil工程结构"></a>keil工程结构</h4><p>在开发环境里面新建rtt/source 和rtt/ports 两个组文件夹，其中rtt/source 用于存放src 文件夹的内容，rtt/ports 用于存放libcpu/arm/cortex-m？文件夹的内容，“？”表示3、4 或者7。bsp 里面的rtconfig.h 和board.c 添加到user 组文件夹下，其中rtconfig.h 用于配置RTThread的功能，board.c 用于存放硬件相关的初始化函数。</p><p><img src="/2020/01/11/rt-thread2/keil.jpg" alt></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;/2020/01/11/rt-thread2/head.jpg&quot; alt&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="rt-thread" scheme="https://liu-yaohua.github.io/categories/rt-thread/"/>
-    
-    
-      <category term="learning" scheme="https://liu-yaohua.github.io/tags/learning/"/>
     
   </entry>
   
