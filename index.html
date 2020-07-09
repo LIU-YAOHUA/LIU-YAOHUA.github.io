@@ -204,6 +204,562 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://liu-yaohua.github.io/2020/07/09/python01-10/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1578394974761&di=9d161c4fcd3d2a3644548c48ba5ce3ea&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201612%2F04%2F20161204102600_kr25d.thumb.700_0.jpeg">
+      <meta itemprop="name" content="LIU-YAOHUA">
+      <meta itemprop="description" content="欢迎您的到来！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="刘耀华博客">
+    </span>
+      <header class="post-header">
+
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/09/python01-10/" class="post-title-link" itemprop="url">python01-10</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-07-09 15:12:21 / 修改时间：15:15:55" itemprop="dateCreated datePublished" datetime="2020-07-09T15:12:21+08:00">2020-07-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="函数进阶"><a href="#函数进阶" class="headerlink" title="函数进阶"></a>函数进阶</h1><h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><ul>
+<li>函数参数和返回值的作用</li>
+<li>函数的返回值 进阶</li>
+<li>函数的参数 进阶</li>
+<li>递归函数</li>
+</ul>
+<h2 id="01-函数参数和返回值的作用"><a href="#01-函数参数和返回值的作用" class="headerlink" title="01. 函数参数和返回值的作用"></a>01. 函数参数和返回值的作用</h2><p>函数根据 <strong>有没有参数</strong> 以及 <strong>有没有返回值</strong>，可以 <strong>相互组合</strong>，一共有 <strong>4 种</strong> 组合形式</p>
+<ol>
+<li>无参数，无返回值</li>
+<li>无参数，有返回值</li>
+<li>有参数，无返回值</li>
+<li>有参数，有返回值</li>
+</ol>
+<p><img src="/2020/07/09/python01-10/media/14993074876434/001_%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0%E5%92%8C%E8%BF%94%E5%9B%9E%E5%80%BC.png" alt="001_函数参数和返回值"></p>
+<blockquote>
+<p>定义函数时，<strong>是否接收参数，或者是否返回结果</strong>，是根据 <strong>实际的功能需求</strong> 来决定的！</p>
+</blockquote>
+<ol>
+<li>如果函数 <strong>内部处理的数据不确定</strong>，就可以将外界的数据以参数传递到函数内部</li>
+<li>如果希望一个函数 <strong>执行完成后，向外界汇报执行结果</strong>，就可以增加函数的返回值</li>
+</ol>
+<h3 id="1-1-无参数，无返回值"><a href="#1-1-无参数，无返回值" class="headerlink" title="1.1 无参数，无返回值"></a>1.1 无参数，无返回值</h3><p>此类函数，不接收参数，也没有返回值，应用场景如下：</p>
+<ol>
+<li><strong>只是单纯地做一件事情</strong>，例如 <strong>显示菜单</strong></li>
+<li>在函数内部 <strong>针对全局变量进行操作</strong>，例如：<strong>新建名片</strong>，最终结果 <strong>记录在全局变量</strong> 中</li>
+</ol>
+<blockquote>
+<p>注意：</p>
+</blockquote>
+<ul>
+<li>如果全局变量的数据类型是一个 <strong>可变类型</strong>，在函数内部可以使用 <strong>方法</strong> 修改全局变量的内容 —— <strong>变量的引用不会改变</strong></li>
+<li>在函数内部，<strong>使用赋值语句</strong> 才会 <strong>修改变量的引用</strong></li>
+</ul>
+<h3 id="1-2-无参数，有返回值"><a href="#1-2-无参数，有返回值" class="headerlink" title="1.2 无参数，有返回值"></a>1.2 无参数，有返回值</h3><p>此类函数，不接收参数，但是有返回值，应用场景如下：</p>
+<ul>
+<li>采集数据，例如 <strong>温度计</strong>，返回结果就是当前的温度，而不需要传递任何的参数</li>
+</ul>
+<h3 id="1-3-有参数，无返回值"><a href="#1-3-有参数，无返回值" class="headerlink" title="1.3 有参数，无返回值"></a>1.3 有参数，无返回值</h3><p>此类函数，接收参数，没有返回值，应用场景如下：</p>
+<ul>
+<li>函数内部的代码保持不变，针对 <strong>不同的参数 处理 不同的数据</strong></li>
+<li>例如 <strong>名片管理系统</strong> 针对 <strong>找到的名片</strong> 做 <strong>修改</strong>、<strong>删除</strong> 操作</li>
+</ul>
+<h3 id="1-4-有参数，有返回值"><a href="#1-4-有参数，有返回值" class="headerlink" title="1.4 有参数，有返回值"></a>1.4 有参数，有返回值</h3><p>此类函数，接收参数，同时有返回值，应用场景如下：</p>
+<ul>
+<li>函数内部的代码保持不变，针对 <strong>不同的参数 处理 不同的数据</strong>，并且 <strong>返回期望的处理结果</strong></li>
+<li>例如 <strong>名片管理系统</strong> 使用 <strong>字典默认值</strong> 和 <strong>提示信息</strong> 提示用户输入内容<ul>
+<li>如果输入，返回输入内容</li>
+<li>如果没有输入，返回字典默认值</li>
+</ul>
+</li>
+</ul>
+<h2 id="02-函数的返回值-进阶"><a href="#02-函数的返回值-进阶" class="headerlink" title="02. 函数的返回值 进阶"></a>02. 函数的返回值 进阶</h2><ul>
+<li>在程序开发中，有时候，会希望 <strong>一个函数执行结束后，告诉调用者一个结果</strong>，以便调用者针对具体的结果做后续的处理</li>
+<li><strong>返回值</strong> 是函数 <strong>完成工作</strong>后，<strong>最后</strong> 给调用者的 <strong>一个结果</strong></li>
+<li>在函数中使用 <code>return</code> 关键字可以返回结果</li>
+<li>调用函数一方，可以 <strong>使用变量</strong> 来 <strong>接收</strong> 函数的返回结果</li>
+</ul>
+<blockquote>
+<p>问题：一个函数执行后能否返回多个结果？</p>
+</blockquote>
+<h3 id="示例-——-温度和湿度测量"><a href="#示例-——-温度和湿度测量" class="headerlink" title="示例 —— 温度和湿度测量"></a>示例 —— 温度和湿度测量</h3><ul>
+<li>假设要开发一个函数能够同时返回当前的温度和湿度</li>
+<li><strong>先完成返回温度</strong>的功能如下：</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">measure</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">"""返回当前的温度"""</span></span><br><span class="line">    </span><br><span class="line">    print(<span class="string">"开始测量..."</span>)</span><br><span class="line">    temp = <span class="number">39</span></span><br><span class="line">    print(<span class="string">"测量结束..."</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> temp</span><br><span class="line"></span><br><span class="line">result = measure()</span><br><span class="line">print(result)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在利用 <strong>元组</strong> 在返回温度的同时，也能够返回 <strong>湿度</strong></li>
+<li>改造如下：</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">measure</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">"""返回当前的温度"""</span></span><br><span class="line"></span><br><span class="line">    print(<span class="string">"开始测量..."</span>)</span><br><span class="line">    temp = <span class="number">39</span></span><br><span class="line">    wetness = <span class="number">10</span></span><br><span class="line">    print(<span class="string">"测量结束..."</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (temp, wetness)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>提示：如果一个函数返回的是元组，括号可以省略</p>
+</blockquote>
+<p><strong>技巧</strong> </p>
+<ul>
+<li>在 <code>Python</code> 中，可以 <strong>将一个元组</strong> 使用 <strong>赋值语句</strong> 同时赋值给 <strong>多个变量</strong></li>
+<li>注意：变量的数量需要和元组中的元素数量保持一致</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">result = temp, wetness = measure()</span><br></pre></td></tr></table></figure>
+
+<h3 id="面试题-——-交换两个数字"><a href="#面试题-——-交换两个数字" class="headerlink" title="面试题 —— 交换两个数字"></a>面试题 —— 交换两个数字</h3><p><strong>题目要求</strong></p>
+<ol>
+<li>有两个整数变量 <code>a = 6</code>, <code>b = 100</code></li>
+<li>不使用其他变量，<strong>交换两个变量的值</strong></li>
+</ol>
+<h4 id="解法-1-——-使用其他变量"><a href="#解法-1-——-使用其他变量" class="headerlink" title="解法 1 —— 使用其他变量"></a>解法 1 —— 使用其他变量</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 解法 1 - 使用临时变量</span></span><br><span class="line">c = b</span><br><span class="line">b = a</span><br><span class="line">a = c</span><br></pre></td></tr></table></figure>
+
+<h4 id="解法-2-——-不使用临时变量"><a href="#解法-2-——-不使用临时变量" class="headerlink" title="解法 2 —— 不使用临时变量"></a>解法 2 —— 不使用临时变量</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 解法 2 - 不使用临时变量</span></span><br><span class="line">a = a + b</span><br><span class="line">b = a - b</span><br><span class="line">a = a - b</span><br></pre></td></tr></table></figure>
+
+<h4 id="解法-3-——-Python-专有，利用元组"><a href="#解法-3-——-Python-专有，利用元组" class="headerlink" title="解法 3 —— Python 专有，利用元组"></a>解法 3 —— Python 专有，利用元组</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a, b = b, a</span><br></pre></td></tr></table></figure>
+
+<h2 id="03-函数的参数-进阶"><a href="#03-函数的参数-进阶" class="headerlink" title="03. 函数的参数 进阶"></a>03. 函数的参数 进阶</h2><h3 id="3-1-不可变和可变的参数"><a href="#3-1-不可变和可变的参数" class="headerlink" title="3.1. 不可变和可变的参数"></a>3.1. 不可变和可变的参数</h3><blockquote>
+<p>问题 1：在函数内部，针对参数使用 <strong>赋值语句</strong>，会不会影响调用函数时传递的 <strong>实参变量</strong>？ —— 不会！</p>
+</blockquote>
+<ul>
+<li>无论传递的参数是 <strong>可变</strong> 还是 <strong>不可变</strong> <ul>
+<li>只要 <strong>针对参数</strong> 使用 <strong>赋值语句</strong>，会在 <strong>函数内部</strong> 修改 <strong>局部变量的引用</strong>，<strong>不会影响到 外部变量的引用</strong></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">demo</span><span class="params">(num, num_list)</span>:</span></span><br><span class="line"></span><br><span class="line">    print(<span class="string">"函数内部"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 赋值语句</span></span><br><span class="line">    num = <span class="number">200</span></span><br><span class="line">    num_list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"></span><br><span class="line">    print(num)</span><br><span class="line">    print(num_list)</span><br><span class="line"></span><br><span class="line">    print(<span class="string">"函数代码完成"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">gl_num = <span class="number">99</span></span><br><span class="line">gl_list = [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">demo(gl_num, gl_list)</span><br><span class="line">print(gl_num)</span><br><span class="line">print(gl_list)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>问题 2：如果传递的参数是 <strong>可变类型</strong>，在函数内部，使用 <strong>方法</strong> 修改了数据的内容，<strong>同样会影响到外部的数据</strong></p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mutable</span><span class="params">(num_list)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># num_list = [1, 2, 3]</span></span><br><span class="line">    num_list.extend([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line">    </span><br><span class="line">    print(num_list)</span><br><span class="line"></span><br><span class="line">gl_list = [<span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>]</span><br><span class="line">mutable(gl_list)</span><br><span class="line">print(gl_list)</span><br></pre></td></tr></table></figure>
+
+<h4 id="面试题-——"><a href="#面试题-——" class="headerlink" title="面试题 —— +="></a>面试题 —— <code>+=</code></h4><ul>
+<li>在 <code>python</code> 中，列表变量调用 <code>+=</code> 本质上是在执行列表变量的 <code>extend</code> 方法，不会修改变量的引用</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">demo</span><span class="params">(num, num_list)</span>:</span></span><br><span class="line"></span><br><span class="line">    print(<span class="string">"函数内部代码"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># num = num + num</span></span><br><span class="line">    num += num</span><br><span class="line">    <span class="comment"># num_list.extend(num_list) 由于是调用方法，所以不会修改变量的引用</span></span><br><span class="line">    <span class="comment"># 函数执行结束后，外部数据同样会发生变化</span></span><br><span class="line">    num_list += num_list</span><br><span class="line"></span><br><span class="line">    print(num)</span><br><span class="line">    print(num_list)</span><br><span class="line">    print(<span class="string">"函数代码完成"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">gl_num = <span class="number">9</span></span><br><span class="line">gl_list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">demo(gl_num, gl_list)</span><br><span class="line">print(gl_num)</span><br><span class="line">print(gl_list)</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-缺省参数"><a href="#3-2-缺省参数" class="headerlink" title="3.2 缺省参数"></a>3.2 缺省参数</h3><ul>
+<li>定义函数时，可以给 <strong>某个参数</strong> 指定一个<strong>默认值</strong>，具有默认值的参数就叫做 <strong>缺省参数</strong></li>
+<li>调用函数时，如果没有传入 <strong>缺省参数</strong> 的值，则在函数内部使用定义函数时指定的 <strong>参数默认值</strong></li>
+<li>函数的缺省参数，<strong>将常见的值设置为参数的缺省值</strong>，从而 <strong>简化函数的调用</strong></li>
+<li>例如：对列表排序的方法</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">gl_num_list = [<span class="number">6</span>, <span class="number">3</span>, <span class="number">9</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 默认就是升序排序，因为这种应用需求更多</span></span><br><span class="line">gl_num_list.sort()</span><br><span class="line">print(gl_num_list)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只有当需要降序排序时，才需要传递 `reverse` 参数</span></span><br><span class="line">gl_num_list.sort(reverse=<span class="literal">True</span>)</span><br><span class="line">print(gl_num_list)</span><br></pre></td></tr></table></figure>
+
+<h4 id="指定函数的缺省参数"><a href="#指定函数的缺省参数" class="headerlink" title="指定函数的缺省参数"></a>指定函数的缺省参数</h4><ul>
+<li>在参数后使用赋值语句，可以指定参数的缺省值</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_info</span><span class="params">(name, gender=True)</span>:</span></span><br><span class="line"></span><br><span class="line">    gender_text = <span class="string">"男生"</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> gender:</span><br><span class="line">        gender_text = <span class="string">"女生"</span></span><br><span class="line"></span><br><span class="line">    print(<span class="string">"%s 是 %s"</span> % (name, gender_text))</span><br></pre></td></tr></table></figure>
+
+<p><strong>提示</strong></p>
+<ol>
+<li>缺省参数，需要使用 <strong>最常见的值</strong> 作为默认值！</li>
+<li>如果一个参数的值 <strong>不能确定</strong>，则不应该设置默认值，具体的数值在调用函数时，由外界传递！</li>
+</ol>
+<h4 id="缺省参数的注意事项"><a href="#缺省参数的注意事项" class="headerlink" title="缺省参数的注意事项"></a>缺省参数的注意事项</h4><h5 id="1-缺省参数的定义位置"><a href="#1-缺省参数的定义位置" class="headerlink" title="1) 缺省参数的定义位置"></a>1) 缺省参数的定义位置</h5><ul>
+<li><strong>必须保证</strong> <strong>带有默认值的缺省参数</strong> <strong>在参数列表末尾</strong></li>
+<li>所以，以下定义是错误的！</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_info</span><span class="params">(name, gender=True, title)</span>:</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="2-调用带有多个缺省参数的函数"><a href="#2-调用带有多个缺省参数的函数" class="headerlink" title="2) 调用带有多个缺省参数的函数"></a>2) 调用带有多个缺省参数的函数</h5><ul>
+<li>在 <strong>调用函数时</strong>，如果有 <strong>多个缺省参数</strong>，<strong>需要指定参数名</strong>，这样解释器才能够知道参数的对应关系！</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_info</span><span class="params">(name, title=<span class="string">""</span>, gender=True)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    :param title: 职位</span></span><br><span class="line"><span class="string">    :param name: 班上同学的姓名</span></span><br><span class="line"><span class="string">    :param gender: True 男生 False 女生</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    gender_text = <span class="string">"男生"</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> gender:</span><br><span class="line">        gender_text = <span class="string">"女生"</span></span><br><span class="line"></span><br><span class="line">    print(<span class="string">"%s%s 是 %s"</span> % (title, name, gender_text))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 提示：在指定缺省参数的默认值时，应该使用最常见的值作为默认值！</span></span><br><span class="line">print_info(<span class="string">"小明"</span>)</span><br><span class="line">print_info(<span class="string">"老王"</span>, title=<span class="string">"班长"</span>)</span><br><span class="line">print_info(<span class="string">"小美"</span>, gender=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-多值参数（知道）"><a href="#3-3-多值参数（知道）" class="headerlink" title="3.3 多值参数（知道）"></a>3.3 多值参数（知道）</h3><h4 id="定义支持多值参数的函数"><a href="#定义支持多值参数的函数" class="headerlink" title="定义支持多值参数的函数"></a>定义支持多值参数的函数</h4><ul>
+<li>有时可能需要 <strong>一个函数</strong> 能够处理的参数 <strong>个数</strong> 是不确定的，这个时候，就可以使用 <strong>多值参数</strong></li>
+<li><code>python</code> 中有 <strong>两种</strong> 多值参数：<ul>
+<li>参数名前增加 <strong>一个</strong> <code>*</code> 可以接收 <strong>元组</strong></li>
+<li>参数名前增加 <strong>两个</strong> <code>*</code> 可以接收 <strong>字典</strong></li>
+</ul>
+</li>
+<li>一般在给多值参数命名时，<strong>习惯</strong>使用以下两个名字<ul>
+<li><code>*args</code> —— 存放 <strong>元组</strong> 参数，前面有一个 <code>*</code></li>
+<li><code>**kwargs</code> —— 存放 <strong>字典</strong> 参数，前面有两个 <code>*</code></li>
+</ul>
+</li>
+<li><code>args</code> 是 <code>arguments</code> 的缩写，有变量的含义</li>
+<li><code>kw</code> 是 <code>keyword</code> 的缩写，<code>kwargs</code> 可以记忆 <strong>键值对参数</strong></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">demo</span><span class="params">(num, *args, **kwargs)</span>:</span></span><br><span class="line"></span><br><span class="line">    print(num)</span><br><span class="line">    print(args)</span><br><span class="line">    print(kwargs)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">demo(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, name=<span class="string">"小明"</span>, age=<span class="number">18</span>, gender=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>提示：<strong>多值参数</strong> 的应用会经常出现在网络上一些大牛开发的框架中，知道多值参数，<strong>有利于我们能够读懂大牛的代码</strong></p>
+</blockquote>
+<h4 id="多值参数案例-——-计算任意多个数字的和"><a href="#多值参数案例-——-计算任意多个数字的和" class="headerlink" title="多值参数案例 —— 计算任意多个数字的和"></a>多值参数案例 —— 计算任意多个数字的和</h4><p><strong>需求</strong></p>
+<ol>
+<li>定义一个函数 <code>sum_numbers</code>，可以接收的 <strong>任意多个整数</strong></li>
+<li>功能要求：将传递的 <strong>所有数字累加</strong> 并且返回累加结果</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sum_numbers</span><span class="params">(*args)</span>:</span></span><br><span class="line"></span><br><span class="line">    num = <span class="number">0</span></span><br><span class="line">    <span class="comment"># 遍历 args 元组顺序求和</span></span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> args:</span><br><span class="line">        num += n</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> num</span><br><span class="line"></span><br><span class="line">print(sum_numbers(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>))</span><br></pre></td></tr></table></figure>
+
+<h4 id="元组和字典的拆包（知道）"><a href="#元组和字典的拆包（知道）" class="headerlink" title="元组和字典的拆包（知道）"></a>元组和字典的拆包（知道）</h4><ul>
+<li>在调用带有多值参数的函数时，如果希望：<ul>
+<li>将一个 <strong>元组变量</strong>，直接传递给 <code>args</code></li>
+<li>将一个 <strong>字典变量</strong>，直接传递给 <code>kwargs</code></li>
+</ul>
+</li>
+<li>就可以使用 <strong>拆包</strong>，简化参数的传递，<strong>拆包</strong> 的方式是：<ul>
+<li>在 <strong>元组变量前</strong>，增加 <strong>一个</strong> <code>*</code></li>
+<li>在 <strong>字典变量前</strong>，增加 <strong>两个</strong> <code>*</code></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">demo</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line"></span><br><span class="line">    print(args)</span><br><span class="line">    print(kwargs)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 需要将一个元组变量/字典变量传递给函数对应的参数</span></span><br><span class="line">gl_nums = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">gl_xiaoming = &#123;<span class="string">"name"</span>: <span class="string">"小明"</span>, <span class="string">"age"</span>: <span class="number">18</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 会把 num_tuple 和 xiaoming 作为元组传递个 args</span></span><br><span class="line"><span class="comment"># demo(gl_nums, gl_xiaoming)</span></span><br><span class="line">demo(*gl_nums, **gl_xiaoming)</span><br></pre></td></tr></table></figure>
+
+<h2 id="04-函数的递归"><a href="#04-函数的递归" class="headerlink" title="04. 函数的递归"></a>04. 函数的递归</h2><blockquote>
+<p>函数调用自身的 <strong>编程技巧</strong> 称为递归</p>
+</blockquote>
+<h3 id="4-1-递归函数的特点"><a href="#4-1-递归函数的特点" class="headerlink" title="4.1 递归函数的特点"></a>4.1 递归函数的特点</h3><p><strong>特点</strong></p>
+<ul>
+<li><strong>一个函数</strong> <strong>内部</strong> <strong>调用自己</strong><ul>
+<li>函数内部可以调用其他函数，当然在函数内部也可以调用自己</li>
+</ul>
+</li>
+</ul>
+<p><strong>代码特点</strong></p>
+<ol>
+<li>函数内部的 <strong>代码</strong> 是相同的，只是针对 <strong>参数</strong> 不同，<strong>处理的结果不同</strong></li>
+<li>当 <strong>参数满足一个条件</strong> 时，函数不再执行<ul>
+<li><strong>这个非常重要</strong>，通常被称为递归的出口，否则 <strong>会出现死循环</strong>！</li>
+</ul>
+</li>
+</ol>
+<p>示例代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sum_numbers</span><span class="params">(num)</span>:</span></span><br><span class="line"></span><br><span class="line">    print(num)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 递归的出口很重要，否则会出现死循环</span></span><br><span class="line">    <span class="keyword">if</span> num == <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    sum_numbers(num - <span class="number">1</span>)</span><br><span class="line">    </span><br><span class="line">sum_numbers(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/07/09/python01-10/media/14993074876434/002_%E9%80%92%E5%BD%92%E8%B0%83%E7%94%A8%E7%A4%BA%E6%84%8F%E5%9B%BEI.png" alt="002_递归调用示意图I"></p>
+<h3 id="4-2-递归案例-——-计算数字累加"><a href="#4-2-递归案例-——-计算数字累加" class="headerlink" title="4.2 递归案例 —— 计算数字累加"></a>4.2 递归案例 —— 计算数字累加</h3><p><strong>需求</strong></p>
+<ol>
+<li>定义一个函数 <code>sum_numbers</code></li>
+<li>能够接收一个 <code>num</code> 的整数参数</li>
+<li>计算 1 + 2 + … num 的结果</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sum_numbers</span><span class="params">(num)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> num == <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 假设 sum_numbers 能够完成 num - 1 的累加</span></span><br><span class="line">    temp = sum_numbers(num - <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 函数内部的核心算法就是 两个数字的相加</span></span><br><span class="line">    <span class="keyword">return</span> num + temp</span><br><span class="line"></span><br><span class="line">print(sum_numbers(<span class="number">2</span>))</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/07/09/python01-10/media/14993074876434/002_%E9%80%92%E5%BD%92%E8%B0%83%E7%94%A8%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="002_递归调用示意图"></p>
+<blockquote>
+<p>提示：递归是一个 <strong>编程技巧</strong>，初次接触递归会感觉有些吃力！在处理 <strong>不确定的循环条件时</strong>，格外的有用，例如：<strong>遍历整个文件目录的结构</strong></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://liu-yaohua.github.io/2020/07/09/python01-9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1578394974761&di=9d161c4fcd3d2a3644548c48ba5ce3ea&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201612%2F04%2F20161204102600_kr25d.thumb.700_0.jpeg">
+      <meta itemprop="name" content="LIU-YAOHUA">
+      <meta itemprop="description" content="欢迎您的到来！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="刘耀华博客">
+    </span>
+      <header class="post-header">
+
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/09/python01-9/" class="post-title-link" itemprop="url">python01-9</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-07-09 12:49:50 / 修改时间：15:11:59" itemprop="dateCreated datePublished" datetime="2020-07-09T12:49:50+08:00">2020-07-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="变量进阶（理解）"><a href="#变量进阶（理解）" class="headerlink" title="变量进阶（理解）"></a>变量进阶（理解）</h1><h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><ul>
+<li>变量的引用</li>
+<li>可变和不可变类型</li>
+<li>局部变量和全局变量</li>
+</ul>
+<h2 id="01-变量的引用"><a href="#01-变量的引用" class="headerlink" title="01. 变量的引用"></a>01. 变量的引用</h2><blockquote>
+<ul>
+<li>变量 和 数据 都是保存在 <strong>内存</strong> 中的</li>
+<li>在 <code>Python</code> 中 <strong>函数 的 参数传递</strong> 以及 <strong>返回值</strong> 都是靠 <strong>引用</strong> 传递的</li>
+</ul>
+</blockquote>
+<h3 id="1-1-引用的概念"><a href="#1-1-引用的概念" class="headerlink" title="1.1 引用的概念"></a>1.1 引用的概念</h3><p>在 <code>Python</code> 中</p>
+<ul>
+<li><strong>变量</strong> 和 <strong>数据</strong> 是分开存储的</li>
+<li><strong>数据</strong> 保存在内存中的一个位置</li>
+<li><strong>变量</strong> 中保存着数据在内存中的地址</li>
+<li><strong>变量</strong> 中 <strong>记录数据的地址</strong>，就叫做 <strong>引用</strong></li>
+<li>使用 <code>id()</code> 函数可以查看变量中保存数据所在的 <strong>内存地址</strong></li>
+</ul>
+<blockquote>
+<p>注意：如果变量已经被定义，当给一个变量赋值的时候，本质上是 <strong>修改了数据的引用</strong></p>
+<ul>
+<li>变量 <strong>不再</strong> 对之前的数据引用</li>
+<li>变量 <strong>改为</strong> 对新赋值的数据引用</li>
+</ul>
+</blockquote>
+<h3 id="1-2-变量引用-的示例"><a href="#1-2-变量引用-的示例" class="headerlink" title="1.2 变量引用 的示例"></a>1.2 <code>变量引用</code> 的示例</h3><p>在 <code>Python</code> 中，变量的名字类似于 <strong>便签纸</strong> 贴在 <strong>数据</strong> 上</p>
+<ul>
+<li>定义一个整数变量 <code>a</code>，并且赋值为 <code>1</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">代码</th>
+<th align="center">图示</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">a = 1</td>
+<td align="center"><img src="/2020/07/09/python01-9/media/14982751015713/004_a1tag.png" alt="004_a1tag"></td>
+</tr>
+</tbody></table>
+<ul>
+<li>将变量 <code>a</code> 赋值为 <code>2</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">代码</th>
+<th align="center">图示</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">a = 2</td>
+<td align="center"><img src="/2020/07/09/python01-9/media/14982751015713/005_a2tag.png" alt="005_a2tag">)<img src="/2020/07/09/python01-9/media/14982751015713/005_1.png" alt="005_1"></td>
+</tr>
+</tbody></table>
+<ul>
+<li>定义一个整数变量 <code>b</code>，并且将变量 <code>a</code> 的值赋值给 <code>b</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">代码</th>
+<th align="center">图示</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">b = a</td>
+<td align="center"><img src="/2020/07/09/python01-9/media/14982751015713/006_ab2tag.png" alt="006_ab2tag"></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>变量 <code>b</code> 是第 2 个贴在数字 <code>2</code> 上的标签</p>
+</blockquote>
+<h3 id="1-3-函数的参数和返回值的传递"><a href="#1-3-函数的参数和返回值的传递" class="headerlink" title="1.3 函数的参数和返回值的传递"></a>1.3 函数的参数和返回值的传递</h3><p>在 <code>Python</code> 中，函数的 <strong>实参</strong>/<strong>返回值</strong> 都是是靠 <strong>引用</strong> 来传递来的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">(num)</span>:</span></span><br><span class="line"></span><br><span class="line">    print(<span class="string">"-"</span> * <span class="number">50</span>)</span><br><span class="line">    print(<span class="string">"%d 在函数内的内存地址是 %x"</span> % (num, id(num)))</span><br><span class="line"></span><br><span class="line">    result = <span class="number">100</span></span><br><span class="line"></span><br><span class="line">    print(<span class="string">"返回值 %d 在内存中的地址是 %x"</span> % (result, id(result)))</span><br><span class="line">    print(<span class="string">"-"</span> * <span class="number">50</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span>  result</span><br><span class="line"></span><br><span class="line">a = <span class="number">10</span></span><br><span class="line">print(<span class="string">"调用函数前 内存地址是 %x"</span> % id(a))</span><br><span class="line"></span><br><span class="line">r = test(a)</span><br><span class="line"></span><br><span class="line">print(<span class="string">"调用函数后 实参内存地址是 %x"</span> % id(a))</span><br><span class="line">print(<span class="string">"调用函数后 返回值内存地址是 %x"</span> % id(r))</span><br></pre></td></tr></table></figure>
+
+<h2 id="02-可变和不可变类型"><a href="#02-可变和不可变类型" class="headerlink" title="02. 可变和不可变类型"></a>02. 可变和不可变类型</h2><ul>
+<li><strong>不可变类型</strong>，内存中的数据不允许被修改：<ul>
+<li>数字类型 <code>int</code>, <code>bool</code>, <code>float</code>, <code>complex</code>, <code>long(2.x)</code></li>
+<li>字符串 <code>str</code></li>
+<li>元组 <code>tuple</code></li>
+</ul>
+</li>
+<li><strong>可变类型</strong>，内存中的数据可以被修改：<ul>
+<li>列表 <code>list</code></li>
+<li>字典 <code>dict</code></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">1</span></span><br><span class="line">a = <span class="string">"hello"</span></span><br><span class="line">a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">a = [<span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">demo_list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"></span><br><span class="line">print(<span class="string">"定义列表后的内存地址 %d"</span> % id(demo_list))</span><br><span class="line"></span><br><span class="line">demo_list.append(<span class="number">999</span>)</span><br><span class="line">demo_list.pop(<span class="number">0</span>)</span><br><span class="line">demo_list.remove(<span class="number">2</span>)</span><br><span class="line">demo_list[<span class="number">0</span>] = <span class="number">10</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">"修改数据后的内存地址 %d"</span> % id(demo_list))</span><br><span class="line"></span><br><span class="line">demo_dict = &#123;<span class="string">"name"</span>: <span class="string">"小明"</span>&#125;</span><br><span class="line"></span><br><span class="line">print(<span class="string">"定义字典后的内存地址 %d"</span> % id(demo_dict))</span><br><span class="line"></span><br><span class="line">demo_dict[<span class="string">"age"</span>] = <span class="number">18</span></span><br><span class="line">demo_dict.pop(<span class="string">"name"</span>)</span><br><span class="line">demo_dict[<span class="string">"name"</span>] = <span class="string">"老王"</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">"修改数据后的内存地址 %d"</span> % id(demo_dict))</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：字典的 <code>key</code> <strong>只能使用不可变类型的数据</strong></p>
+</blockquote>
+<p><strong>注意</strong></p>
+<ol>
+<li><strong>可变类型</strong>的数据变化，是通过 <strong>方法</strong> 来实现的</li>
+<li>如果给一个可变类型的变量，赋值了一个新的数据，<strong>引用会修改</strong><ul>
+<li>变量 <strong>不再</strong> 对之前的数据引用</li>
+<li>变量 <strong>改为</strong> 对新赋值的数据引用</li>
+</ul>
+</li>
+</ol>
+<h3 id="哈希-hash"><a href="#哈希-hash" class="headerlink" title="哈希 (hash)"></a>哈希 <code>(hash)</code></h3><ul>
+<li><code>Python</code> 中内置有一个名字叫做 <code>hash(o)</code> 的函数<ul>
+<li>接收一个 <strong>不可变类型</strong> 的数据作为 <strong>参数</strong></li>
+<li><strong>返回</strong> 结果是一个 <strong>整数</strong></li>
+</ul>
+</li>
+<li><code>哈希</code> 是一种 <strong>算法</strong>，其作用就是提取数据的 <strong>特征码（指纹）</strong><ul>
+<li><strong>相同的内容</strong> 得到 <strong>相同的结果</strong></li>
+<li><strong>不同的内容</strong> 得到 <strong>不同的结果</strong></li>
+</ul>
+</li>
+<li>在 <code>Python</code> 中，设置字典的 <strong>键值对</strong> 时，会首先对 <code>key</code> 进行 <code>hash</code> 已决定如何在内存中保存字典的数据，以方便 <strong>后续</strong> 对字典的操作：<strong>增、删、改、查</strong><ul>
+<li>键值对的 <code>key</code> 必须是不可变类型数据</li>
+<li>键值对的 <code>value</code> 可以是任意类型的数据</li>
+</ul>
+</li>
+</ul>
+<h2 id="03-局部变量和全局变量"><a href="#03-局部变量和全局变量" class="headerlink" title="03. 局部变量和全局变量"></a>03. 局部变量和全局变量</h2><ul>
+<li><strong>局部变量</strong> 是在 <strong>函数内部</strong> 定义的变量，<strong>只能在函数内部使用</strong></li>
+<li><strong>全局变量</strong> 是在 <strong>函数外部定义</strong> 的变量（没有定义在某一个函数内），<strong>所有函数</strong> 内部 <strong>都可以使用这个变量</strong></li>
+</ul>
+<blockquote>
+<p>提示：在其他的开发语言中，大多 <strong>不推荐使用全局变量</strong> —— 可变范围太大，导致程序不好维护！</p>
+</blockquote>
+<h3 id="3-1-局部变量"><a href="#3-1-局部变量" class="headerlink" title="3.1 局部变量"></a>3.1 局部变量</h3><ul>
+<li><strong>局部变量</strong> 是在 <strong>函数内部</strong> 定义的变量，<strong>只能在函数内部使用</strong></li>
+<li>函数执行结束后，<strong>函数内部的局部变量，会被系统回收</strong></li>
+<li>不同的函数，可以定义相同的名字的局部变量，但是 <strong>彼此之间</strong> 不会产生影响</li>
+</ul>
+<h4 id="局部变量的作用"><a href="#局部变量的作用" class="headerlink" title="局部变量的作用"></a>局部变量的作用</h4><ul>
+<li>在函数内部使用，<strong>临时</strong> 保存 <strong>函数内部需要使用的数据</strong></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">demo1</span><span class="params">()</span>:</span></span><br><span class="line"></span><br><span class="line">    num = <span class="number">10</span></span><br><span class="line"></span><br><span class="line">    print(num)</span><br><span class="line"></span><br><span class="line">    num = <span class="number">20</span></span><br><span class="line"></span><br><span class="line">    print(<span class="string">"修改后 %d"</span> % num)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">demo2</span><span class="params">()</span>:</span></span><br><span class="line"></span><br><span class="line">    num = <span class="number">100</span></span><br><span class="line"></span><br><span class="line">    print(num)</span><br><span class="line"></span><br><span class="line">demo1()</span><br><span class="line">demo2()</span><br><span class="line"></span><br><span class="line">print(<span class="string">"over"</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="局部变量的生命周期"><a href="#局部变量的生命周期" class="headerlink" title="局部变量的生命周期"></a>局部变量的生命周期</h4><ul>
+<li>所谓 <strong>生命周期</strong> 就是变量从 <strong>被创建</strong> 到 <strong>被系统回收</strong> 的过程</li>
+<li><strong>局部变量</strong> 在 <strong>函数执行时</strong> 才会被创建</li>
+<li><strong>函数执行结束后</strong> 局部变量 <strong>被系统回收</strong></li>
+<li><strong>局部变量在生命周期</strong> 内，可以用来存储 <strong>函数内部临时使用到的数据</strong></li>
+</ul>
+<h3 id="3-2-全局变量"><a href="#3-2-全局变量" class="headerlink" title="3.2 全局变量"></a>3.2 全局变量</h3><ul>
+<li><strong>全局变量</strong> 是在 <strong>函数外部定义</strong> 的变量，所有函数内部都可以使用这个变量</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 定义一个全局变量</span></span><br><span class="line">num = <span class="number">10</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">demo1</span><span class="params">()</span>:</span></span><br><span class="line"></span><br><span class="line">    print(num)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">demo2</span><span class="params">()</span>:</span></span><br><span class="line"></span><br><span class="line">    print(num)</span><br><span class="line"></span><br><span class="line">demo1()</span><br><span class="line">demo2()</span><br><span class="line"></span><br><span class="line">print(<span class="string">"over"</span>)</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：函数执行时，<strong>需要处理变量时</strong> 会：</p>
+<ol>
+<li><strong>首先</strong> 查找 <strong>函数内部</strong> 是否存在 <strong>指定名称 的局部变量</strong>，<strong>如果有，直接使用</strong></li>
+<li>如果没有，查找 <strong>函数外部</strong> 是否存在 <strong>指定名称 的全局变量</strong>，<strong>如果有，直接使用</strong></li>
+<li>如果还没有，程序报错！</li>
+</ol>
+<h4 id="1-函数不能直接修改-全局变量的引用"><a href="#1-函数不能直接修改-全局变量的引用" class="headerlink" title="1) 函数不能直接修改 全局变量的引用"></a>1) 函数不能直接修改 <code>全局变量的引用</code></h4><ul>
+<li><strong>全局变量</strong> 是在 <strong>函数外部定义</strong> 的变量（没有定义在某一个函数内），<strong>所有函数</strong> 内部 <strong>都可以使用这个变量</strong></li>
+</ul>
+<blockquote>
+<p>提示：在其他的开发语言中，大多 <strong>不推荐使用全局变量</strong> —— 可变范围太大，导致程序不好维护！</p>
+</blockquote>
+<ul>
+<li>在函数内部，可以 <strong>通过全局变量的引用获取对应的数据</strong></li>
+<li>但是，<strong>不允许直接修改全局变量的引用</strong> —— 使用赋值语句修改全局变量的值</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">num = <span class="number">10</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">demo1</span><span class="params">()</span>:</span></span><br><span class="line"></span><br><span class="line">    print(<span class="string">"demo1"</span> + <span class="string">"-"</span> * <span class="number">50</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 只是定义了一个局部变量，不会修改到全局变量，只是变量名相同而已</span></span><br><span class="line">    num = <span class="number">100</span></span><br><span class="line">    print(num)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">demo2</span><span class="params">()</span>:</span></span><br><span class="line"></span><br><span class="line">    print(<span class="string">"demo2"</span> + <span class="string">"-"</span> * <span class="number">50</span>)</span><br><span class="line">    print(num)</span><br><span class="line"></span><br><span class="line">demo1()</span><br><span class="line">demo2()</span><br><span class="line"></span><br><span class="line">print(<span class="string">"over"</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：只是在函数内部定义了一个局部变量而已，只是变量名相同 —— 在函数内部不能直接修改全局变量的值</p>
+</blockquote>
+<h4 id="2-在函数内部修改全局变量的值"><a href="#2-在函数内部修改全局变量的值" class="headerlink" title="2) 在函数内部修改全局变量的值"></a>2) 在函数内部修改全局变量的值</h4><ul>
+<li>如果在函数中需要修改全局变量，需要使用 <code>global</code> 进行声明</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">num = <span class="number">10</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">demo1</span><span class="params">()</span>:</span></span><br><span class="line"></span><br><span class="line">    print(<span class="string">"demo1"</span> + <span class="string">"-"</span> * <span class="number">50</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># global 关键字，告诉 Python 解释器 num 是一个全局变量</span></span><br><span class="line">    <span class="keyword">global</span> num</span><br><span class="line">    <span class="comment"># 只是定义了一个局部变量，不会修改到全局变量，只是变量名相同而已</span></span><br><span class="line">    num = <span class="number">100</span></span><br><span class="line">    print(num)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">demo2</span><span class="params">()</span>:</span></span><br><span class="line"></span><br><span class="line">    print(<span class="string">"demo2"</span> + <span class="string">"-"</span> * <span class="number">50</span>)</span><br><span class="line">    print(num)</span><br><span class="line"></span><br><span class="line">demo1()</span><br><span class="line">demo2()</span><br><span class="line"></span><br><span class="line">print(<span class="string">"over"</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-全局变量定义的位置"><a href="#3-全局变量定义的位置" class="headerlink" title="3) 全局变量定义的位置"></a>3) 全局变量定义的位置</h4><ul>
+<li>为了保证所有的函数都能够正确使用到全局变量，应该 <strong>将全局变量定义在其他函数的上方</strong></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">10</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">demo</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">"%d"</span> % a)</span><br><span class="line">    print(<span class="string">"%d"</span> % b)</span><br><span class="line">    print(<span class="string">"%d"</span> % c)</span><br><span class="line"></span><br><span class="line">b = <span class="number">20</span></span><br><span class="line">demo()</span><br><span class="line">c = <span class="number">30</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong></p>
+<ul>
+<li>由于全局变量 c，是在调用函数之后，才定义的，在执行函数时，变量还没有定义，所以程序会报错！</li>
+</ul>
+<p><strong>代码结构示意图如下</strong></p>
+<p><img src="/2020/07/09/python01-9/media/14982751015713/001_%E4%BB%A3%E7%A0%81%E7%BB%93%E6%9E%84%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="001_代码结构示意图-w240"></p>
+<h4 id="4-全局变量命名的建议"><a href="#4-全局变量命名的建议" class="headerlink" title="4) 全局变量命名的建议"></a>4) 全局变量命名的建议</h4><ul>
+<li>为了避免局部变量和全局变量出现混淆，在定义全局变量时，有些公司会有一些开发要求，例如：</li>
+<li>全局变量名前应该增加 <code>g_</code> 或者 <code>gl_</code> 的前缀</li>
+</ul>
+<blockquote>
+<p>提示：具体的要求格式，各公司要求可能会有些差异</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://liu-yaohua.github.io/2020/06/09/python01-8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -220,7 +776,7 @@
       
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/06/09/python01-8/" class="post-title-link" itemprop="url">python01-8</a>
+            <a href="/2020/06/09/python01-8/" class="post-title-link" itemprop="url">综合应用 —— 名片管理系统</a>
         </h1>
 
         <div class="post-meta">
@@ -229,10 +785,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-06-09 21:03:12 / 修改时间：21:05:23" itemprop="dateCreated datePublished" datetime="2020-06-09T21:03:12+08:00">2020-06-09</time>
+              <time title="创建时间：2020-06-09 21:03:12" itemprop="dateCreated datePublished" datetime="2020-06-09T21:03:12+08:00">2020-06-09</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-09 12:45:47" itemprop="dateModified" datetime="2020-07-09T12:45:47+08:00">2020-07-09</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -306,7 +868,7 @@
       
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/06/09/python01-7/" class="post-title-link" itemprop="url">python01-7</a>
+            <a href="/2020/06/09/python01-7/" class="post-title-link" itemprop="url">高级变量类型</a>
         </h1>
 
         <div class="post-meta">
@@ -315,10 +877,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-06-09 20:47:25 / 修改时间：20:52:36" itemprop="dateCreated datePublished" datetime="2020-06-09T20:47:25+08:00">2020-06-09</time>
+              <time title="创建时间：2020-06-09 20:47:25" itemprop="dateCreated datePublished" datetime="2020-06-09T20:47:25+08:00">2020-06-09</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-09 12:46:15" itemprop="dateModified" datetime="2020-07-09T12:46:15+08:00">2020-07-09</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -396,7 +964,7 @@
       
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/06/08/python01-6/" class="post-title-link" itemprop="url">python01-6</a>
+            <a href="/2020/06/08/python01-6/" class="post-title-link" itemprop="url">变量的基本使用</a>
         </h1>
 
         <div class="post-meta">
@@ -405,10 +973,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-06-08 17:38:00 / 修改时间：17:39:05" itemprop="dateCreated datePublished" datetime="2020-06-08T17:38:00+08:00">2020-06-08</time>
+              <time title="创建时间：2020-06-08 17:38:00" itemprop="dateCreated datePublished" datetime="2020-06-08T17:38:00+08:00">2020-06-08</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-09 12:46:31" itemprop="dateModified" datetime="2020-07-09T12:46:31+08:00">2020-07-09</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -844,166 +1418,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://liu-yaohua.github.io/2020/03/12/uart-dma/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1578394974761&di=9d161c4fcd3d2a3644548c48ba5ce3ea&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201612%2F04%2F20161204102600_kr25d.thumb.700_0.jpeg">
-      <meta itemprop="name" content="LIU-YAOHUA">
-      <meta itemprop="description" content="欢迎您的到来！">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="刘耀华博客">
-    </span>
-      <header class="post-header">
-
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/12/uart-dma/" class="post-title-link" itemprop="url">多串口使用printf和多串口DMA接收</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-03-12 11:35:07 / 修改时间：20:51:45" itemprop="dateCreated datePublished" datetime="2020-03-12T11:35:07+08:00">2020-03-12</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/stm32/" itemprop="url" rel="index">
-                    <span itemprop="name">stm32</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="/2020/03/12/uart-dma/%E9%92%A2%E9%93%81%E4%BE%A0.jpg" alt></p>
-<p>最近终于调通了多串口DMA接收，其实也挺简单的，记录一下备忘。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/03/12/uart-dma/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://liu-yaohua.github.io/2020/03/05/stm32-8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1578394974761&di=9d161c4fcd3d2a3644548c48ba5ce3ea&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201612%2F04%2F20161204102600_kr25d.thumb.700_0.jpeg">
-      <meta itemprop="name" content="LIU-YAOHUA">
-      <meta itemprop="description" content="欢迎您的到来！">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="刘耀华博客">
-    </span>
-      <header class="post-header">
-
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/05/stm32-8/" class="post-title-link" itemprop="url">【STM32基础教程08】STM32的ADC开发基础</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-03-05 15:59:29 / 修改时间：16:29:31" itemprop="dateCreated datePublished" datetime="2020-03-05T15:59:29+08:00">2020-03-05</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/stm32/" itemprop="url" rel="index">
-                    <span itemprop="name">stm32</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="STM32的ADC资源概述"><a href="#STM32的ADC资源概述" class="headerlink" title="STM32的ADC资源概述"></a><strong>STM32的ADC资源概述</strong></h2><p><img src="/2020/03/05/stm32-8/%E5%A3%81%E7%BA%B81.jpg" alt></p>
-<p>STM32F103ZE芯片（144脚）中有<strong>ADC1</strong>、<strong>ADC2</strong>、<strong>ADC3</strong>共3个<strong>12位逐次逼近型</strong>模数转换器，具有18个测量通道，可测量<strong>16个外部</strong>和<strong>2个内部</strong>信号源（内部温度和内部参考电压）。这2个内部信号源只能连接到<strong>ADC1</strong>。<br>ADC的各个通道的A/D转换可以<strong>单次</strong>、<strong>连续</strong>、<strong>扫描</strong>或<strong>间断</strong>模式执行。<br>A/D转换结果以<strong>左对齐</strong>或<strong>右对齐</strong>的方式，存储在<strong>16位</strong>规则组或者注入组数据寄存器中。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/03/05/stm32-8/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1084,7 +1498,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-count">34</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1413,7 +1827,7 @@ if(canvas.getContext){
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共94.2k字</span>
+  <span class="post-count">博客全站共98.8k字</span>
 </div>
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
